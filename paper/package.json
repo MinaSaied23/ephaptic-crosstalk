@@ -1,0 +1,8 @@
+{
+  "name": "ephaptic-crosstalk-paper-builder",
+  "version": "1.0.0",
+  "description": "Generates the IEEE-format .docx manuscript from the study's results.",
+  "dependencies": {
+    "docx": "^9.0.0"
+  }
+}
