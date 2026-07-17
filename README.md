@@ -30,27 +30,6 @@ phase2_nav18_nav19/           Phase 2: Nav1.8/Nav1.9 nociceptor-realistic C-fibe
   coupled_navc_model.py          Closed-loop model with Phase-2 C-fiber, incl. multi-fiber
                                   bundle formulation (n_abeta parameter; paper Sec. II-F, III-I)
 
-figures/                      Scripts that generate the paper's figures
-  make_fig1.py                    Fig. 1: Aβ + classical-HH C-fiber positive control
-  make_fig2.py                    Fig. 2: Nav1.8/1.9 validation + multi-fiber summation trend
-  make_fig0_simple.py             Fig. 0: model architecture schematic (current, simplified version)
-  check_fig0_overlaps.py          Programmatic bounding-box overlap checker for Fig. 0
-                                   (renders the figure, extracts every element's true bounding
-                                   box via matplotlib's renderer, and checks all pairs for
-                                   unintended overlap -- used to verify the schematic without
-                                   relying on visual inspection)
-  archive_superseded/             Earlier Fig. 0 attempts, kept for reference; superseded due
-                                   to layout/overlap issues caught during review
-    make_fig0_v1_node_detail.py     first version: full node-of-Ranvier / internode detail
-    make_fig0_v2_fixed_layout.py    second version: fixed one collision, introduced another
-                                     (see check_fig0_overlaps.py output history below)
-
-paper/
-  build_paper.js                 Node.js script that generates the IEEE-format .docx manuscript
-  package.json                   Node dependency manifest (docx npm package)
-  source_figures/                Final PNGs embedded in the manuscript (fig0/fig1/fig2)
-```
-
 ## How to run
 
 ### Python simulations (Phases 1 and 2)
@@ -67,50 +46,8 @@ cd ../phase2_nav18_nav19
 python3 navc_cable.py                     # Nav1.8/1.9 rheobase + propagation validation
 python3 -c "from coupled_navc_model import run_coupled_navc; \
             print(run_coupled_navc(w_cleft=200e-9, T=2e-3, n_abeta=1)['spiked'])"
-```
 
-Every module can also be imported directly; see each file's docstring/header comment
-for the physical meaning of its parameters. All physical quantities are SI internally
-(volts, seconds, meters, amps) and converted from the biophysical mV/ms/µm/mS·cm⁻²
-convention at the point of definition.
 
-### Figures
-
-```bash
-cd figures
-python3 make_fig0_simple.py       # produces fig0_simple_raw.png (crop/pad manually or via PIL; see note below)
-python3 check_fig0_overlaps.py    # verifies Fig. 0 layout has no unintended element overlaps
-python3 make_fig1.py              # produces fig1_validation.pdf
-python3 make_fig2.py              # produces fig2_navc_and_bundle.pdf
-```
-
-Note: the exact PNGs embedded in the manuscript (`paper/source_figures/`) went through one
-additional manual step beyond what these scripts automate: PDF→PNG conversion at 300 dpi
-(`pdftoppm -png -r 300 ...`) and, for Fig. 0 specifically, a whitespace-margin crop using PIL
-to correct an asymmetric-margin issue found during review (top margin was 13.5% vs 6.2%
-bottom before cropping; both are ~2-4% after). This crop step is not itself scripted here as
-a standalone file; it was a short interactive PIL snippet, reproducible as:
-
-```python
-from PIL import Image
-import numpy as np
-img = Image.open("fig0_simple_raw.png").convert("RGB")
-arr = np.array(img)
-non_white = np.any(arr < 250, axis=2)
-rows, cols = np.any(non_white, axis=1), np.any(non_white, axis=0)
-rmin, rmax = np.where(rows)[0][[0, -1]]
-cmin, cmax = np.where(cols)[0][[0, -1]]
-pad = 30
-img.crop((cmin - pad, rmin - pad, cmax + pad, rmax + pad)).save("fig0_schematic.png")
-```
-
-### Paper (.docx)
-
-```bash
-cd paper
-npm install
-node build_paper.js       # writes ./ephaptic_crosstalk_paper_IEEE.docx
-```
 
 ## Study narrative (what each phase established)
 
@@ -147,6 +84,3 @@ manuscript itself.
 ## Dependencies
 
 - Python 3.10+, numpy, scipy, matplotlib, Pillow (see `requirements.txt`)
-- Node.js 18+, npm package `docx` (see `paper/package.json`), only needed to regenerate
-  the .docx manuscript
-- `pdftoppm` (poppler-utils) if you want to convert figure PDFs to PNG yourself
