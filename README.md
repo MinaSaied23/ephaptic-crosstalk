@@ -3,7 +3,6 @@
 This is the complete simulation and manuscript-generation codebase for the
 closed-loop core-conductor study of ephaptic crosstalk between a myelinated
 Aβ fiber and a C-fiber nociceptor, described in the accompanying paper
-`ephaptic_crosstalk_paper_IEEE.docx`.
 
 ## Directory structure
 
