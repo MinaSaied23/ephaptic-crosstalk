@@ -1,0 +1,6 @@
+# Pinned dependencies for Ephaptic Aβ-to-C-Fiber Crosstalk Simulation Suite
+numpy>=1.23.0
+scipy>=1.9.0
+matplotlib>=3.6.0
+python-docx>=1.1.0
+pillow>=9.0.0
