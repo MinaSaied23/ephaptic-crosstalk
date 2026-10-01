@@ -1,0 +1,12 @@
+case,n_abeta,max_C_fiber_V_mV_z_ge_0p3mm_t_gt_1p5ms,spike
+phase2,1,-66.7977,False
+phase2,5,-64.7888,False
+phase2,10,-63.0885,False
+phase2,20,-61.2126,False
+phase2,25,-60.2349,False
+phase2,28,-58.8437,False
+phase2,30,37.8588,True
+phase2,40,38.2658,True
+phase2,50,38.3808,True
+phase2_threshold_bracket_low,28.5312,,False
+phase2_threshold_bracket_high,28.5625,,True

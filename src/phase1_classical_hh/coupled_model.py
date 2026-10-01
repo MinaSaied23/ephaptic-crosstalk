@@ -30,7 +30,8 @@ def laplacian_neumann(x, dz):
 from spike_detector import build_fixed_node_geometry, classify_waveform
 
 def run_coupled(w_cleft, kappa=1.0e9, T=5e-3, stim_amp=100e-9, stim_dur=0.2e-3, record_full=False,
-                 sens_bias=0.0, stim_freq=None, n_pulses=1, n_abeta=1, dz=10e-6, dt=2.5e-6):
+                 sens_bias=0.0, stim_freq=None, n_pulses=1, n_abeta=1, dz=10e-6, dt=2.5e-6,
+                 record_currents=False, c_init=None):
     """
     Run the closed-loop coupled Aβ/C-fiber ephaptic model.
     Stimulus injected at Aβ node 0 (z=0).
@@ -40,6 +41,10 @@ def run_coupled(w_cleft, kappa=1.0e9, T=5e-3, stim_amp=100e-9, stim_dur=0.2e-3, 
 
     n_abeta: number of representative synchronous Aβ fibers (source-scaling approximation).
     dz, dt: spatial and temporal discretization steps.
+    c_init: optional (v, m, h, n) (volts, dimensionless) giving the exact initial C-fiber state.
+            When supplied, the short 6 ms settling loop below is skipped. Used by
+            run_sensitization_protocols.py to start from the true equilibrium of the biased fiber.
+            Default None keeps the original behaviour used by all production runs.
     """
     N_val, z_val, node_mask_val, f_node_val = build_fixed_node_geometry(dz=dz)
     r_e = r_e_from_cleft(w_cleft)
@@ -75,7 +80,10 @@ def run_coupled(w_cleft, kappa=1.0e9, T=5e-3, stim_amp=100e-9, stim_dur=0.2e-3, 
     h2 = np.full(N_val, 0.6)
     n2 = np.full(N_val, 0.32)
 
-    if sens_bias != 0.0:
+    if c_init is not None:
+        v2 = np.full(N_val, float(c_init[0])); m2 = np.full(N_val, float(c_init[1]))
+        h2 = np.full(N_val, float(c_init[2])); n2 = np.full(N_val, float(c_init[3]))
+    elif sens_bias != 0.0:
         for _ in range(int(6e-3 / dt)):  # 6 ms settling
             am2, bm2, ah2, bh2, an2, bn2 = hh_rates(v2)
             m2 = np.clip(m2 + dt*(am2*(1-m2) - bm2*m2), 0, 1)
@@ -99,6 +107,10 @@ def run_coupled(w_cleft, kappa=1.0e9, T=5e-3, stim_amp=100e-9, stim_dur=0.2e-3, 
     v2_mid_trace = np.zeros(nsteps)
     v1_rec = np.zeros((nsteps, N_val)) if record_full else None
     v2_rec = np.zeros((nsteps, N_val))  # Always record full v2 for unified spatiotemporal classification
+    I_ion1_rec = np.zeros((nsteps, N_val)) if record_currents else None
+    I_ion2_rec = np.zeros((nsteps, N_val)) if record_currents else None
+    I_stim1_rec = np.zeros((nsteps, N_val)) if record_currents else None
+    ue_rec = np.zeros((nsteps, N_val)) if record_currents else None
 
     for step in range(nsteps):
         t_now = step * dt
@@ -147,6 +159,11 @@ def run_coupled(w_cleft, kappa=1.0e9, T=5e-3, stim_amp=100e-9, stim_dur=0.2e-3, 
         v2_rec[step] = v2
         if record_full:
             v1_rec[step] = v1
+        if record_currents:
+            I_ion1_rec[step] = I_ion1
+            I_ion2_rec[step] = I_ion2
+            I_stim1_rec[step] = I_stim1
+            ue_rec[step] = u_e
 
     # Standardized evaluation via unified detector
     detect_res = classify_waveform(v2_rec, z_val, dt, fiber_type="c_fiber")
@@ -162,6 +179,11 @@ def run_coupled(w_cleft, kappa=1.0e9, T=5e-3, stim_amp=100e-9, stim_dur=0.2e-3, 
     if record_full:
         result["v1"] = v1_rec
         result["v2"] = v2_rec
+    if record_currents:
+        result["I_ion1"] = I_ion1_rec
+        result["I_ion2"] = I_ion2_rec
+        result["I_stim1"] = I_stim1_rec
+        result["u_e"] = ue_rec
     return result
 
 if __name__ == "__main__":

@@ -158,6 +158,53 @@ def test_ephaptic_source_units_and_normalization():
     print(f" [PASS] Units verification: [inv_r1] * [d2v1] = (S*m) * (V/m^2) = A/m (exact physical current per unit length)")
 
 
+def verify_manuscript_equations_match_code():
+    print("\n--- Test Suite 6: Manuscript Equations to Code Match (Defect 1 Invariant) ---")
+    src_dir = os.path.join(curr_dir, 'src')
+    if src_dir not in sys.path:
+        sys.path.insert(0, src_dir)
+    import _audit_gate_equations as age
+    all_ok = age.verify_manuscript_equations_match_code()
+    assert all_ok, "Manuscript equations failed numerical audit against codebase implementation!"
+    print(" [PASS] All manuscript closed-form equations numerically match code to strict tolerance.")
+
+
+def verify_pulse2_csv_consistency_with_manuscript():
+    print("\n--- Test Suite 7: Pulse-2 100 Hz CSV Consistency with Manuscript (Defect 2 Invariant) ---")
+    import pandas as pd
+    
+    primary_csv = os.path.join(curr_dir, "results", "convergence", "phase2_headline_results.csv")
+    supp_candidates = [
+        os.path.join(curr_dir, "..", "Supplementary", "phase2_headline_results.csv"),
+        os.path.join(curr_dir, "supplementary", "phase2_headline_results.csv"),
+    ]
+    csv_targets = [primary_csv] + [p for p in supp_candidates if os.path.exists(p)]
+    assert len(csv_targets) >= 1, "No phase2_headline_results.csv found!"
+    
+    for path in csv_targets:
+        assert os.path.exists(path), f"Missing CSV: {path}"
+        df = pd.read_csv(path)
+        row = df[(df["n_abeta"] == 25) & (df["pulse_frequency"] == "100 Hz") & (df["pulse_count"] == 2)]
+        assert len(row) == 1, f"Expected 1 matching row in {path}, found {len(row)}"
+        r = row.iloc[0]
+        
+        # Verify classification and propagation
+        assert r["c_fiber_classification"] == "PROPAGATED_ACTION_POTENTIAL", \
+            f"Expected PROPAGATED_ACTION_POTENTIAL in {path}, got {r['c_fiber_classification']}"
+        assert bool(r["propagated_c_fiber_ap"]) is True, \
+            f"Expected propagated_c_fiber_ap=True in {path}, got {r['propagated_c_fiber_ap']}"
+        assert np.isclose(r["c_fiber_peak_V_mV"], 24.832, atol=0.1), \
+            f"Expected peak ~24.83 mV in {path}, got {r['c_fiber_peak_V_mV']}"
+            
+        # Verify no stale CV=33.3 m/s in Abeta integrity string
+        integ = str(r["abeta_source_integrity"])
+        assert "CV=32.0 m/s" in integ or "CV=32.00 m/s" in integ, \
+            f"Expected CV=32.0 m/s in abeta_source_integrity in {path}, got {integ}"
+        assert "33.3" not in integ, f"Stale CV=33.3 m/s found in {path}: {integ}"
+        
+        print(f" [PASS] Verified {os.path.basename(path)}: Pulse 2 is PROPAGATED_ACTION_POTENTIAL (True, peak={r['c_fiber_peak_V_mV']:.2f} mV, CV=32.0 m/s)")
+
+
 if __name__ == "__main__":
     print("=" * 70)
     print("RUNNING INVARIANT VERIFICATION SUITE FOR PHASE-1 Aβ MODEL")
@@ -167,6 +214,9 @@ if __name__ == "__main__":
     test_capacitance_and_leak_equivalence()
     test_stimulus_current_conversion()
     test_ephaptic_source_units_and_normalization()
+    verify_manuscript_equations_match_code()
+    verify_pulse2_csv_consistency_with_manuscript()
     print("\n" + "=" * 70)
     print("ALL INVARIANT TESTS PASSED SUCCESSFULLY!")
     print("=" * 70)
+

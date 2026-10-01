@@ -27,8 +27,8 @@ def laplacian_neumann(x, dz):
 
 _STEADY_STATE_CACHE = {}
 
-def get_settled_c_fiber(sens_bias, dt, A2, Cm):
-    key = (round(sens_bias, 6), dt)
+def get_settled_c_fiber(sens_bias, dt, A2, Cm, settle_time=20e-3):
+    key = (round(sens_bias, 6), dt, settle_time)
     if key in _STEADY_STATE_CACHE:
         v2, m8, h8, m9, n = _STEADY_STATE_CACHE[key]
         return v2.copy(), m8.copy(), h8.copy(), m9.copy(), n.copy()
@@ -40,7 +40,7 @@ def get_settled_c_fiber(sens_bias, dt, A2, Cm):
     n = an / (an + bn)
 
     # Settle baseline unconditionally (20 ms) using Rush-Larsen
-    for _ in range(int(20e-3 / dt)):
+    for _ in range(int(settle_time / dt)):
         m8i, tm8, h8i, th8, m9i, tm9 = nav_c_fiber_rates(v2)
         an, bn = hh_k_rates(v2)
         tau_n = 1.0 / (an + bn); ni = an * tau_n
@@ -60,12 +60,14 @@ def get_settled_c_fiber(sens_bias, dt, A2, Cm):
 
 def run_coupled_navc(w_cleft, T=5e-3, stim_amp=100e-9, stim_dur=0.2e-3, record_full=False,
                       sens_bias=0.0, stim_freq=None, n_pulses=1, dt=DT, kappa=1.0e9,
-                      n_abeta=1.0, jitter_ms=0.0):
+                      n_abeta=1.0, jitter_ms=0.0, settle_time=20e-3):
     """Coupled Abeta (CRRSS) / C-fiber (Nav1.8/1.9) ephaptic model.
 
     n_abeta: number of identical, synchronously-firing Abeta fibers assumed to
     surround the C-fiber within the same shared extracellular compartment
     (spatial summation / multi-fiber bundle test).
+    settle_time: duration (s) of the Rush-Larsen baseline relaxation. The default 20 ms is fully converged
+    only for sens_bias <= ~0.4 A/m^2 (Nav1.9 tau = 10 ms); the sensitization protocols use a longer settle.
     """
     r_e = r_e_from_cleft(w_cleft)
     axial1 = d1_axon / (4.0 * rho_i)
@@ -82,7 +84,7 @@ def run_coupled_navc(w_cleft, T=5e-3, stim_amp=100e-9, stim_dur=0.2e-3, record_f
     m1 = np.full((K, N), am1 / (am1 + bm1))
     h1 = np.full((K, N), ah1 / (ah1 + bh1))
 
-    v2, m8, h8, m9, n = get_settled_c_fiber(sens_bias, dt, A2, Cm)
+    v2, m8, h8, m9, n = get_settled_c_fiber(sens_bias, dt, A2, Cm, settle_time)
 
     if stim_freq is not None and n_pulses > 1:
         period = 1.0 / stim_freq

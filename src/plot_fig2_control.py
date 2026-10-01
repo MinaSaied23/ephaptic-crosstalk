@@ -26,8 +26,15 @@ def generate_fig2():
     })
 
     print("Running Aβ single-fiber simulation...")
-    v1, _ = run_abeta_alone(T=5.0e-3, stim_amp=100e-9, stim_dur=0.2e-3)
-    cv1 = estimate_conduction_velocity(v1, dz, dt, 100, 900)
+    # 2 nA, 0.2 ms: threshold-level drive used for all uncoupled Aβ validation
+    # (Table 5, convergence battery, Crank-Nicolson audit). The 100 nA drive used in
+    # the coupled bundle runs saturates node 0 (> +780 mV) and is not a positive control.
+    v1, _ = run_abeta_alone(T=5.0e-3, stim_amp=2e-9, stim_dur=0.2e-3)
+    # A-beta CV: maximum upstroke rate (dV/dt) between z = 4 mm and z = 8 mm,
+    # the same metric used in the manuscript and convergence study (41.03 m/s)
+    dv1 = np.diff(v1, axis=0) / dt
+    i4, i8 = int(round(4.0e-3 / dz)), int(round(8.0e-3 / dz))
+    cv1 = (i8 - i4) * dz / ((np.argmax(dv1[:, i8]) - np.argmax(dv1[:, i4])) * dt)
     print(f"  Aβ Conduction Velocity: {cv1:.2f} m/s")
 
     print("Running C-fiber single-fiber simulation...")
@@ -51,8 +58,8 @@ def generate_fig2():
     ax.set_title(f'(a) Aβ saltatory conduction, CV ≈ {cv1:.1f} m/s')
     ax.set_xlabel('Time (ms)')
     ax.set_ylabel('Membrane potential (mV)')
-    ax.set_xlim(0, 5.0)
-    ax.set_ylim(-85, 110)
+    ax.set_xlim(0, 1.5)
+    ax.set_ylim(-85, 25)
     ax.legend(loc='upper right', framealpha=0.9)
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)

@@ -18,7 +18,7 @@ mS_cm2_to_S_m2 = 1e-3 / cm2_to_m2   # mS/cm^2 -> S/m^2
 ohm_cm_to_ohm_m = 1e-2    # ohm*cm -> ohm*m
 
 # ---------------------------------------------------------------
-# Geometry / discretization
+# Geometry / discretization (Nominal 10 um grid, L = 10 mm)
 # ---------------------------------------------------------------
 L = 10e-3                 # total length, m (10 mm)
 dz = 10e-6                # compartment size, m (10 um)
@@ -32,16 +32,16 @@ node_width = 10e-6        # 10 um node compartment
 node_mask = (np.arange(N) * dz) % internode_spacing < 1e-9
 node_mask[0] = True
 
-# Physical node of Ranvier dimensions (Sweeney et al. 1987)
+# Physical node of Ranvier dimensions:
 l_node = 1.0e-6           # 1.0 um physical node length
 f_node = l_node / dz      # 0.10: fraction of nodal compartment occupied by bare active node
 
 # ---------------------------------------------------------------
-# Resistivities (Sweeney et al. 1987: rho_i = 50 ohm*cm for mammalian myelinated axon)
+# Resistivities (Mammalian unmyelinated C-fiber: rho_i = 50 ohm*cm)
 # ---------------------------------------------------------------
 rho_i = 50.0 * ohm_cm_to_ohm_m     # axoplasmic resistivity, ohm*m
 rho_e_bulk = 100.0 * ohm_cm_to_ohm_m  # bulk extracellular resistivity, ohm*m
-d1_axon = 0.7 * d1                 # axoplasmic core diameter (Rushton g-ratio 0.7)
+d1_axon = 0.7 * d1                 # axoplasmic core diameter (g-ratio 0.7: explicit modeling assumption, not Sweeney's 0.6)
 
 def r_e_from_cleft(w_cleft):
     """Longitudinal extracellular resistance per unit length (ohm/m)."""
@@ -53,21 +53,21 @@ def r_e_from_cleft(w_cleft):
 # Membrane parameters
 # ---------------------------------------------------------------
 Cm = 1.0 * uF_cm2_to_F_m2   # F/m^2
-E_Na = 50e-3
+E_Na = 50.0e-3              # Na+ reversal potential, V (Nav1.8/Nav1.9: +50.0 mV)
 E_K = -77e-3
-E_leak_1 = -80e-3
+E_leak_1 = -80.0e-3         # CRRSS leak reversal, V (rounded approximation of Sweeney's -80.01 mV to enforce -80.0 mV rest)
 E_leak_2 = -54.4e-3   # standard HH leak reversal (not -70; keeps HH near -65 rest)
 
-# CRRSS Aβ parameters with physical node scaling (Sweeney et al. 1987; Chiu et al. 1979)
-# True nodal membrane: Cm_node = 2.0 uF/cm^2, g_Na = 1445 mS/cm^2, g_leak = 128.0 mS/cm^2
-# Internodal compact myelin: Cm_internode = 0.005 uF/cm^2, g_leak_internode = 0.006 mS/cm^2
+# Physical bare nodal membrane: Cm_node = 2.0 uF/cm^2 (retained modeling choice / Chiu-MRG lineage; not Sweeney's 2.5 uF/cm^2)
+# Physical nodal conductances: g_Na = 1445 mS/cm^2 (Sweeney 1987), g_leak = 128.0 mS/cm^2 (Sweeney 1987)
+# Internodal compact myelin: Cm_internode = 0.005 uF/cm^2, g_leak_internode = 0.006 mS/cm^2 (explicit modeling assumptions)
 Cm_node_comp = (2.0 * f_node + 0.005 * (1.0 - f_node)) * uF_cm2_to_F_m2
 Cm_internode = 0.005 * uF_cm2_to_F_m2
 Cm1_arr = np.where(node_mask, Cm_node_comp, Cm_internode)
 
-g_Na_CRRSS = 1445.0 * f_node * mS_cm2_to_S_m2  # effective nodal Na+ conductance density
-g_leak_CRRSS = 128.0 * mS_cm2_to_S_m2         # bare nodal leak conductance (Chiu 1979 / Sweeney 1987)
-g_leak_internode = 0.006 * mS_cm2_to_S_m2     # compact myelin leak conductance
+g_Na_CRRSS = 1445.0 * f_node * mS_cm2_to_S_m2  # effective nodal Na+ conductance density (physical 1445 scaled by f_node)
+g_leak_CRRSS = 128.0 * mS_cm2_to_S_m2         # bare nodal leak conductance (Sweeney 1987)
+g_leak_internode = 0.006 * mS_cm2_to_S_m2     # compact myelin leak conductance (explicit modeling assumption)
 g_leak_node_comp = g_leak_CRRSS * f_node + g_leak_internode * (1.0 - f_node)
 g_leak1_arr = np.where(node_mask, g_leak_node_comp, g_leak_internode)
 
@@ -123,6 +123,10 @@ def build_banded_laplacian(N, dz):
     A[0, 1:] = 1.0          # upper diag
     A[1, :] = -2.0          # main diag
     A[2, :-1] = 1.0         # lower diag
+    # Neumann: first and last row use ghost-point reflection => coefficient -2 stays,
+    # but the "missing" neighbor is replaced by the mirror, giving effectively
+    # row0: -2*u0 + 2*u1 = dz^2 * r_e * I0   (already captured since A[0,1]=1 gives u1 once;
+    # need factor 2 on that single neighbor)
     A[0, 1] = 2.0
     A[2, -2] = 2.0
     return A / dz**2
@@ -133,9 +137,4 @@ def solve_ue(I_total, r_e, dz, N, A_banded_unit):
     u_e = solve_banded((1, 1), A_banded_unit, B)
     return u_e
 
-if __name__ == "__main__":
-    print(f"N compartments: {N}")
-    print(f"Number of nodes of Ranvier: {node_mask.sum()}")
-    print(f"rho_i = {rho_i} ohm*m, rho_e_bulk = {rho_e_bulk} ohm*m")
-    for w in [5e-6, 100e-9, 20e-9]:
-        print(f"w_cleft={w*1e9:.0f} nm -> r_e = {r_e_from_cleft(w):.3e} ohm/m")
+

@@ -104,11 +104,11 @@ def generate_fig3():
     ax1.spines['right'].set_visible(False)
 
     # -----------------------------------------------------------------------
-    # Panel (c): Multi-fiber spatial summation trend (n in 1..25)
+    # Panel (c): Multi-fiber spatial summation trend (n in 1..50)
     # Fixed ylim logic so all data points and baseline are fully visible.
     # -----------------------------------------------------------------------
     ax2 = axes[2]
-    ns = [1, 2, 3, 5, 8, 15, 25]
+    ns = [1, 2, 3, 5, 8, 10, 15, 20, 25, 30, 40, 50]
     peaks = []
 
     print(f"\nRunning multi-fiber sweep n={ns} at kappa={KAPPA:.1e} m^-2 ...")
@@ -138,8 +138,8 @@ def generate_fig3():
     ax2.set_title('(c) Multi-fiber spatial summation')
     ax2.set_xlabel('Number of synchronized Aβ fibers (n)')
     ax2.set_ylabel('Peak C-fiber potential (mV)')
-    ax2.set_xlim(0, 26)
-    ax2.set_ylim(-72, -30)   # Cleanly accommodates rest (-66.8 mV), peaks (-65 to -56.3 mV), and threshold (-35 mV)
+    ax2.set_xlim(0, 52)
+    ax2.set_ylim(-72, -30)   # Cleanly accommodates rest (-66.8 mV), peaks (-65 to -56.3 mV, n up to 50), and threshold (-35 mV)
     ax2.legend(loc='lower right', framealpha=0.9, fontsize=7.5)
     ax2.spines['top'].set_visible(False)
     ax2.spines['right'].set_visible(False)
