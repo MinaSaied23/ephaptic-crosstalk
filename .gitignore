@@ -46,3 +46,7 @@ Desktop.ini
 # Temporary files
 *.tmp
 *.log
+
+# LibreOffice lock files
+.~lock.*#
+submission/
