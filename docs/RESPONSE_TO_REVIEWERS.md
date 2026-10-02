@@ -50,6 +50,14 @@ raw output. An AI assistant (Claude, Anthropic) was used in the re-implementatio
 this is declared in the manuscript, and I have checked the code, results and text and take
 responsibility for them.
 
+**A note on the revised file.** Because the solver, the analysis and every number were rebuilt, a
+tracked-changes file against the submitted version would mark almost every line and would not help
+the reviewers see what changed. A clean manuscript is therefore provided, and this letter is the
+record of the changes: each reply names the section, figure or table where the change can be
+checked, and `docs/MANIFEST.md` in the repository links every figure, table and quoted number to the
+script and raw output behind it. A tracked-changes version can of course be supplied if the editor
+would like one.
+
 ---
 
 ## Reviewer 1
