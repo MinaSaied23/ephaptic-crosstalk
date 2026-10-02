@@ -1,11 +1,9 @@
 #!/usr/bin/env python3
 """Build every manuscript table and the dictionary of quoted numbers from results/data.
 
-Outputs (manuscript/generated/):
-    numbers.json        key -> formatted value; the manuscript text refers to these keys
-                        as {{key}}, and manuscript/build_manuscript.py refuses to build if a
-                        key is missing
-    table*.md           pipe tables inserted at {{TABLE:name}}
+Outputs (results/tables/):
+    numbers.json        key -> formatted value: every number quoted in the manuscript
+    table*.md           the manuscript tables, as markdown
 Nothing in these files is typed by hand.
 """
 import json
@@ -20,7 +18,7 @@ import pandas as pd
 SRC = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(SRC)
 DATA = os.path.join(ROOT, "results", "data")
-OUT = os.path.join(ROOT, "manuscript", "generated")
+OUT = os.path.join(ROOT, "results", "tables")
 sys.path.insert(0, SRC)
 sys.path.insert(0, os.path.join(SRC, "experiments"))
 
@@ -61,7 +59,7 @@ def md_table(df, name, caption=None, floatfmt=None):
         lines.append("| " + " | ".join(cells) + " |")
     with open(os.path.join(OUT, f"{name}.md"), "w") as f:
         f.write("\n".join(lines) + "\n")
-    print(f"  wrote manuscript/generated/{name}.md")
+    print(f"  wrote results/tables/{name}.md")
 
 
 PRETTY = {
@@ -734,4 +732,4 @@ if __name__ == "__main__":
             print(f"  skipped {f.__name__}: {e.filename} missing")
     with open(os.path.join(OUT, "numbers.json"), "w") as fh:
         json.dump(N, fh, indent=1, sort_keys=True)
-    print(f"  wrote manuscript/generated/numbers.json ({len(N)} values)")
+    print(f"  wrote results/tables/numbers.json ({len(N)} values)")

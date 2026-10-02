@@ -47,6 +47,3 @@ Desktop.ini
 *.tmp
 *.log
 
-# LibreOffice lock files
-.~lock.*#
-submission/

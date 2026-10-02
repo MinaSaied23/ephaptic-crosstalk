@@ -1,90 +1,83 @@
-<!-- Generated from docs/templates/README.tmpl.md by manuscript/build_manuscript.py; numbers come from results/data. Edit the template, not README.md. -->
-# Ephaptic Aβ-to-C-fiber coupling in a focal nerve lesion
+# Ephaptic Aβ-to-C-fiber crosstalk and multi-fiber spatial summation
 
-Code, data and manuscript for a closed-loop core-conductor study of whether action potentials in myelinated Aβ afferents can excite an unmyelinated C-fiber through a shared, restricted extracellular compartment.
+Model, simulations and analysis for the study of whether action potentials in myelinated Aβ
+afferents can excite an unmyelinated C-fiber through a shared, restricted extracellular
+compartment.
 
 **Author:** Mina Saied Attia Rizk (New Cairo STEM School, Cairo, Egypt)
-**Status:** revision for the *Journal of Computational Neuroscience* after peer review. The model, the analysis and the manuscript were rebuilt: see [docs/RESPONSE_TO_REVIEWERS.md](docs/RESPONSE_TO_REVIEWERS.md) for the point-by-point reply, [CHANGELOG.md](CHANGELOG.md) for what changed and why, and [docs/MANIFEST.md](docs/MANIFEST.md) for the script and raw output behind every figure, table and number.
 
-## Model in one paragraph
+This repository holds everything needed to reproduce and check the study: the model, the
+experiment, figure and table scripts, the regression tests, and every simulation output behind
+the figures, tables and quoted numbers.
 
-A CRRSS Aβ axon (10 nodes, 1 mm apart) and a 1-µm C-fiber share an extracellular compartment of cross-section *A*<sub>e</sub> = 16.4 µm² along a 5-mm focal lesion; outside the lesion the fibers lie in grounded bulk fluid. *n* synchronously stimulated Aβ fibers (2 × threshold, outside the lesion) load the compartment. Because *n* fibers sharing *A*<sub>e</sub> are equivalent to one fiber with *A*<sub>e</sub>/*n*, *n* is equivalently the extracellular cross-section per fiber (equivalent periaxonal gap *w*<sub>eq</sub>). The C-fiber has classical Hodgkin–Huxley kinetics (Phase 1) or a phenomenological Nav1.8/Nav1.9 membrane (Phase 2); everything else is identical between the two phases. Intracellular and extracellular potentials are advanced **together** (monolithic backward Euler, Δz = 5 µm, Δt = 1 µs), and every endpoint is shown to converge.
+## The model in one paragraph
 
-## Main results (production configuration)
-
-| Quantity | Phase 2 (Nav1.8/1.9) | Phase 1 (HH) |
-|---|---:|---:|
-| Single-pair C-fiber depolarization | 1.56 mV | 1.56 mV |
-| *n* = 10 / 25 synchronous fibers | 10.9 / 19.3 mV | 10.9 / 19.3 mV |
-| Largest depolarization (any *n*) | 26.9 mV (*n* = 100) | 26.9 mV (*n* = 100) |
-| Aβ conduction through the lesion fails from | *n* = 25 (*w*<sub>eq</sub> ≈ 21 nm) | same |
-| Duration of the ephaptic depolarization (FWHM, *n* = 10) | 70 µs | – |
-| Safety factor α\* (gain needed to fire), *n* = 25 | 4.6 | 4.4 |
-| Attenuation by a 0.5-ms onset dispersion (*n* = 25) | 85 % | 85 % |
-| Propagating C-fiber AP | none | none |
-
-- No C-fiber action potential occurred for *n* = 1–300, κ = 10⁶–10¹¹ m⁻², lesions of 1–7 mm, stimuli of 1.2–20 × threshold, 5-pulse trains at 50–400 Hz, or sensitizing bias currents up to the loss of resting stability.
-- Faster gating alone (NavC τ<sub>m8</sub> down to 0.05 ms; HH up to 25 °C) changed the response by < 0.1 %. APs appeared only when the whole Hodgkin–Huxley membrane was made faster (rates **and** conductances × ≥ 4, time constant at rest ≤ 0.37 ms) in a tight compartment; the Nav1.8/1.9 membrane never fired, at any speed, because its activation lies 42 mV above rest.
-- Version 1 reported a saturating multi-fiber response and a "−35 mV Nav1.8 threshold". Both were artifacts: of a lagged coupling scheme (6.10 mV vs 15.42 mV converged at *n* = 25), of a 100-nA electrode inside the compartment, and of a threshold that was asserted rather than measured.
-
-## Repository layout
-
-```
-src/ephaptic/          the model (single source of truth for all parameters)
-  params.py            parameter dataclasses: Abeta, C-fiber cable, HH, NavC, compartment, protocol
-  kinetics.py          CRRSS, HH and Nav1.8/1.9 rate functions
-  membranes.py         membrane objects (gates, conductances)
-  model.py             monolithic implicit solver, steady states, Abeta threshold, legacy lagged scheme
-  openloop.py          isolated C-fiber driven by a prescribed u_e (safety factor, strength-duration)
-  metrics.py           endpoints (propagating C-fiber AP, depolarization, Abeta conduction)
-src/experiments/       e01-e13: one script per experiment, each writes results/data/eNN_*.csv (+ .meta.json)
-src/figures/           one script per figure, reading results/data
-src/build_tables.py    every manuscript table and quoted number, from results/data
-results/data/          all simulation outputs
-results/figures/       all figures (Fig. 1-8, S1-S2)
-manuscript/sections/   manuscript sources (placeholders are filled from results at build time)
-manuscript/            assembled manuscript (.md, .docx with native equations, .pdf preview), cover letter
-tests/                 regression and invariant tests
-run_all.py             regenerate everything
-```
+A CRRSS Aβ axon (10 nodes, 1 mm apart) and a 1-µm C-fiber share an extracellular compartment of
+cross-section *A*<sub>e</sub> = 16.4 µm² along a 5-mm focal lesion; outside the lesion the fibers
+lie in grounded bulk fluid. *n* synchronously stimulated Aβ fibers (2 × threshold, applied outside
+the lesion) load the compartment. Because *n* fibers sharing *A*<sub>e</sub> are equivalent to one
+fiber in *A*<sub>e</sub>/*n*, *n* is also a statement about the extracellular cross-section per
+fiber. The C-fiber has classical Hodgkin–Huxley kinetics (Phase 1) or a phenomenological
+Nav1.8/Nav1.9 membrane (Phase 2); everything else is identical between the two. Intracellular and
+extracellular potentials are advanced **together** by backward Euler in one banded solve
+(Δz = 5 µm, Δt = 1 µs), and every endpoint is shown to converge under refinement.
 
 ## Reproduce
 
 ```bash
 pip install -r requirements.txt
-python -m pytest -q                      # tests (~3 min; -m "not slow" for ~1 min)
-python run_all.py                        # all experiments, figures and tables (~2-3 h on 4 cores)
-python run_all.py --figures              # figures and tables only, from results/data
-python manuscript/build_manuscript.py    # manuscript .md/.docx/.pdf, README, response letter
+
+python run_all.py          # every experiment, figure and table (about 2-3 h on 4 cores)
+python run_all.py --figures  # figures and tables only, from the stored results/data
+python run_all.py --only e03 e05   # selected experiments, then figures and tables
+python -m pytest -q        # regression and invariant tests (about 3 min)
 ```
 
-| Experiment | Script | Output | Manuscript |
-|---|---|---|---|
-| Positive controls | `e01_controls.py` | `e01_*.csv` | Fig. 3, Table 2 |
-| Numerical verification | `e02_convergence.py`, `e02b_fast_variants.py` | `e02*.csv` | Fig. 2, Tables S1–S2 |
-| Synchronous volleys | `e03_n_sweep.py` | `e03_n_sweep.csv` | Fig. 5, Table 3 |
-| Per-fiber sleeve closure, scaling check | `e04_geometry.py` | `e04_geometry.csv`, `e04_mean_field.csv` | Fig. 5c |
-| Extracellular leak κ | `e05_kappa.py` | `e05_kappa.csv` | Fig. 7a |
-| C-fiber kinetics | `e06_kinetics.py` | `e06_kinetics.csv` | Fig. 7b |
-| Strength–duration, safety factor | `e07_threshold.py` | `e07_*.csv` | Fig. 6, Table S5 |
-| Temporal dispersion | `e08_jitter.py` | `e08_jitter*.csv` | Fig. 8a,b, Table S7 |
-| Repetitive trains | `e09_trains.py` | `e09_trains.csv` | Fig. 8c |
-| Sensitizing bias | `e10_bias.py` | `e10_*.csv` | Fig. 7c, Table S6 |
-| Earlier full-length geometry | `e11_full_length.py` | `e11_full_length.csv` | Fig. S2, Table S8 |
-| Lesion length, stimulus | `e12_lesion_stimulus.py` | `e12_lesion_stimulus.csv` | Fig. S3 |
-| Waveforms for figures | `e13_waveforms.py` | `e13_waveforms.npz` | Figs. 3–4 |
+`EPHAPTIC_WORKERS` sets the number of parallel processes. One experiment, `e08_jitter`, is faster
+with a single process and `run_all.py` runs it that way: its matrix is large enough that each time
+step streams the whole LU factor from memory, so extra workers only contend for bandwidth.
 
-## Citation
+## Layout
 
-```bibtex
-@unpublished{attiarizk2026ephaptic,
-  title  = {Ephaptic A$\beta$-to-C-fiber crosstalk and multi-fiber spatial summation: a closed-loop core-conductor study with nociceptor-realistic channel kinetics},
-  author = {Attia Rizk, Mina Saied},
-  year   = {2026},
-  note   = {Manuscript in preparation}
-}
 ```
+src/ephaptic/          the model
+  params.py            every parameter, as dataclasses: Abeta, C-fiber cable, HH, NavC,
+                       compartment, protocol.  Nothing is defined anywhere else.
+  kinetics.py          CRRSS, Hodgkin-Huxley and Nav1.8/Nav1.9 rate functions
+  membranes.py         membrane objects (gates, conductances)
+  model.py             the monolithic implicit solver, exact steady states, the Abeta
+                       threshold, and the lagged scheme kept for comparison
+  openloop.py          isolated C-fiber driven by a prescribed u_e (safety factor,
+                       strength-duration curves)
+  metrics.py           the endpoints (propagating C-fiber AP, depolarization, Abeta conduction)
+src/experiments/       e01-e14, one script per experiment, each writing results/data/*.csv
+src/figures/           one script per figure, reading results/data
+src/build_tables.py    every table and every number quoted in the manuscript, from results/data
+src/build_manifest.py  writes docs/MANIFEST.md
+results/data/          all simulation outputs, each with a .meta.json recording the exact
+                       parameter set of the run that produced it
+results/figures/       Fig. 1-8 and Fig. S1-S3 at 300 dpi
+results/tables/        the manuscript tables as markdown, and numbers.json: every quoted
+                       number with the key the manuscript refers to it by
+tests/                 regression and invariant tests
+run_all.py             regenerates everything
+```
+
+## Checking a number in the paper
+
+`docs/MANIFEST.md` maps every data file, figure, table and number to the script that produces it
+and the raw output it reads. Each quoted number is in `results/tables/numbers.json` under a
+readable key, computed from `results/data` by `src/build_tables.py`; nothing in the manuscript is
+typed by hand. Each CSV's `.meta.json` records the parameter set of the run that wrote it.
+
+## What the tests check
+
+`tests/test_model.py` covers the parameter sets against the values stated in the manuscript, the
+physical current balance of the compartment, the error of the lagged coupling scheme and the
+time-step robustness of the monolithic one, agreement between the explicit and
+conductance-implicit treatments of the ionic currents, the per-fiber cross-section scaling, the
+exact resting state, and regeneration of stored results.
 
 ## License
 
-MIT; see [LICENSE](LICENSE).
+MIT (`LICENSE`).

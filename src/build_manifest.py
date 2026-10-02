@@ -103,8 +103,8 @@ def main():
                  f"{', '.join('`'+i+'`' for i in ins) or '–'} |")
 
     L.append("\n## Data → tables and quoted numbers\n")
-    L.append("Every `{{key}}` in the manuscript sources is resolved from "
-             "`manuscript/generated/numbers.json`; the build fails on any key with no value.\n")
+    L.append("Every number quoted in the manuscript is written to `results/tables/numbers.json` "
+             "by `src/build_tables.py`, and the manuscript tables are written beside it as markdown.\n")
     L.append("| Section of `src/build_tables.py` | Reads | Generates | Numbers |")
     L.append("|---|---|---|---|")
     for name, ins, tabs, nkeys, dyn in tables_and_numbers():
@@ -112,16 +112,6 @@ def main():
         L.append(f"| `{name}()` | {', '.join('`'+i+'`' for i in ins) or '–'} | "
                  f"{', '.join('`'+t+'`' for t in tabs) or '–'} | {n} |")
 
-    L.append("\n## Documents\n")
-    L.append("| Output | Built by | From |")
-    L.append("|---|---|---|")
-    L.append("| `manuscript/ephaptic_crosstalk_manuscript.{md,docx,pdf}` | "
-             "`manuscript/build_manuscript.py` | `manuscript/sections/*.md` + `numbers.json` |")
-    L.append("| `manuscript/supplementary_information.{md,docx,pdf}` | "
-             "`manuscript/build_manuscript.py` | `manuscript/supplement/*.md` + `numbers.json` |")
-    L.append("| `README.md`, `docs/RESPONSE_TO_REVIEWERS.md`, `manuscript/cover_letter.md` | "
-             "`manuscript/build_manuscript.py` | `docs/templates/*.tmpl.md` + `numbers.json` |")
-    L.append("| `submission/` | `src/build_package.py` | the files above |")
 
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     with open(OUT, "w") as f:

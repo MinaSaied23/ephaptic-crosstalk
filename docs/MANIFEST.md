@@ -41,7 +41,7 @@
 
 ## Data → tables and quoted numbers
 
-Every `{{key}}` in the manuscript sources is resolved from `manuscript/generated/numbers.json`; the build fails on any key with no value.
+Every number quoted in the manuscript is written to `results/tables/numbers.json` by `src/build_tables.py`, and the manuscript tables are written beside it as markdown.
 
 | Section of `src/build_tables.py` | Reads | Generates | Numbers |
 |---|---|---|---|
@@ -60,12 +60,3 @@ Every `{{key}}` in the manuscript sources is resolved from `manuscript/generated
 | `full_length()` | `e11_full_length.csv`, `e11_full_length_trains.csv` | – | 27 fixed + 9 generated |
 | `lesion_stim()` | `e03_n_sweep.csv`, `e12_lesion_stimulus.csv` | – | 5 fixed |
 | `waveforms()` | – | – | 3 fixed + 3 generated |
-
-## Documents
-
-| Output | Built by | From |
-|---|---|---|
-| `manuscript/ephaptic_crosstalk_manuscript.{md,docx,pdf}` | `manuscript/build_manuscript.py` | `manuscript/sections/*.md` + `numbers.json` |
-| `manuscript/supplementary_information.{md,docx,pdf}` | `manuscript/build_manuscript.py` | `manuscript/supplement/*.md` + `numbers.json` |
-| `README.md`, `docs/RESPONSE_TO_REVIEWERS.md`, `manuscript/cover_letter.md` | `manuscript/build_manuscript.py` | `docs/templates/*.tmpl.md` + `numbers.json` |
-| `submission/` | `src/build_package.py` | the files above |
