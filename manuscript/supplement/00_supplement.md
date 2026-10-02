@@ -30,7 +30,7 @@ lang: en-GB
 
 {{TABLE:tableS5_jitter_convergence}}
 
-**Table S5.** Dispersed volley (*n* = 25, *W* = 1.5 ms, NavC). The peak depends on the number of onset phases *K* until the spacing *W*/(*K* − 1) is well below the ~0.1-ms duration of one fiber's contribution; the production runs use a spacing of at most 25 µs. Grid refinement at *K* = 61 changes the peak by {{jit_dz_spread_pct}} %.
+**Table S5.** Dispersed volley (*n* = 25, *W* = 1.5 ms, NavC). The peak depends on the number of onset phases *K* until the spacing *W*/(*K* − 1) is well below the ~0.1-ms duration of one fiber's contribution; the production runs use a spacing of at most 25 µs. Grid refinement at *K* = 41 changes the peak by {{jit_dz_spread_pct}} %, so the sweep is run at Δz = 20 µm.
 
 ## S5 The earlier full-length geometry
 

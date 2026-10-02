@@ -52,7 +52,7 @@ The earlier version of this study computed *u*~e~ from the membrane potentials o
 
 ### 2.5 Multi-fiber volleys and temporal dispersion
 
-Synchronous volleys use one representative Aβ cable whose axial conductance enters the compartment equation with weight *n*. Dispersed volleys use *K* explicit Aβ cables, each representing *n*/*K* fibers, all sharing the same compartment, with stimulus onsets spaced uniformly over a window of width *W*. Because the depolarization produced by one fiber lasts only ~0.1 ms, *K* must be large enough that the spacing *W*/(*K* − 1) is well below that, or the ensemble peak merely tracks the response of one group. We therefore set *K* so that the spacing is at most 25 µs (*K* = 61 at *W* = 1.5 ms), and verified convergence in *K* and in Δz (Table S5). *W* was varied from 0 to 2 ms.
+Synchronous volleys use one representative Aβ cable whose axial conductance enters the compartment equation with weight *n*. Dispersed volleys use *K* explicit Aβ cables, each representing *n*/*K* fibers, all sharing the same compartment, with stimulus onsets spaced uniformly over a window of width *W*. Because the depolarization produced by one fiber lasts only ~0.1 ms, *K* must be large enough that the spacing *W*/(*K* − 1) is well below that, or the ensemble peak merely tracks the response of one group. We therefore set *K* so that the spacing is at most 25 µs (*K* = 61 at *W* = 1.5 ms), and verified convergence in *K* and in Δz (Table S5). Because the cost of a step grows with *K* times the number of compartments, the dispersion sweep uses Δz = 20 µm; the grid dependence is reported in the same table. *W* was varied from 0 to 2 ms.
 
 ### 2.6 Sensitivity analysis
 

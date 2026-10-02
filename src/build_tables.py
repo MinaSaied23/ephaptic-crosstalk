@@ -469,6 +469,7 @@ def jitter():
     kk = c[c.study == "K"].set_index("K").dv_lesion_mV
     put("jit_K11", kk.loc[11], "{:.2f}")
     put("jit_K21", kk.loc[21], "{:.2f}")
+    put("jit_K41", kk.loc[41], "{:.2f}")
     put("jit_K61", kk.loc[61], "{:.2f}")
     put("jit_K81", kk.loc[81], "{:.2f}")
     put("jit_K_converged_pct", abs(kk.loc[81] / kk.loc[61] - 1) * 100, "{:.1f}")

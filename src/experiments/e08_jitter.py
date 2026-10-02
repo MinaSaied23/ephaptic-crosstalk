@@ -5,6 +5,8 @@ represented by K groups of n/K fibers, each an explicit Abeta cable sharing the 
 Because the depolarization produced by one fiber lasts only ~0.1 ms, K must be large enough
 that the spacing between groups, W/(K-1), is well below that: K is chosen adaptively so the
 spacing is at most 25 us (capped at K = 81), and K-convergence is verified explicitly.
+The sweep runs on dz = 20 um, because the cost of one step grows with K x (grid size);
+the grid is checked separately at dz = 20, 10 and 5 um.
 
 Outputs: e08_jitter.csv (sweep), e08_jitter_convergence.csv (K and grid convergence)
 """
@@ -31,22 +33,22 @@ if __name__ == "__main__":
             for w in W_MS:
                 K = phases_for(w)
                 jobs.append(dict(c=C, proto=dict(n_abeta=n, jitter=w * 1e-3, jitter_phases=K,
-                                                 dz=10e-6, T=20e-3 + w * 1e-3),
-                                 tags=dict(model=C.kind, n_abeta=n, jitter_ms=w, K=K, dz_um=10)))
+                                                 dz=20e-6, T=20e-3 + w * 1e-3),
+                                 tags=dict(model=C.kind, n_abeta=n, jitter_ms=w, K=K, dz_um=20)))
     for w in (0.0, 0.5, 1.5):            # HH check at n = 25
         K = phases_for(w)
         jobs.append(dict(c=HHParams(), proto=dict(n_abeta=25, jitter=w * 1e-3, jitter_phases=K,
-                                                  dz=10e-6, T=20e-3 + w * 1e-3),
-                         tags=dict(model="HH", n_abeta=25, jitter_ms=w, K=K, dz_um=10)))
+                                                  dz=20e-6, T=20e-3 + w * 1e-3),
+                         tags=dict(model="HH", n_abeta=25, jitter_ms=w, K=K, dz_um=20)))
     common.write_csv("e08_jitter.csv", common.pmap(common.run_case, jobs))
 
     conv = []
     for K in (11, 21, 41, 61, 81):
         conv.append(dict(c=NavCParams(), proto=dict(n_abeta=25, jitter=1.5e-3, jitter_phases=K,
-                                                    dz=10e-6, T=22e-3),
-                         tags=dict(study="K", n_abeta=25, jitter_ms=1.5, K=K, dz_um=10)))
+                                                    dz=20e-6, T=22e-3),
+                         tags=dict(study="K", n_abeta=25, jitter_ms=1.5, K=K, dz_um=20)))
     for dz in (20e-6, 10e-6, 5e-6):
-        conv.append(dict(c=NavCParams(), proto=dict(n_abeta=25, jitter=1.5e-3, jitter_phases=61,
+        conv.append(dict(c=NavCParams(), proto=dict(n_abeta=25, jitter=1.5e-3, jitter_phases=41,
                                                     dz=dz, T=22e-3),
-                         tags=dict(study="dz", n_abeta=25, jitter_ms=1.5, K=61, dz_um=dz * 1e6)))
+                         tags=dict(study="dz", n_abeta=25, jitter_ms=1.5, K=41, dz_um=dz * 1e6)))
     common.write_csv("e08_jitter_convergence.csv", common.pmap(common.run_case, conv))
