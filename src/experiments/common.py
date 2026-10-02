@@ -35,7 +35,27 @@ def pmap(fn, jobs, nproc=None):
     return out
 
 
+def _default_meta():
+    """The parameter set an experiment starts from; per-run overrides appear as CSV columns."""
+    import platform
+    import numpy
+    import scipy
+    from ephaptic import AbetaParams, CCable, HHParams, NavCParams, CleftParams, Protocol
+    return {
+        "script": os.path.basename(getattr(sys.modules["__main__"], "__file__", "?")),
+        "versions": {"python": platform.python_version(), "numpy": numpy.__version__,
+                     "scipy": scipy.__version__},
+        "abeta": as_dict(AbetaParams()),
+        "c_cable": as_dict(CCable()),
+        "c_membrane_HH": as_dict(HHParams()),
+        "c_membrane_NavC": as_dict(NavCParams()),
+        "compartment": as_dict(CleftParams()),
+        "protocol": as_dict(Protocol()),
+    }
+
+
 def write_csv(name, rows, meta=None):
+    """Write one result file and, beside it, the parameter set it was produced with."""
     os.makedirs(DATA, exist_ok=True)
     path = os.path.join(DATA, name)
     keys = []
@@ -48,9 +68,11 @@ def write_csv(name, rows, meta=None):
         w.writeheader()
         for r in rows:
             w.writerow({k: _fmt(r.get(k, "")) for k in keys})
-    if meta is not None:
-        with open(path.replace(".csv", ".meta.json"), "w") as f:
-            json.dump(meta, f, indent=1, default=str)
+    m = _default_meta()
+    if meta:
+        m.update(meta)
+    with open(path.replace(".csv", ".meta.json"), "w") as f:
+        json.dump(m, f, indent=1, default=str)
     print(f"  wrote {os.path.relpath(path, ROOT)} ({len(rows)} rows)")
     return path
 

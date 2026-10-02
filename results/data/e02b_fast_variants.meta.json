@@ -1,0 +1,104 @@
+{
+ "script": "e02b_fast_variants.py",
+ "versions": {
+  "python": "3.11.15",
+  "numpy": "1.26.4",
+  "scipy": "1.13.0"
+ },
+ "abeta": {
+  "D_outer": 9.999999999999999e-06,
+  "g_ratio": 0.7,
+  "rho_i": 0.547,
+  "internode": 0.001,
+  "l_node": 1e-06,
+  "Cm_node": 0.02,
+  "Cm_internode": 5e-05,
+  "gNa": 14450.0,
+  "gL_node": 1280.0,
+  "gL_internode": 0.06,
+  "ENa": 0.03564,
+  "EL": -0.08,
+  "phi": 1.0
+ },
+ "c_cable": {
+  "d": 1e-06,
+  "rho_i": 0.547,
+  "Cm": 0.01
+ },
+ "c_membrane_HH": {
+  "kind": "HH",
+  "cable": {
+   "d": 1e-06,
+   "rho_i": 0.547,
+   "Cm": 0.01
+  },
+  "gNa": 1200.0,
+  "gK": 360.0,
+  "gL": 3.0,
+  "ENa": 0.05,
+  "EK": -0.077,
+  "EL": -0.0544,
+  "temperature": 6.3,
+  "q10": 3.0,
+  "gating_shift": 0.0
+ },
+ "c_membrane_NavC": {
+  "kind": "NavC",
+  "cable": {
+   "d": 1e-06,
+   "rho_i": 0.547,
+   "Cm": 0.01
+  },
+  "g18": 20000.0,
+  "g19": 2.0,
+  "gK": 600.0,
+  "gL": 3.0,
+  "ENa": 0.05,
+  "EK": -0.077,
+  "EL": -0.055,
+  "V8m": -0.025,
+  "k8m": 0.006,
+  "tau_m8": 0.0015,
+  "V8h": -0.042,
+  "k8h": 0.006,
+  "tau_h8": 0.002,
+  "V9m": -0.05,
+  "k9m": 0.005,
+  "tau_m9": 0.01,
+  "phi_K": 1.0
+ },
+ "compartment": {
+  "area_model": "fixed",
+  "A_e": 1.6400370288800165e-11,
+  "w_sleeve": 2e-08,
+  "rho_e": 1.0,
+  "kappa": 1000000000.0,
+  "config": "lesion",
+  "lesion_start": 0.0025,
+  "lesion_end": 0.0075,
+  "stim_current_returns_via_cleft": true
+ },
+ "protocol": {
+  "L": 0.01,
+  "dz": 4.9999999999999996e-06,
+  "dt": 1e-06,
+  "T": 0.02,
+  "n_abeta": 1.0,
+  "stim_amp": null,
+  "stim_factor": 2.0,
+  "stim_dur": 0.0002,
+  "pulse_times": [
+   0.0
+  ],
+  "jitter": 0.0,
+  "jitter_phases": 21,
+  "c_bias": 0.0,
+  "c_stim_amp": 0.0,
+  "c_stim_z": 0.0,
+  "c_stim_dur": 0.001,
+  "ionic": "explicit",
+  "stop_on_spike": true,
+  "quiet_after": 0.004,
+  "quiet_tol": 0.00025
+ }
+}
