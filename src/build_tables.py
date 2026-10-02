@@ -197,7 +197,14 @@ def convergence():
     put("conv_scheme_maxdev_pct", max(impdev), "{:.1f}")
     # classification invariance
     put("conv_classification_invariant", ref.groupby(["model", "n_abeta"]).c_spike.nunique().max() == 1)
-    dz20 = ref[(ref.dz_um == 20.0)]
+    # The Abeta action potential is close to conduction block at n = 25: it blocks on every
+    # grid from 10 um down, and conducts slowly on the coarsest grid (20 um) used by the
+    # dispersion sweep.  Report that explicitly rather than only the peak deviations.
+    q = ref[(ref.n_abeta == 25) & (ref.dt_us == 1.0) & (ref.ionic == "explicit") & (ref.model == "NavC")].set_index("dz_um")
+    put("conv_dz20_n25_dev_pct", abs(q.loc[20.0].dv_lesion_mV / q.loc[5.0].dv_lesion_mV - 1) * 100, "{:.1f}")
+    put("conv_dz20_n25_cv", q.loc[20.0].ab_cv_lesion, "{:.0f}")
+    blocked = sorted(dz for dz, r in q.iterrows() if not yes(r.ab_conducts))
+    put("conv_block_dz_max", max(blocked), "{:.0f}")
     k = read("e02_kcl.csv")
     put("kcl_rel_max", k.relative.max(), "{:.0e}")
     lag = read("e02_lagged_vs_monolithic.csv")
@@ -433,7 +440,7 @@ def threshold():
         put(f"alpha_{key}_min", d.alpha_star.min(), "{:.1f}")
     std = s0[s0.variant.isin(["HH_phi1_gNa120", "NavC_tm8_1.5ms_g18_2000", "NavC_tm8_0.05ms_g18_2000", "HH_phi7.8_gNa120"])]
     put("alpha_std_min", std.alpha_star.min(), "{:.1f}")
-    put("openloop_maxdiff_pct", ((s0.open_loop_dv_alpha1_mV - s0.closed_loop_dv_mV).abs() / s0.closed_loop_dv_mV).max() * 100, "{:.1f}")
+    put("openloop_maxdiff_pct", ((s0.open_loop_dv_alpha1_mV - s0.closed_loop_dv_mV).abs() / s0.closed_loop_dv_mV).max() * 100, "{:.2f}")
     sb = sf[sf.c_bias > 0]
     for _, r in sb.iterrows():
         put(f"alpha_{'navc' if r.kind == 'NavC' else 'hh'}_bias{r.c_bias:g}_n{r.n_abeta:.0f}", r.alpha_star, "{:.1f}")
@@ -463,10 +470,29 @@ def jitter():
                 if w in att.index:
                     put(f"jit_{m}_n{n}_att{key}", att.loc[w], "{:.0f}")
                     put(f"jit_{m}_n{n}_dv{key}", d.loc[w].dv_lesion_mV, "{:.2f}")
+            # the attenuation is not monotone at small W (see below), so take the first
+            # crossing of 50 % rather than interpolating in a sorted attenuation
             x, y = att.index.values, att.values
-            w50 = np.interp(50.0, y, x) if y.max() >= 50 else float("nan")
+            w50 = float("nan")
+            for i in range(1, len(y)):
+                if y[i - 1] < 50.0 <= y[i]:
+                    w50 = x[i - 1] + (50.0 - y[i - 1]) * (x[i] - x[i - 1]) / (y[i] - y[i - 1])
+                    break
             put(f"jit_{m}_n{n}_w50_ms", w50, "{:.2f}")
     put("jit_any_spike", bool(j.c_spike.map(yes).any()))
+    # At the largest n the synchronous Abeta action potential fails inside the lesion; a small
+    # dispersion restores conduction, so the peak first rises before it falls.
+    d50 = j[(j.model == "NavC") & (j.n_abeta == 50)].set_index("jitter_ms").sort_index()
+    put("jit_relief_n", "50")
+    put("jit_relief_dv0", d50.dv_lesion_mV.loc[0.0], "{:.1f}")
+    put("jit_relief_dvmax", d50.dv_lesion_mV.max(), "{:.1f}")
+    put("jit_relief_wmax", d50.dv_lesion_mV.idxmax(), "{:.2f}")
+    cond = d50[d50.ab_conducts.map(yes)]
+    put("jit_relief_wcond", cond.index.min(), "{:.1f}")
+    put("jit_relief_cv", cond.ab_cv_lesion.loc[cond.index.min()], "{:.0f}")
+    j25 = j[(j.model == "NavC") & (j.n_abeta == 25)].set_index("jitter_ms")
+    put("jit_n25_sync_dv", j25.dv_lesion_mV.loc[0.0], "{:.1f}")
+    put("jit_n25_sync_cv", j25.ab_cv_lesion.loc[0.0], "{:.0f}")
     c = read("e08_jitter_convergence.csv")
     kk = c[c.study == "K"].set_index("K").dv_lesion_mV
     put("jit_K11", kk.loc[11], "{:.2f}")
@@ -495,11 +521,11 @@ def trains():
         rel.append(np.nanmax(np.abs(v - v[0])) / v[0] * 100)
     t["rel"] = rel
     put("train_any_spike", bool(t.c_spike.map(yes).any()))
-    put("train_max_rel_change_pct", max(rel), "{:.0f}")
+    put("train_max_rel_change_pct", max(rel), "{:.2f}")
     r = t.loc[t.rel.idxmax()]
     put("train_max_rel_where", f"{r.model}, n = {r.n_abeta:.0f}, {r.freq_Hz:.0f} Hz")
     t100 = t[(t.freq_Hz <= 100)]
-    put("train_le100_max_rel_pct", t100.rel.max(), "{:.1f}")
+    put("train_le100_max_rel_pct", t100.rel.max(), "{:.2f}")
     put("train_maxdv", t.dv_max_all_mV.max(), "{:.1f}")
 
 
@@ -548,11 +574,12 @@ def full_length():
     d = f[np.isclose(f.kappa, 1e9)]
     for ret in ("returned", "omitted"):
         dd = d[d.electrode_current == ret]
+        pre = "full" if ret == "returned" else "fullO"
         for m in ("HH", "NavC"):
             for stim, key in ((dd.stim_nA.min(), "2x"), (100.0, "100nA")):
                 q = dd[(dd.model == m) & np.isclose(dd.stim_nA, stim)]
                 sp = q[q.c_spike.map(yes)]
-                tag = f"full{'' if ret == 'returned' else 'O'}_{m}_{key}"
+                tag = f"{pre}_{m}_{key}"
                 put(f"{tag}_nmin", "none" if not len(sp) else f"{sp.n_abeta.min():.0f}")
                 if len(sp):
                     put(f"{tag}_init_z", sp.c_init_z_mm.max(), "{:.2f}")
@@ -561,12 +588,21 @@ def full_length():
                 put(f"{tag}_overshoot_only", "none" if not len(ov) else f"{ov.n_abeta.min():.0f}")
             q = dd[(dd.model == m) & np.isclose(dd.stim_nA, 100.0) & (dd.n_abeta == 25)]
             if len(q):
-                put(f"{tag[:-6]}_{m}_100nA_n25_cz0", q.c_z0_peak_mV.values[0], "{:+.0f}")
-                put(f"{tag[:-6]}_{m}_100nA_n25_ab0", q.abeta_node0_peak_mV.values[0], "{:+.0f}")
-                put(f"{tag[:-6]}_{m}_100nA_n25_ue0", q.ue_z0_max_mV.values[0], "{:.1f}")
-                put(f"{tag[:-6]}_{m}_100nA_n25_ueabs", q.ue_abs_max_mV.values[0], "{:.0f}")
+                put(f"{pre}_{m}_100nA_n25_cz0", q.c_z0_peak_mV.values[0], "{:+.0f}")
+                put(f"{pre}_{m}_100nA_n25_ab0", q.abeta_node0_peak_mV.values[0], "{:+.0f}")
+                put(f"{pre}_{m}_100nA_n25_ue0", q.ue_z0_max_mV.values[0], "{:.1f}")
+                put(f"{pre}_{m}_100nA_n25_ueabs", q.ue_abs_max_mV.values[0], "{:.0f}")
             q2 = dd[(dd.model == m) & np.isclose(dd.stim_nA, dd.stim_nA.min())]
-            put(f"{tag[:-6]}_{m}_2x_maxint", q2[~q2.c_spike.map(yes)].dv_interior_mV.max(), "{:.1f}")
+            put(f"{pre}_{m}_2x_maxint", q2[~q2.c_spike.map(yes)].dv_interior_mV.max(), "{:.1f}")
+    # the weakest electrode current that launches a spike at the stimulated end
+    bsp = d[d.c_spike.map(yes)]
+    if len(bsp):
+        first = bsp.sort_values(["stim_nA", "n_abeta"]).iloc[0]
+        put("full_boundary_min_nA", first.stim_nA, "{:.0f}")
+        put("full_boundary_min_n", first.n_abeta, "{:.0f}")
+        put("full_boundary_min_model", str(first.model))
+        put("full_boundary_min_ret", str(first.electrode_current))
+        put("full_boundary_stim_ratio", first.stim_nA / d.stim_nA.min(), "{:.0f}")
     lk = f[np.isclose(f.kappa, 3e7)]
     sp = lk[lk.c_spike.map(yes)]
     put("lowk_any_spike", bool(len(sp)))

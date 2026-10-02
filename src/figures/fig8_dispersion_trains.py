@@ -24,8 +24,11 @@ for n, c in ((10, "#1f77b4"), (25, "#d62728"), (50, "#9467bd")):
     d = j8[(j8.model == "NavC") & (j8.n_abeta == n)].sort_values("jitter_ms")
     base = d[d.jitter_ms == 0].dv_lesion_mV.values[0]
     ax.plot(d.jitter_ms, 100 * (1 - d.dv_lesion_mV / base), "-o", ms=3, color=c, label=f"n = {n}")
+ax.axhline(0, color="#888888", lw=0.5)
 ax.set_xlabel("dispersion window W (ms)"); ax.set_ylabel("attenuation vs synchronous (%)")
-ax.set_ylim(0, 100)
+# at n = 50 the synchronous volley blocks its own Abeta APs, so a small dispersion increases
+# the response: the attenuation starts negative and the axis has to show it
+ax.set_ylim(-25, 100)
 panel(ax, "b")
 
 ax = axs[2]

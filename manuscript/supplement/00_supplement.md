@@ -30,7 +30,7 @@ lang: en-GB
 
 {{TABLE:tableS5_jitter_convergence}}
 
-**Table S5.** Dispersed volley (*n* = 25, *W* = 1.5 ms, NavC). The peak depends on the number of onset phases *K* until the spacing *W*/(*K* − 1) is well below the ~0.1-ms duration of one fiber's contribution; the production runs use a spacing of at most 25 µs. Grid refinement at *K* = 41 changes the peak by {{jit_dz_spread_pct}} %, so the sweep is run at Δz = 20 µm.
+**Table S5.** Dispersed volley (*n* = 25, *W* = 1.5 ms, NavC). The peak depends on the number of onset phases *K* until the spacing *W*/(*K* − 1) is well below the ~0.1-ms duration of one fiber's contribution; the production runs use a spacing of at most 25 µs. Grid refinement at *K* = 41 changes the peak by {{jit_dz_spread_pct}} %, so the sweep is run at Δz = 20 µm. One classification does depend on that choice: the synchronous *n* = 25 volley is close to Aβ conduction block, and on Δz = 20 µm its action potentials still cross the lesion, slowly ({{conv_dz20_n25_cv}} m/s), where every grid from Δz = {{conv_block_dz_max}} µm down blocks them (Table S2). The peak depolarization differs by only {{conv_dz20_n25_dev_pct}} % between the two grids, and the attenuations quoted in the text are ratios taken within one grid, so neither the attenuation nor the primary endpoint is affected.
 
 ## S5 The earlier full-length geometry
 
