@@ -134,6 +134,8 @@ def controls():
     }
 
     def lab(r):
+        if r.variant in names:          # mark the two membranes the study reports
+            return names[r.variant]
         if r.kind == "HH":
             g = r.gNa_mS_cm2 / 120.0
             s = r.phi
