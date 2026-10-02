@@ -16,7 +16,7 @@
 | NavC C-fiber | m₈: V½, k, τ | -25, 6, 1.5 (τ varied 0.05–1.5) | mV, mV, ms | literature range, τ voltage independent |
 | NavC C-fiber | h₈: V½, k, τ | -42, 6, 2 | mV, mV, ms | calibrated (literature ≈ −30 mV, 17 ms) |
 | NavC C-fiber | m₉: V½, k, τ | -50, 5, 10 | mV, mV, ms | literature range |
-| Compartment | ρ_e; A_e (production) | 100; 16.40 | Ω cm; µm² | A_e: earlier pair geometry (w_eq = 0.50 µm at n = 1) |
+| Compartment | ρ_e; A_e (production) | 100; 16.40 | Ω cm; µm² | A_e: fiber-pair geometry (w_eq = 0.50 µm at n = 1) |
 | Compartment | κ (λ_e) | 10⁹ (31.6 µm); varied 10⁶–10¹¹ | m⁻² | phenomenological, calibrated (Section 2.3); varied over five decades |
 | Compartment | lesion | z = 2.5–7.5 (varied 1–7 mm long) | mm | grounded bulk outside |
 | Stimulus | Aβ pulse at node 0 | 0.2 ms, 2 × 1.511 nA = 3.02 nA | – | threshold of the uncoupled fiber |

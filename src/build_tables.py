@@ -105,7 +105,7 @@ def table_parameters():
     row("NavC C-fiber", "m₈: V½, k, τ", f"{nc.V8m*1e3:g}, {nc.k8m*1e3:g}, {nc.tau_m8*1e3:g} (τ varied 0.05–1.5)", "mV, mV, ms", "literature range, τ voltage independent")
     row("NavC C-fiber", "h₈: V½, k, τ", f"{nc.V8h*1e3:g}, {nc.k8h*1e3:g}, {nc.tau_h8*1e3:g}", "mV, mV, ms", "calibrated (literature ≈ −30 mV, 17 ms)")
     row("NavC C-fiber", "m₉: V½, k, τ", f"{nc.V9m*1e3:g}, {nc.k9m*1e3:g}, {nc.tau_m9*1e3:g}", "mV, mV, ms", "literature range")
-    row("Compartment", "ρ_e; A_e (production)", f"{cl.rho_e/1e-2:g}; {cl.A_e*1e12:.2f}", "Ω cm; µm²", "A_e: earlier pair geometry (w_eq = 0.50 µm at n = 1)")
+    row("Compartment", "ρ_e; A_e (production)", f"{cl.rho_e/1e-2:g}; {cl.A_e*1e12:.2f}", "Ω cm; µm²", "A_e: fiber-pair geometry (w_eq = 0.50 µm at n = 1)")
     row("Compartment", "κ (λ_e)", f"10⁹ ({1e6/math.sqrt(cl.kappa):.1f} µm); varied 10⁶–10¹¹", "m⁻²", "phenomenological, calibrated (Section 2.3); varied over five decades")
     row("Compartment", "lesion", f"z = {cl.lesion_start*1e3:g}–{cl.lesion_end*1e3:g} (varied 1–7 mm long)", "mm", "grounded bulk outside")
     row("Stimulus", "Aβ pulse at node 0", f"{pr.stim_dur*1e3:g} ms, {pr.stim_factor:g} × {ABETA_THRESHOLD*1e9:.3f} nA = {pr.stim_factor*ABETA_THRESHOLD*1e9:.2f} nA", "–", "threshold of the uncoupled fiber")
