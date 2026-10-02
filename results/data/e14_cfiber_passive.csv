@@ -1,0 +1,3 @@
+model,v_rest_mV,tau_rest_ms,g_chord_S_m2,g_slope_S_m2,lambda_chord_um,lambda_slope_um,R_in_chord_Mohm,R_in_slope_Mohm,R_in_measured_Mohm,rheobase_1ms_nA
+HH,-64.9997,1.47651,6.77274,11.6627,259.773,197.96,90.461,68.9358,68.8034,0.160213
+NavC,-66.8228,1.36623,7.31943,14.6728,249.884,176.49,87.0172,61.4593,61.3188,0.699103

@@ -1,0 +1,8 @@
+# simulation, analysis and figures (tested with Python 3.11)
+numpy==1.26.4
+scipy==1.13.0
+matplotlib==3.8.4
+pandas>=2.0
+pytest>=7.0
+# manuscript build only (python manuscript/build_manuscript.py); LibreOffice is used for the PDF preview
+pypandoc_binary>=1.13
