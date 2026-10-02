@@ -1,5 +1,5 @@
-"""Fig. S1 - Earlier full-length geometry: stimulus-site artifact (data: e11) and
-Fig. S2 - lesion length and stimulus strength (data: e12)."""
+"""Fig. S2 - Earlier full-length geometry: stimulus-site artifact (data: e11) and
+Fig. S3 - lesion length and stimulus strength (data: e12)."""
 import os
 import numpy as np
 import pandas as pd
@@ -36,7 +36,7 @@ ax.set_xlabel("n"); ax.set_ylabel("Aβ node-0 peak V$_m$ (mV)")
 ax.set_title("electrode-site Aβ membrane\n(solid: returned, dashed: omitted)", fontsize=7.5)
 panel(ax, "c")
 fig.tight_layout()
-save(fig, "figS1_full_length.png")
+save(fig, "figS2_full_length.png")
 
 fig, axs = plt.subplots(1, 2, figsize=(5.4, 2.4))
 for ax, study, col, letter, xl in ((axs[0], "lesion_length", "lesion_mm", "a", "lesion length (mm)"),
@@ -57,4 +57,4 @@ for ax, study, col, letter, xl in ((axs[0], "lesion_length", "lesion_mm", "a", "
     panel(ax, letter)
 axs[0].legend(frameon=False, fontsize=6)
 fig.tight_layout()
-save(fig, "figS2_lesion_stimulus.png")
+save(fig, "figS3_lesion_stimulus.png")

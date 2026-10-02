@@ -22,14 +22,14 @@ OUT = os.path.join(ROOT, "submission")
 
 FIGS = ["fig1_model.png", "fig2_numerics.png", "fig3_controls.png", "fig4_drive.png",
         "fig5_n_sweep.png", "fig6_threshold.png", "fig7_sensitivity.png",
-        "fig8_dispersion_trains.png", "figS1_full_length.png", "figS2_lesion_stimulus.png",
-        "figS3_membrane_verification.png"]
+        "fig8_dispersion_trains.png", "figS2_full_length.png", "figS3_lesion_stimulus.png",
+        "figS1_membrane_verification.png"]
 NUMBERED = {"fig1_model.png": "Fig1.png", "fig2_numerics.png": "Fig2.png",
             "fig3_controls.png": "Fig3.png", "fig4_drive.png": "Fig4.png",
             "fig5_n_sweep.png": "Fig5.png", "fig6_threshold.png": "Fig6.png",
             "fig7_sensitivity.png": "Fig7.png", "fig8_dispersion_trains.png": "Fig8.png",
-            "figS1_full_length.png": "FigS1.png", "figS2_lesion_stimulus.png": "FigS2.png",
-            "figS3_membrane_verification.png": "FigS3.png"}
+            "figS2_full_length.png": "FigS1.png", "figS3_lesion_stimulus.png": "FigS2.png",
+            "figS1_membrane_verification.png": "FigS3.png"}
 
 
 def copy(src, dst_dir, name=None):

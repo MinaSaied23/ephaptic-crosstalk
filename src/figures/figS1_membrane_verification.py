@@ -1,4 +1,4 @@
-"""Fig. S3 - Abeta gating, action-potential waveform and recovery (data: e14_*)."""
+"""Fig. S1 - Abeta gating, action-potential waveform and recovery (data: e14_*)."""
 import os
 import pandas as pd
 from style import plt, save, COL, panel, ROOT
@@ -44,4 +44,4 @@ ax.legend(frameon=False, fontsize=6.5, loc="lower right")
 panel(ax, "d")
 
 fig.tight_layout()
-save(fig, "figS3_membrane_verification.png")
+save(fig, "figS1_membrane_verification.png")

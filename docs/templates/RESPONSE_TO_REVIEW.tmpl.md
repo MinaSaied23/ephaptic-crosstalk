@@ -47,7 +47,7 @@ The qualitative negative result survives and is now much better supported. Its e
 ### Issue 6: stimulation and boundary configuration
 **Done.**
 - **Production setup.** The Aβ stimulus is 2 × threshold ({{abeta_stim_nA}} nA), applied outside the lesion; node 0 peaks at {{abeta_node0_2x}} mV. Electrode current that enters a compartment is now returned through it.
-- **Earlier geometry, supplementary.** The version 1 full-length geometry is analysed in Section 3.9 / Table S6. With 2 × threshold stimulation no C-fiber AP occurs for n ≤ 50. With 100 nA, the electrode site becomes non-physiological under either treatment: with the electrode current omitted from the compartment (as in version 1) a propagating AP is launched there from n = {{fullO_HH_100nA_nmin}} (HH; the Nav1.8/1.9 fiber only overshoots locally, from n = {{fullO_NavC_100nA_overshoot_only}}), with it returned through the compartment from n = {{full_HH_100nA_nmin}} (HH) / {{full_NavC_100nA_nmin}} (NavC), and u_e at the electrode reaches {{full_NavC_100nA_n25_ueabs}} mV. The weakest electrode current that launches such a spike is {{full_boundary_min_nA}} nA, {{full_boundary_stim_ratio}} × the physiological stimulus. At n = 25 the Aβ node 0 reaches {{full_NavC_100nA_n25_ab0}} mV and the C-fiber at z = 0 reaches {{full_NavC_100nA_n25_cz0}} mV, while u_e(0) stays below {{full_NavC_100nA_n25_ue0}} mV.
+- **Earlier geometry, supplementary.** The version 1 full-length geometry is analysed in Section 3.9 / Table S8. With 2 × threshold stimulation no C-fiber AP occurs for n ≤ 50. With 100 nA, the electrode site becomes non-physiological under either treatment: with the electrode current omitted from the compartment (as in version 1) a propagating AP is launched there from n = {{fullO_HH_100nA_nmin}} (HH; the Nav1.8/1.9 fiber only overshoots locally, from n = {{fullO_NavC_100nA_overshoot_only}}), with it returned through the compartment from n = {{full_HH_100nA_nmin}} (HH) / {{full_NavC_100nA_nmin}} (NavC), and u_e at the electrode reaches {{full_NavC_100nA_n25_ueabs}} mV. The weakest electrode current that launches such a spike is {{full_boundary_min_nA}} nA, {{full_boundary_stim_ratio}} × the physiological stimulus. At n = 25 the Aβ node 0 reaches {{full_NavC_100nA_n25_ab0}} mV and the C-fiber at z = 0 reaches {{full_NavC_100nA_n25_cz0}} mV, while u_e(0) stays below {{full_NavC_100nA_n25_ue0}} mV.
 - **The "+265 mV".** The manuscript no longer attributes it to u_e.
 
 ### Issue 7: low-κ "numerical instability"
@@ -85,7 +85,7 @@ The qualitative negative result survives and is now much better supported. Its e
 - Runs start from the exact coupled steady state (Newton).
 - ΔV is measured against the exact rest and within the lesion.
 - One propagating-AP criterion is applied to every run.
-- The n = 1 jitter case was dropped; the dispersion window is swept 0–2 ms, and the number of onset phases is now chosen so that the phase spacing is below the duration of one fiber's contribution, with convergence shown in K and Δz (Table S5).
+- The n = 1 jitter case was dropped; the dispersion window is swept 0–2 ms, and the number of onset phases is now chosen so that the phase spacing is below the duration of one fiber's contribution, with convergence shown in K and Δz (Table S7).
 - Conduction-velocity crossing times are interpolated within a step.
 
 ### Issue 16: literature

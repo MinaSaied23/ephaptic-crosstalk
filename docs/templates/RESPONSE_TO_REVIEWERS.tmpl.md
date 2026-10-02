@@ -19,7 +19,7 @@ submitted code the two CRRSS *h*-rate expressions were exchanged, so steady-stat
 with depolarization and the action potential settled on a positive plateau instead of repolarizing.
 The rates are corrected. Inactivation now falls from *h*~∞~ = {{ab_hinf_m80}} at −80 mV to
 {{ab_hinf_m40}} at −40 mV, the action potential returns to rest within {{ab_ap_return_ms}} ms
-(Fig. S3), and the fiber shows an ordinary refractory period and recovery (Table S7). Everything
+(Fig. S1), and the fiber shows an ordinary refractory period and recovery (Table S3). Everything
 that uses the Aβ fiber as its source has been recomputed.
 
 **2. The coupling scheme was not convergent in the number of fibers.** The submitted solver computed
@@ -87,12 +87,12 @@ result, not as an algebraic solver residual: it is at most {{kcl_rel_max}} of th
 (`e02_kcl.csv`). The submitted implementation's ionic-only source is one of the things corrected.
 
 **R2.2 CRRSS h gate and recovery of the Aβ source.**
-The reviewer's diagnosis was correct; see the statement above. Section 3.3 and Fig. S3 now report
+The reviewer's diagnosis was correct; see the statement above. Section 3.3 and Fig. S1 now report
 *m*~∞~, *h*~∞~, τ~m~ and τ~h~ over the modelled range, an action potential followed through
 repolarization to rest, and a paired-pulse protocol: a second stimulus at
 {{ab_refractory_max_fail_ms}} ms evokes no propagating action potential, recovery begins at
 {{ab_recovery_min_ms}} ms, and by {{ab_full_recovery_ms}} ms the second action potential matches the
-first (Table S7). The uncoupled fiber conducts at {{abeta_cv}} m/s with a
+first (Table S3). The uncoupled fiber conducts at {{abeta_cv}} m/s with a
 {{abeta_excursion}}-mV excursion, and the stimulus is now {{abeta_stim_nA}} nA — twice the measured
 threshold of {{abeta_threshold_nA}} nA — applied outside the lesion, instead of 100 nA inside the
 compartment, which drove node 0 to {{abeta_node0_100nA}} mV. All analyses were rerun.
@@ -150,7 +150,7 @@ compartment membrane area, with the area stated. Every run starts from the exact
 state, obtained by Newton iteration from the space-clamped equilibrium, rather than from an asserted
 −55 mV, and every sensitization condition has a matched no-stimulus control, so the baseline drift
 the reviewer measured (−55.008 → −65.681 mV) cannot contaminate an ephaptic response. Section 3.3 and
-Table S8 add the basic characterization asked for: resting potential, small-signal input resistance
+Table S4 add the basic characterization asked for: resting potential, small-signal input resistance
 (measured {{navc_Rin_Mohm}} MΩ against {{navc_Rin_pred_Mohm}} MΩ predicted for NavC, agreeing to
 {{cf_Rin_maxdev_pct}} %), passive time constant, length constant and the rheobase of a 1-ms point
 injection ({{navc_rheobase_nA}} nA), alongside waveform and conduction (Table 2). The membrane is
@@ -195,7 +195,7 @@ relabelled. Sensitization is now a uniform depolarizing bias current, and the tr
 submitted version described loosely as a Hopf bifurcation is treated with the analysis the reviewer
 asks for: the space-clamped equilibria are continued against the bias and classified by the
 eigenvalues of the membrane Jacobian, so the loss of stability is located rather than asserted
-(Section 3.7, Table S4). Every biased run has a no-stimulus control.
+(Section 3.7, Table S6). Every biased run has a no-stimulus control.
 
 **R2.m5 Figure 3 caption.** The claim of a monotonic ≈8 mV trend is withdrawn with the result it
 described. The *n* series is now given in full in Table 3 and plotted in Fig. 5, and the text states

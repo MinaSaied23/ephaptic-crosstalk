@@ -66,12 +66,12 @@ python manuscript/build_manuscript.py    # manuscript .md/.docx/.pdf, README, re
 | Per-fiber sleeve closure, scaling check | `e04_geometry.py` | `e04_geometry.csv`, `e04_mean_field.csv` | Fig. 5c |
 | Extracellular leak κ | `e05_kappa.py` | `e05_kappa.csv` | Fig. 7a |
 | C-fiber kinetics | `e06_kinetics.py` | `e06_kinetics.csv` | Fig. 7b |
-| Strength–duration, safety factor | `e07_threshold.py` | `e07_*.csv` | Fig. 6, Table S3 |
-| Temporal dispersion | `e08_jitter.py` | `e08_jitter*.csv` | Fig. 8a,b, Table S5 |
+| Strength–duration, safety factor | `e07_threshold.py` | `e07_*.csv` | Fig. 6, Table S5 |
+| Temporal dispersion | `e08_jitter.py` | `e08_jitter*.csv` | Fig. 8a,b, Table S7 |
 | Repetitive trains | `e09_trains.py` | `e09_trains.csv` | Fig. 8c |
-| Sensitizing bias | `e10_bias.py` | `e10_*.csv` | Fig. 7c, Table S4 |
-| Earlier full-length geometry | `e11_full_length.py` | `e11_full_length.csv` | Fig. S1, Table S6 |
-| Lesion length, stimulus | `e12_lesion_stimulus.py` | `e12_lesion_stimulus.csv` | Fig. S2 |
+| Sensitizing bias | `e10_bias.py` | `e10_*.csv` | Fig. 7c, Table S6 |
+| Earlier full-length geometry | `e11_full_length.py` | `e11_full_length.csv` | Fig. S2, Table S8 |
+| Lesion length, stimulus | `e12_lesion_stimulus.py` | `e12_lesion_stimulus.csv` | Fig. S3 |
 | Waveforms for figures | `e13_waveforms.py` | `e13_waveforms.npz` | Figs. 3–4 |
 
 ## Citation

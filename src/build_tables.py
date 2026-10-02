@@ -338,7 +338,7 @@ def membrane_verification():
     md_table(pp[["isi_ms", "n_aps_z8", "peak2_mV", "cv2_m_s", "second_conducts"]].rename(columns={
         "isi_ms": "interval (ms)", "n_aps_z8": "APs at z = 8 mm", "peak2_mV": "2nd AP peak (mV)",
         "cv2_m_s": "2nd AP CV (m/s)", "second_conducts": "2nd AP conducts"}),
-        "tableS7_abeta_recovery",
+        "tableS3_abeta_recovery",
         floatfmt={"interval (ms)": "{:.2f}", "2nd AP peak (mV)": "{:+.1f}", "2nd AP CV (m/s)": "{:.1f}"})
     pas = read("e14_cfiber_passive.csv").set_index("model")
     for m, key in (("HH", "hh"), ("NavC", "navc")):
@@ -354,7 +354,7 @@ def membrane_verification():
         "model": "C-fiber membrane", "v_rest_mV": "rest (mV)", "tau_rest_ms": "τ~m~ at rest (ms)",
         "lambda_slope_um": "λ, small signal (µm)", "R_in_slope_Mohm": "R~in~ predicted (MΩ)",
         "R_in_measured_Mohm": "R~in~ measured (MΩ)", "rheobase_1ms_nA": "rheobase, 1 ms (nA)"}),
-        "tableS8_cfiber_passive",
+        "tableS4_cfiber_passive",
         floatfmt={"rest (mV)": "{:.2f}", "τ~m~ at rest (ms)": "{:.2f}", "λ, small signal (µm)": "{:.0f}",
                   "R~in~ predicted (MΩ)": "{:.1f}", "R~in~ measured (MΩ)": "{:.1f}",
                   "rheobase, 1 ms (nA)": "{:.2f}"})
@@ -504,7 +504,7 @@ def threshold():
                      "V_peak 1 ms (mV)": d.loc[1.0].v_peak_subthreshold_mV,
                      "V_peak 20 ms (mV)": d.loc[20.0].v_peak_subthreshold_mV,
                      "I_th 0.1 / I_th 20 ms": d.loc[0.1].threshold / d.loc[20.0].threshold})
-    md_table(pd.DataFrame(rows), "tableS3_strength_duration",
+    md_table(pd.DataFrame(rows), "tableS5_strength_duration",
              floatfmt={"Q_th 0.1 ms (pC)": "{:.2f}", "V_peak 0.1 ms (mV)": "{:.0f}", "V_peak 1 ms (mV)": "{:.0f}",
                        "V_peak 20 ms (mV)": "{:.0f}", "I_th 0.1 / I_th 20 ms": "{:.1f}"})
 
@@ -559,7 +559,7 @@ def jitter():
         rows.append({"study": "phases K" if r.study == "K" else "grid Δz",
                      "K": int(r.K), "Δz (µm)": r.dz_um, "spacing W/(K−1) (µs)": 1500.0 / (r.K - 1),
                      "peak ΔV (mV)": r.dv_lesion_mV})
-    md_table(pd.DataFrame(rows), "tableS5_jitter_convergence",
+    md_table(pd.DataFrame(rows), "tableS7_jitter_convergence",
              floatfmt={"peak ΔV (mV)": "{:.2f}", "spacing W/(K−1) (µs)": "{:.0f}", "Δz (µm)": "{:.0f}"})
 
 
@@ -616,7 +616,7 @@ def bias():
                      "peak V, n = 25 (mV)": dd.loc[25].v2_peak_lesion_mV,
                      "peak V, n = 100 (mV)": dd.loc[100].v2_peak_lesion_mV,
                      "evoked AP (any n)": "YES" if d.c_spike.map(yes).any() else "no"})
-    md_table(pd.DataFrame(rows), "tableS4_bias", floatfmt={"rest (mV)": "{:.2f}", "peak V, n = 25 (mV)": "{:.1f}",
+    md_table(pd.DataFrame(rows), "tableS6_bias", floatfmt={"rest (mV)": "{:.2f}", "peak V, n = 25 (mV)": "{:.1f}",
                                                          "peak V, n = 100 (mV)": "{:.1f}", "bias (A/m²)": "{:g}"})
 
 
@@ -673,7 +673,7 @@ def full_length():
                      "initiation (mm)": "–" if not len(sp) else f"{sp.c_init_z_mm.min():.2f}",
                      "Aβ node 0 peak, n = 25 (mV)": dd[dd.n_abeta == 25].abeta_node0_peak_mV.values[0],
                      "max |u_e|, n = 25 (mV)": dd[dd.n_abeta == 25].ue_abs_max_mV.values[0]})
-    md_table(pd.DataFrame(rows), "tableS6_full_length",
+    md_table(pd.DataFrame(rows), "tableS8_full_length",
              floatfmt={"Aβ stimulus (nA)": "{:.3g}", "Aβ node 0 peak, n = 25 (mV)": "{:+.0f}",
                        "max |u_e|, n = 25 (mV)": "{:.0f}"})
 

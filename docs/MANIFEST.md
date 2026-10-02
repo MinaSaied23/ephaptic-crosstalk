@@ -35,8 +35,9 @@
 | `results/figures/fig6_threshold.png` | `src/figures/fig6_threshold.py` | – |
 | `results/figures/fig7_sensitivity.png` | `src/figures/fig7_sensitivity.py` | – |
 | `results/figures/fig8_dispersion_trains.png` | `src/figures/fig8_dispersion_trains.py` | – |
-| `results/figures/figS1_full_length.png` | `src/figures/figS1_full_length.py` | – |
-| `results/figures/figS3_membrane_verification.png` | `src/figures/figS3_membrane_verification.py` | – |
+| `results/figures/figS1_membrane_verification.png` | `src/figures/figS1_membrane_verification.py` | – |
+| `results/figures/figS2_full_length.png` | `src/figures/figS2_full_length.py` | – |
+| `results/figures/figS3_lesion_stimulus.png` | `src/figures/figS3_lesion_stimulus.py` | – |
 
 ## Data → tables and quoted numbers
 
