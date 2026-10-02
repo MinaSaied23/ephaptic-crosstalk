@@ -24,8 +24,11 @@ the corresponding run.
 | `e09_trains.csv` | `e09_trains.py` | 5-pulse trains at 50–400 Hz, per-pulse peaks |
 | `e10_equilibria.csv` | `e10_bias.py` | Space-clamped C-fiber equilibria and their linear stability vs bias |
 | `e10_bias.csv` | `e10_bias.py` | Coupled runs with a sensitizing bias, each with a no-stimulus control |
-| `e11_full_length.csv` | `e11_full_length.py` | Earlier full-length geometry, both treatments of the electrode current |
+| `e11_full_length.csv` | `e11_full_length.py` | Extended-compartment configuration (electrode inside the compartment), both treatments of the electrode current |
+| `e11_full_length_trains.csv` | `e11_full_length.py` | 100-Hz trains through an electrode inside the compartment |
 | `e12_lesion_stimulus.csv` | `e12_lesion_stimulus.py` | Lesion length 1–7 mm and stimulus 1.2–20 × threshold |
+| `e14_abeta_gates.csv`, `e14_abeta_ap_trace.csv`, `e14_abeta_paired_pulse.csv` | `e14_membrane_verification.py` | CRRSS steady states and time constants, one action potential through repolarization, paired-pulse recovery |
+| `e14_cfiber_passive.csv` | `e14_membrane_verification.py` | C-fiber resting potential, input resistance, time and length constants, rheobase |
 | `e13_waveforms.npz` | `e13_waveforms.py` | Space–time fields (u_e, C-fiber ΔV, Aβ V_m) for the figures, stored at reduced resolution |
 
 ## Columns common to the sweep files

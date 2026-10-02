@@ -18,7 +18,7 @@
 | `src/experiments/e08_jitter.py` | E08 - Temporal dispersion of the Abeta volley. | `e08_jitter.csv`, `e08_jitter_convergence.csv` |
 | `src/experiments/e09_trains.py` | E09 - Repetitive Abeta trains (5 pulses at 50-400 Hz) in the production configuration. | `e09_trains.csv` |
 | `src/experiments/e10_bias.py` | E10 - Sensitized C-fiber: uniform depolarizing bias current. | `e10_equilibria.csv`, `e10_bias.csv` |
-| `src/experiments/e11_full_length.py` | E11 - The earlier full-length geometry (shared compartment along the whole cable, | `e11_full_length.csv` |
+| `src/experiments/e11_full_length.py` | E11 - The extended-compartment configuration: the shared compartment spans the whole | `e11_full_length.csv`, `e11_full_length_trains.csv` |
 | `src/experiments/e12_lesion_stimulus.py` | E12 - Lesion length and stimulus strength (production configuration otherwise). | `e12_lesion_stimulus.csv` |
 | `src/experiments/e13_waveforms.py` | E13 - Space-time recordings for the figures (production configuration). | `e13_waveforms.npz` |
 | `src/experiments/e14_membrane_verification.py` | E14 - Direct verification of the Abeta source waveform and of the C-fiber passive properties. | `e14_abeta_gates.csv`, `e14_abeta_ap_trace.csv`, `e14_abeta_paired_pulse.csv`, `e14_cfiber_passive.csv` |
@@ -57,7 +57,7 @@ Every `{{key}}` in the manuscript sources is resolved from `manuscript/generated
 | `jitter()` | `e08_jitter.csv`, `e08_jitter_convergence.csv` | – | 19 fixed + 3 generated |
 | `trains()` | `e09_trains.csv` | – | 5 fixed |
 | `bias()` | `e10_bias.csv`, `e10_equilibria.csv` | – | 12 fixed + 5 generated |
-| `full_length()` | `e11_full_length.csv` | – | 18 fixed + 9 generated |
+| `full_length()` | `e11_full_length.csv`, `e11_full_length_trains.csv` | – | 27 fixed + 9 generated |
 | `lesion_stim()` | `e03_n_sweep.csv`, `e12_lesion_stimulus.csv` | – | 5 fixed |
 | `waveforms()` | – | – | 3 fixed + 3 generated |
 

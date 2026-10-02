@@ -501,7 +501,7 @@ def _membrane_stable(mem, v0, eps=1e-7):
 # Reproduction of the earlier (lagged) coupling scheme, for documentation only
 # ----------------------------------------------------------------------------
 def run_lagged(model: CoupledModel):
-    """Integrate `model` (K = 1) with the scheme of the earlier version of the study:
+    """Integrate `model` (K = 1) with the lagged coupling scheme:
     u_e^{n+1} is obtained from v^n alone and its second difference is fed back
     explicitly into backward-Euler cable steps.  Used only to quantify the
     time-step error of that scheme (Supplementary convergence study)."""

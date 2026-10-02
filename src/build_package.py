@@ -57,7 +57,6 @@ def main():
     ok &= copy(os.path.join(ROOT, "manuscript", "cover_letter.md"), os.path.join(OUT, "Cover_letter"))
     ok &= copy(os.path.join(ROOT, "docs", "RESPONSE_TO_REVIEWERS.md"), os.path.join(OUT, "Response"))
     ok &= copy(os.path.join(ROOT, "docs", "MANIFEST.md"), os.path.join(OUT, "Response"))
-    ok &= copy(os.path.join(ROOT, "CHANGELOG.md"), os.path.join(OUT, "Response"))
     code = os.path.join(OUT, "Code_and_data")
     os.makedirs(code, exist_ok=True)
     try:

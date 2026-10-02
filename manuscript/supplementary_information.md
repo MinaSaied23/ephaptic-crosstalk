@@ -14,7 +14,7 @@ lang: en-GB
 | 50 | 6.28 | 20.88 | 21.22 | 21.72 |
 
 
-**Table S1.** The lagged coupling scheme of the earlier version vs the monolithic scheme, in the earlier full-length geometry and parameters (HH E~Na~ = +35.64 mV, 100-nA stimulus inside the compartment, Δz = 10 µm). Entries are the peak C-fiber depolarization between z = 3 and 8 mm (mV). The lagged error grows with *n*; the monolithic values are Δt-independent to within 2.4 %.
+**Table S1.** The lagged coupling scheme vs the monolithic scheme, in the extended-compartment configuration (HH E~Na~ = +35.64 mV, 100-nA stimulus inside the compartment, Δz = 10 µm). Entries are the peak C-fiber depolarization between z = 3 and 8 mm (mV). The lagged error grows with *n*; the monolithic values are Δt-independent to within 2.4 %.
 
 | model | n | Δz 20 µm | Δz 10 µm | production (5 µm, 1 µs) | Δz 1.25 µm | Δt 0.125 µs | conductance-implicit |
 |:---|---:|---:|---:|---:|---:|---:|---:|
@@ -113,7 +113,7 @@ lang: en-GB
 
 **Table S7.** Dispersed volley (*n* = 25, *W* = 1.5 ms, NavC). The peak depends on the number of onset phases *K* until the spacing *W*/(*K* − 1) is well below the ~0.1-ms duration of one fiber's contribution; the production runs use a spacing of at most 25 µs. Grid refinement at *K* = 41 changes the peak by 6.2 %, so the sweep is run at Δz = 20 µm. One classification does depend on that choice: the synchronous *n* = 25 volley is close to Aβ conduction block, and on Δz = 20 µm its action potentials still cross the lesion, slowly (13 m/s), where every grid from Δz = 10 µm down blocks them (Table S2). The peak depolarization differs by only 2.3 % between the two grids, and the attenuations quoted in the text are ratios taken within one grid, so neither the attenuation nor the primary endpoint is affected.
 
-## S6 The earlier full-length geometry
+## S6 The extended-compartment configuration
 
 | electrode current | model | Aβ stimulus (nA) | propagating C-fiber AP for n ≥ | initiation (mm) | Aβ node 0 peak, n = 25 (mV) | max |u_e|, n = 25 (mV) |
 |:---|---:|---:|---:|---:|---:|---:|

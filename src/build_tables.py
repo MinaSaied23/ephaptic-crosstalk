@@ -108,7 +108,7 @@ def table_parameters():
     row("NavC C-fiber", "h₈: V½, k, τ", f"{nc.V8h*1e3:g}, {nc.k8h*1e3:g}, {nc.tau_h8*1e3:g}", "mV, mV, ms", "calibrated (literature ≈ −30 mV, 17 ms)")
     row("NavC C-fiber", "m₉: V½, k, τ", f"{nc.V9m*1e3:g}, {nc.k9m*1e3:g}, {nc.tau_m9*1e3:g}", "mV, mV, ms", "literature range")
     row("Compartment", "ρ_e; A_e (production)", f"{cl.rho_e/1e-2:g}; {cl.A_e*1e12:.2f}", "Ω cm; µm²", "A_e: earlier pair geometry (w_eq = 0.50 µm at n = 1)")
-    row("Compartment", "κ (λ_e)", f"10⁹ ({1e6/math.sqrt(cl.kappa):.1f} µm); varied 10⁶–10¹¹", "m⁻²", "phenomenological, calibrated in the earlier version")
+    row("Compartment", "κ (λ_e)", f"10⁹ ({1e6/math.sqrt(cl.kappa):.1f} µm); varied 10⁶–10¹¹", "m⁻²", "phenomenological, calibrated (Section 2.3); varied over five decades")
     row("Compartment", "lesion", f"z = {cl.lesion_start*1e3:g}–{cl.lesion_end*1e3:g} (varied 1–7 mm long)", "mm", "grounded bulk outside")
     row("Stimulus", "Aβ pulse at node 0", f"{pr.stim_dur*1e3:g} ms, {pr.stim_factor:g} × {ABETA_THRESHOLD*1e9:.3f} nA = {pr.stim_factor*ABETA_THRESHOLD*1e9:.2f} nA", "–", "threshold of the uncoupled fiber")
     row("Numerics", "L; Δz; Δt", f"{pr.L*1e3:g} mm; {pr.dz*1e6:g} µm; {pr.dt*1e6:g} µs", "–", "monolithic backward Euler")
@@ -664,6 +664,21 @@ def full_length():
     lk2 = lk[np.isclose(lk.stim_nA, lk.stim_nA.min())]
     put("lowk_2x_any_spike", bool(lk2.c_spike.map(yes).any()))
     put("lowk_2x_maxint", lk2.dv_interior_mV.max(), "{:.1f}")
+    # 100-Hz trains through the electrode: does the spike need the train, or the electrode?
+    tr = read("e11_full_length_trains.csv")
+    sp = tr[tr.c_spike.map(yes)]
+    put("fulltrain_any_spike", bool(len(sp)))
+    put("fulltrain_2x_any_spike", bool(tr[np.isclose(tr.stim_nA, tr.stim_nA.min())].c_spike.map(yes).any()))
+    if len(sp):
+        put("fulltrain_stim_nA", sp.stim_nA.min(), "{:.0f}")
+        put("fulltrain_models", ", ".join(sorted(set(sp.model))))
+        put("fulltrain_nmin", sp.n_abeta.min(), "{:.0f}")
+        put("fulltrain_init_t_max_ms", sp.c_init_t_ms.max(), "{:.2f}")
+        put("fulltrain_init_z_max_mm", sp.c_init_z_mm.max(), "{:.2f}")
+        put("fulltrain_cv", sp.c_cv.min(), "{:.2f}")
+    ov = tr[tr.c_overshoot.map(yes) & ~tr.c_spike.map(yes)]
+    put("fulltrain_overshoot_models", ", ".join(sorted(set(ov.model))) if len(ov) else "none")
+
     rows = []
     for (ret, m, s_) in sorted({(r.electrode_current, r.model, r.stim_nA) for _, r in d.iterrows()}):
         dd = d[(d.electrode_current == ret) & (d.model == m) & np.isclose(d.stim_nA, s_)]

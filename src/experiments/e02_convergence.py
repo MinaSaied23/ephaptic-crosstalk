@@ -5,7 +5,7 @@
     with the explicit-ionic and conductance-implicit variants of the monolithic scheme.
 (b) Current balance: the physical Kirchhoff residual of the extracellular compartment,
     evaluated from the updated potentials and membrane currents, for the monolithic scheme.
-(c) The earlier lagged scheme vs the monolithic scheme in the earlier full-length
+(c) The lagged scheme vs the monolithic scheme in the extended-compartment
     geometry and parameters (100 nA stimulus, HH E_Na = +35.64 mV), as a function of dt.
 
 Outputs: e02_refinement.csv, e02_kcl.csv, e02_lagged_vs_monolithic.csv

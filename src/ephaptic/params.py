@@ -123,7 +123,7 @@ ABETA_THRESHOLD = 1.511 * nA
 
 
 def a_eff_pair(w_cleft: float, D1: float = 10.0 * um, d2: float = 1.0 * um) -> float:
-    """Cross-section used in the earlier version of the study: a circle circumscribing
+    """Compartment cross-section of a fiber pair: a circle circumscribing
     both fibers, enlarged by w_cleft, minus the two fiber cross-sections (m^2)."""
     r_outer = (D1 + d2) / 2.0 + w_cleft
     return math.pi * (r_outer ** 2 - (D1 / 2.0) ** 2 - (d2 / 2.0) ** 2)
@@ -139,7 +139,7 @@ def equivalent_gap(area_per_fiber: float, D: float = 10.0 * um) -> float:
     return math.sqrt((D / 2.0) ** 2 + area_per_fiber / math.pi) - D / 2.0
 
 
-A_REF = a_eff_pair(20.0 * nm)   # 16.4 um^2: the single-pair compartment of the earlier version
+A_REF = a_eff_pair(20.0 * nm)   # 16.4 um^2: the single-pair compartment used throughout
 
 
 @dataclass(frozen=True)
