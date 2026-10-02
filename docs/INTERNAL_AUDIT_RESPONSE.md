@@ -1,5 +1,9 @@
 <!-- Generated from docs/templates/RESPONSE_TO_REVIEW.tmpl.md by manuscript/build_manuscript.py; all numbers come from results/data. -->
-# Response to the pre-submission review (2 October 2026)
+# Internal audit response (2 October 2026)
+
+This document answers an independent audit of the submitted version, carried out in addition to
+the journal's peer review. The reply to the journal's reviewers is `RESPONSE_TO_REVIEWERS.md`;
+this one is kept as the technical record of the audit's 17 issues.
 
 This document answers the 17 issues of the pre-submission review point by point. Every number below is generated from `results/data` by `src/build_tables.py`, the same source used for the manuscript. Version 1 of the code and manuscript is in the git history (commit `63ce2da`).
 
@@ -43,7 +47,7 @@ The qualitative negative result survives and is now much better supported. Its e
 ### Issue 6: stimulation and boundary configuration
 **Done.**
 - **Production setup.** The Aβ stimulus is 2 × threshold (3.02 nA), applied outside the lesion; node 0 peaks at +14.4 mV. Electrode current that enters a compartment is now returned through it.
-- **Earlier geometry, supplementary.** The version 1 full-length geometry is analysed in Section 3.8 / Table S6. With 2 × threshold stimulation no C-fiber AP occurs for n ≤ 50. With 100 nA, the electrode site becomes non-physiological under either treatment: with the electrode current omitted from the compartment (as in version 1) a propagating AP is launched there from n = 2 (HH; the Nav1.8/1.9 fiber only overshoots locally, from n = 2), with it returned through the compartment from n = 25 (HH) / 50 (NavC), and u_e at the electrode reaches 676 mV. The weakest electrode current that launches such a spike is 10 nA, 3 × the physiological stimulus. At n = 25 the Aβ node 0 reaches +556 mV and the C-fiber at z = 0 reaches -53 mV, while u_e(0) stays below 676.1 mV.
+- **Earlier geometry, supplementary.** The version 1 full-length geometry is analysed in Section 3.9 / Table S6. With 2 × threshold stimulation no C-fiber AP occurs for n ≤ 50. With 100 nA, the electrode site becomes non-physiological under either treatment: with the electrode current omitted from the compartment (as in version 1) a propagating AP is launched there from n = 2 (HH; the Nav1.8/1.9 fiber only overshoots locally, from n = 2), with it returned through the compartment from n = 25 (HH) / 50 (NavC), and u_e at the electrode reaches 676 mV. The weakest electrode current that launches such a spike is 10 nA, 3 × the physiological stimulus. At n = 25 the Aβ node 0 reaches +556 mV and the C-fiber at z = 0 reaches -53 mV, while u_e(0) stays below 676.1 mV.
 - **The "+265 mV".** The manuscript no longer attributes it to u_e.
 
 ### Issue 7: low-κ "numerical instability"

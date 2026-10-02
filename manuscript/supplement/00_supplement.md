@@ -1,5 +1,5 @@
 ---
-title: "Supplementary Information: Ephaptic coupling between myelinated Aβ and unmyelinated C-fibers in a focal nerve lesion"
+title: "Supplementary Information: Ephaptic Aβ-to-C-Fiber Crosstalk and Multi-Fiber Spatial Summation"
 author: "Mina Saied Attia Rizk"
 lang: en-GB
 ---
@@ -14,25 +14,37 @@ lang: en-GB
 
 **Table S2.** Grid and time-step refinement of the peak C-fiber depolarization in the lesion (mV) in the production configuration. Unless stated, Δz = 5 µm, Δt = 1 µs, explicit ionic currents. "Conductance-implicit": ionic conductances in the system matrix.
 
-## S2 Strength–duration characterization
+## S2 Membrane verification
+
+![**Fig. S3** Verification of the Aβ source. (a) CRRSS steady-state activation and inactivation and (b) their time constants over the modelled range, at 37 °C. (c) Action potential at a node (z = 5 mm) followed through repolarization to rest. (d) Paired-pulse recovery: peak of the response at z = 8 mm after a second stimulus, against the interpulse interval. Grey crosses mark intervals at which no second action potential propagates; the value plotted there is the decaying tail of the first action potential, not a second spike.](../results/figures/figS3_membrane_verification.png){width=100%}
+
+{{TABLE:tableS7_abeta_recovery}}
+
+**Table S7.** Paired-pulse recovery of the isolated Aβ fiber (2 × threshold, 0.2-ms pulses at node 0; counts and peaks read at z = 8 mm). The first action potential conducts at {{ab_cv1}} m/s in every run.
+
+{{TABLE:tableS8_cfiber_passive}}
+
+**Table S8.** Passive properties of the isolated C-fiber membranes under the production geometry. λ and *R*~in~ are small-signal values, computed from the slope conductance d*I*~ion~/d*V* at rest; *R*~in~ measured is the steady response to a 1-pA injection at z = 5 mm. Rheobase is for a 1-ms point injection at the same site.
+
+## S3 Strength–duration characterization
 
 {{TABLE:tableS3_strength_duration}}
 
 **Table S3.** Point current injection at z = 5 mm into the isolated C-fiber. Q~th~: threshold charge for a 0.1-ms pulse; V~peak~: largest membrane potential at the injection site for a pulse 0.5 % below threshold; last column: ratio of threshold currents for 0.1-ms and 20-ms pulses.
 
-## S3 Sensitizing bias
+## S4 Sensitizing bias
 
 {{TABLE:tableS4_bias}}
 
 **Table S4.** Uniform depolarizing bias current on the C-fiber (production configuration). "Spontaneous AP": no-stimulus control of 200 ms. Peak V: largest C-fiber membrane potential in the lesion after the Aβ volley. The HH resting state is linearly stable up to {{bias_HH_stable_max}} A m^−2^ and unstable from {{bias_HH_unstable_min}} A m^−2^; the NavC resting state stays stable over the whole tested range (to {{bias_NavC_tested_max}} A m^−2^) and a second stable, depolarized state appears above {{bias_navc_bistable_min}} A m^−2^ (space-clamped analysis with linear stability from the Jacobian, `e10_equilibria.csv`).
 
-## S4 Temporal dispersion: convergence in the number of onset phases
+## S5 Temporal dispersion: convergence in the number of onset phases
 
 {{TABLE:tableS5_jitter_convergence}}
 
 **Table S5.** Dispersed volley (*n* = 25, *W* = 1.5 ms, NavC). The peak depends on the number of onset phases *K* until the spacing *W*/(*K* − 1) is well below the ~0.1-ms duration of one fiber's contribution; the production runs use a spacing of at most 25 µs. Grid refinement at *K* = 41 changes the peak by {{jit_dz_spread_pct}} %, so the sweep is run at Δz = 20 µm. One classification does depend on that choice: the synchronous *n* = 25 volley is close to Aβ conduction block, and on Δz = 20 µm its action potentials still cross the lesion, slowly ({{conv_dz20_n25_cv}} m/s), where every grid from Δz = {{conv_block_dz_max}} µm down blocks them (Table S2). The peak depolarization differs by only {{conv_dz20_n25_dev_pct}} % between the two grids, and the attenuations quoted in the text are ratios taken within one grid, so neither the attenuation nor the primary endpoint is affected.
 
-## S5 The earlier full-length geometry
+## S6 The earlier full-length geometry
 
 {{TABLE:tableS6_full_length}}
 

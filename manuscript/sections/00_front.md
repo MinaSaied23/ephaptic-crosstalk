@@ -1,5 +1,5 @@
 ---
-title: "Ephaptic coupling between myelinated Aβ and unmyelinated C-fibers in a focal nerve lesion: a converged closed-loop core-conductor analysis"
+title: "Ephaptic Aβ-to-C-Fiber Crosstalk and Multi-Fiber Spatial Summation: A Closed-Loop Core-Conductor Study with Nociceptor-Realistic Channel Kinetics"
 author: "Mina Saied Attia Rizk"
 lang: en-GB
 ---

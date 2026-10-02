@@ -174,7 +174,7 @@ def controls():
     cab = HHParams().cable
     for key, v in (("hh", "HH_phi1_gNa120"), ("navc", "NavC_tm8_1.5ms_g18_2000")):
         G = cab.Cm / (r.loc[v].tau_rest_ms * 1e-3)            # S/m^2 at rest
-        put(f"{key}_lambda_um", math.sqrt(cab.d / (4.0 * cab.rho_i * G)) * 1e6, "{:.0f}")
+        put(f"{key}_lambda_chord_um", math.sqrt(cab.d / (4.0 * cab.rho_i * G)) * 1e6, "{:.0f}")
     put("navc_tau_rest", r.loc["NavC_tm8_1.5ms_g18_2000"].tau_rest_ms, "{:.2f}")
     hot = cc[(cc.kind == "HH") & (np.isclose(cc.gNa_mS_cm2, 120)) & (~cc.propagates.map(yes))]
     put("hh_block_temp", hot.temperature_C.min() if len(hot) else float("nan"), "{:.0f}")
@@ -309,6 +309,55 @@ def n_sweep():
              floatfmt={"w_eq (nm)": "{:.0f}", "ΔV NavC (mV)": "{:.2f}", "ΔV HH (mV)": "{:.2f}",
                        "peak hyperpol. (mV)": "{:.1f}", "u_e min (mV)": "{:.1f}", "Aβ CV in lesion (m/s)": "{:.1f}",
                        "α* NavC": "{:.1f}", "α* HH": "{:.1f}"})
+
+
+def membrane_verification():
+    """E14: the Abeta source waveform and the C-fiber passive properties (reviewer 2, 2 and 7)."""
+    g = read("e14_abeta_gates.csv").set_index("v_mV")
+    for v in (-80, -70, -60, -40):
+        put(f"ab_hinf_m{abs(v)}", g.loc[v].h_inf, "{:.3f}")
+        put(f"ab_minf_m{abs(v)}", g.loc[v].m_inf, "{:.3f}")
+    put("ab_tau_m_rest_us", g.loc[-80].tau_m_ms * 1e3, "{:.0f}")
+    put("ab_tau_h_rest_us", g.loc[-80].tau_h_ms * 1e3, "{:.0f}")
+    put("ab_hinf_halfV", float(np.interp(0.5, g.h_inf.values[::-1], g.index.values[::-1])), "{:.0f}")
+    tr = read("e14_abeta_ap_trace.csv")
+    put("ab_ap_rest_mV", tr.v_node_mV.iloc[0], "{:.2f}")
+    put("ab_ap_peak_mV", tr.v_node_mV.max(), "{:+.1f}")
+    put("ab_ap_final_mV", tr.v_node_mV.iloc[-1], "{:.2f}")
+    after = tr[(tr.t_ms > tr.t_ms[tr.v_node_mV.idxmax()]) & (tr.dv_from_rest_mV.abs() < 1.0)]
+    put("ab_ap_return_ms", after.t_ms.min(), "{:.2f}")
+    put("ab_trace_T_ms", tr.t_ms.max(), "{:.0f}")
+    pp = read("e14_abeta_paired_pulse.csv").sort_values("isi_ms")
+    ok = pp[pp.second_conducts.map(yes)]
+    bad = pp[~pp.second_conducts.map(yes)]
+    put("ab_refractory_max_fail_ms", bad.isi_ms.max() if len(bad) else float("nan"), "{:.2f}")
+    put("ab_recovery_min_ms", ok.isi_ms.min() if len(ok) else float("nan"), "{:.2f}")
+    full = ok[(ok.peak2_mV - ok.peak1_mV).abs() / ok.peak1_mV.abs() < 0.02]
+    put("ab_full_recovery_ms", full.isi_ms.min() if len(full) else float("nan"), "{:.1f}")
+    put("ab_cv1", pp.cv1_m_s.iloc[0], "{:.1f}")
+    md_table(pp[["isi_ms", "n_aps_z8", "peak2_mV", "cv2_m_s", "second_conducts"]].rename(columns={
+        "isi_ms": "interval (ms)", "n_aps_z8": "APs at z = 8 mm", "peak2_mV": "2nd AP peak (mV)",
+        "cv2_m_s": "2nd AP CV (m/s)", "second_conducts": "2nd AP conducts"}),
+        "tableS7_abeta_recovery",
+        floatfmt={"interval (ms)": "{:.2f}", "2nd AP peak (mV)": "{:+.1f}", "2nd AP CV (m/s)": "{:.1f}"})
+    pas = read("e14_cfiber_passive.csv").set_index("model")
+    for m, key in (("HH", "hh"), ("NavC", "navc")):
+        r = pas.loc[m]
+        put(f"{key}_lambda_um", r.lambda_slope_um, "{:.0f}")
+        put(f"{key}_Rin_Mohm", r.R_in_measured_Mohm, "{:.0f}")
+        put(f"{key}_Rin_pred_Mohm", r.R_in_slope_Mohm, "{:.0f}")
+        put(f"{key}_rheobase_nA", r.rheobase_1ms_nA, "{:.2f}")
+    put("cf_Rin_maxdev_pct", ((pas.R_in_measured_Mohm - pas.R_in_slope_Mohm).abs()
+                              / pas.R_in_slope_Mohm).max() * 100, "{:.1f}")
+    md_table(pas.reset_index()[["model", "v_rest_mV", "tau_rest_ms", "lambda_slope_um",
+                                "R_in_slope_Mohm", "R_in_measured_Mohm", "rheobase_1ms_nA"]].rename(columns={
+        "model": "C-fiber membrane", "v_rest_mV": "rest (mV)", "tau_rest_ms": "τ~m~ at rest (ms)",
+        "lambda_slope_um": "λ, small signal (µm)", "R_in_slope_Mohm": "R~in~ predicted (MΩ)",
+        "R_in_measured_Mohm": "R~in~ measured (MΩ)", "rheobase_1ms_nA": "rheobase, 1 ms (nA)"}),
+        "tableS8_cfiber_passive",
+        floatfmt={"rest (mV)": "{:.2f}", "τ~m~ at rest (ms)": "{:.2f}", "λ, small signal (µm)": "{:.0f}",
+                  "R~in~ predicted (MΩ)": "{:.1f}", "R~in~ measured (MΩ)": "{:.1f}",
+                  "rheobase, 1 ms (nA)": "{:.2f}"})
 
 
 def geometry():
@@ -661,8 +710,8 @@ def waveforms():
 
 if __name__ == "__main__":
     os.makedirs(OUT, exist_ok=True)
-    steps = [table_parameters, controls, convergence, fast_variants, n_sweep, geometry, kappa, kinetics, threshold,
-             jitter, trains, bias, full_length, lesion_stim, waveforms]
+    steps = [table_parameters, controls, convergence, fast_variants, membrane_verification, n_sweep,
+             geometry, kappa, kinetics, threshold, jitter, trains, bias, full_length, lesion_stim, waveforms]
     for f in steps:
         try:
             f()

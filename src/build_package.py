@@ -22,12 +22,14 @@ OUT = os.path.join(ROOT, "submission")
 
 FIGS = ["fig1_model.png", "fig2_numerics.png", "fig3_controls.png", "fig4_drive.png",
         "fig5_n_sweep.png", "fig6_threshold.png", "fig7_sensitivity.png",
-        "fig8_dispersion_trains.png", "figS1_full_length.png", "figS2_lesion_stimulus.png"]
+        "fig8_dispersion_trains.png", "figS1_full_length.png", "figS2_lesion_stimulus.png",
+        "figS3_membrane_verification.png"]
 NUMBERED = {"fig1_model.png": "Fig1.png", "fig2_numerics.png": "Fig2.png",
             "fig3_controls.png": "Fig3.png", "fig4_drive.png": "Fig4.png",
             "fig5_n_sweep.png": "Fig5.png", "fig6_threshold.png": "Fig6.png",
             "fig7_sensitivity.png": "Fig7.png", "fig8_dispersion_trains.png": "Fig8.png",
-            "figS1_full_length.png": "FigS1.png", "figS2_lesion_stimulus.png": "FigS2.png"}
+            "figS1_full_length.png": "FigS1.png", "figS2_lesion_stimulus.png": "FigS2.png",
+            "figS3_membrane_verification.png": "FigS3.png"}
 
 
 def copy(src, dst_dir, name=None):
@@ -53,7 +55,8 @@ def main():
     for f in sorted(os.listdir(os.path.join(ROOT, "results", "data"))):
         copy(os.path.join(ROOT, "results", "data", f), data_out)
     ok &= copy(os.path.join(ROOT, "manuscript", "cover_letter.md"), os.path.join(OUT, "Cover_letter"))
-    ok &= copy(os.path.join(ROOT, "docs", "RESPONSE_TO_REVIEW.md"), os.path.join(OUT, "Response"))
+    ok &= copy(os.path.join(ROOT, "docs", "RESPONSE_TO_REVIEWERS.md"), os.path.join(OUT, "Response"))
+    ok &= copy(os.path.join(ROOT, "docs", "MANIFEST.md"), os.path.join(OUT, "Response"))
     ok &= copy(os.path.join(ROOT, "CHANGELOG.md"), os.path.join(OUT, "Response"))
     code = os.path.join(OUT, "Code_and_data")
     os.makedirs(code, exist_ok=True)

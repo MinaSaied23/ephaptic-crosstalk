@@ -50,6 +50,7 @@ def main():
     for s in sorted(glob.glob(os.path.join(FIG, "fig*.py"))):
         run(s, FIG)
     run(os.path.join(ROOT, "src", "build_tables.py"), os.path.join(ROOT, "src"))
+    run(os.path.join(ROOT, "src", "build_manifest.py"), os.path.join(ROOT, "src"))
 
 
 if __name__ == "__main__":

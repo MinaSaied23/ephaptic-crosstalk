@@ -36,7 +36,8 @@ def pandoc():
 
 TEMPLATES = [  # (template, output): other documents rendered from the same numbers
     (os.path.join(ROOT, "docs", "templates", "README.tmpl.md"), os.path.join(ROOT, "README.md")),
-    (os.path.join(ROOT, "docs", "templates", "RESPONSE_TO_REVIEW.tmpl.md"), os.path.join(ROOT, "docs", "RESPONSE_TO_REVIEW.md")),
+    (os.path.join(ROOT, "docs", "templates", "RESPONSE_TO_REVIEWERS.tmpl.md"), os.path.join(ROOT, "docs", "RESPONSE_TO_REVIEWERS.md")),
+    (os.path.join(ROOT, "docs", "templates", "RESPONSE_TO_REVIEW.tmpl.md"), os.path.join(ROOT, "docs", "INTERNAL_AUDIT_RESPONSE.md")),
     (os.path.join(ROOT, "docs", "templates", "cover_letter.tmpl.md"), os.path.join(ROOT, "manuscript", "cover_letter.md")),
 ]
 

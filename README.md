@@ -4,7 +4,7 @@
 Code, data and manuscript for a closed-loop core-conductor study of whether action potentials in myelinated Aβ afferents can excite an unmyelinated C-fiber through a shared, restricted extracellular compartment.
 
 **Author:** Mina Saied Attia Rizk (New Cairo STEM School, Cairo, Egypt)
-**Status:** manuscript in preparation for the *Journal of Computational Neuroscience* (version 2: full re-analysis after a pre-submission review; see [CHANGELOG.md](CHANGELOG.md) and [docs/RESPONSE_TO_REVIEW.md](docs/RESPONSE_TO_REVIEW.md))
+**Status:** revision for the *Journal of Computational Neuroscience* after peer review. The model, the analysis and the manuscript were rebuilt: see [docs/RESPONSE_TO_REVIEWERS.md](docs/RESPONSE_TO_REVIEWERS.md) for the point-by-point reply, [CHANGELOG.md](CHANGELOG.md) for what changed and why, and [docs/MANIFEST.md](docs/MANIFEST.md) for the script and raw output behind every figure, table and number.
 
 ## Model in one paragraph
 
@@ -78,7 +78,7 @@ python manuscript/build_manuscript.py    # manuscript .md/.docx/.pdf, README, re
 
 ```bibtex
 @unpublished{attiarizk2026ephaptic,
-  title  = {Ephaptic coupling between myelinated A$\beta$ and unmyelinated C-fibers in a focal nerve lesion: a converged closed-loop core-conductor analysis},
+  title  = {Ephaptic A$\beta$-to-C-fiber crosstalk and multi-fiber spatial summation: a closed-loop core-conductor study with nociceptor-realistic channel kinetics},
   author = {Attia Rizk, Mina Saied},
   year   = {2026},
   note   = {Manuscript in preparation}

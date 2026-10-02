@@ -22,7 +22,7 @@ In the earlier version, a plateau of the multi-fiber response was attributed to 
 
 ### 4.4 Synchrony and repetition
 
-The ephaptic transient produced by each Aβ fiber lasts ~0.1 ms, so summation across fibers requires sub-millisecond synchrony. A dispersion window of 0.5 ms removed {{jit_NavC_n25_att0p5}} % of the drive at *n* = 25, and 1.5 ms removed {{jit_NavC_n25_att1p5}} %. Natural tactile volleys arriving over millimetres of nerve after conduction over centimetres are unlikely to be that synchronous. Repetitive trains did not build up the response, because the C-fiber returns to rest between pulses and the extracellular compartment has no memory on the millisecond scale. The delayed spike that the earlier version recorded during a 100-Hz train was launched at a 100-nA electrode inside the compartment (Section 3.8).
+The ephaptic transient produced by each Aβ fiber lasts ~0.1 ms, so summation across fibers requires sub-millisecond synchrony. A dispersion window of 0.5 ms removed {{jit_NavC_n25_att0p5}} % of the drive at *n* = 25, and 1.5 ms removed {{jit_NavC_n25_att1p5}} %. Natural tactile volleys arriving over millimetres of nerve after conduction over centimetres are unlikely to be that synchronous. Repetitive trains did not build up the response, because the C-fiber returns to rest between pulses and the extracellular compartment has no memory on the millisecond scale. The delayed spike that the earlier version recorded during a 100-Hz train was launched at a 100-nA electrode inside the compartment (Section 3.9).
 
 ### 4.5 Limitations
 
@@ -30,6 +30,18 @@ The ephaptic transient produced by each Aβ fiber lasts ~0.1 ms, so summation ac
 - **κ is phenomenological.** We bracketed it over five decades rather than deriving it, and the conclusions held over that range.
 - **No demyelination.** The Aβ fibers keep intact myelin in the lesion. Demyelination exposes internodal membrane, changes the source current distribution and slows conduction, and could strengthen coupling. It was not modelled.
 - **Simplified C-fiber membranes.** HH is a squid model, and the NavC membrane is phenomenological, with voltage-independent time constants and calibrated inactivation. Neither includes Nav1.7 or the K^+^ subtypes of nociceptor axons. As Section 4.2 shows, the conclusions depend on the speed of the C-fiber membrane and on how close its activation range lies to rest.
+The geometry assumed here is pathological, not normal. A normal Remak bundle is a group of
+unmyelinated axons held by a non-myelinating Schwann cell, usually with Schwann-cell processes
+between the axons, and a large myelinated Aβ fiber is not ordinarily part of it (Murinson & Griffin,
+2004); in intact nerve, Schwann-cell cytoplasm and basal lamina separate an Aβ internode from
+neighbouring C-fibers. The configuration modelled here therefore presupposes a specific pathological
+change: loss of myelin over a stretch of an Aβ fiber together with retraction or loss of the
+intervening Schwann-cell processes, so that an exposed Aβ axolemma and a C-fiber axolemma come to
+share one restricted extracellular space over millimetres. That is the configuration in which
+ephaptic cross-excitation has been reported experimentally in damaged nerve and in dysmyelinated
+roots (Rasminsky, 1980; Seltzer & Devor, 1979). Our results say what such a configuration would have
+to achieve electrically, not how often it occurs.
+
 - **Idealized volleys and a single test fiber.** Fibers are identical and synchronous or uniformly dispersed. The test C-fiber is a single fiber, and Remak bundling of C-fibers (Murinson & Griffin, 2004) is not represented.
 
 ### 4.6 Implications

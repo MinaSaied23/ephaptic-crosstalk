@@ -15,7 +15,7 @@ In the production configuration (Fig. 2b, c; Table S2):
 
 ### 3.2 Uncoupled positive controls
 
-The isolated Aβ fiber had a stimulation threshold of {{abeta_threshold_nA}} nA (0.2 ms pulse at node 0). With the 2×-threshold stimulus used throughout ({{abeta_stim_nA}} nA), it conducted saltatorily at {{abeta_cv}} m/s with an AP excursion of {{abeta_excursion}} mV at z = 4 mm (Fig. 3a); node 0 peaked at {{abeta_node0_2x}} mV. For comparison, the 100-nA stimulus of the earlier version drove node 0 of the uncoupled fiber to {{abeta_node0_100nA}} mV. Directly stimulated, the HH C-fiber rested at {{hh_rest}} mV and conducted at {{hh_cv}} m/s with an AP peak of {{hh_peak}} mV (Fig. 3b). The NavC C-fiber rested at {{navc_rest}} mV and conducted at {{navc_cv}} m/s, with an AP peak of {{navc_peak}} mV and APD~50~ = {{navc_apd50}} ms (Fig. 3c). Every kinetic variant used in Section 3.6 conducted, with conduction velocities of {{variant_cv_min}}–{{variant_cv_max}} m/s (Table 2). The exception is HH with standard conductances at ≥ {{hh_block_temp}} °C, which failed to conduct and was excluded.
+The isolated Aβ fiber had a stimulation threshold of {{abeta_threshold_nA}} nA (0.2 ms pulse at node 0). With the 2×-threshold stimulus used throughout ({{abeta_stim_nA}} nA), it conducted saltatorily at {{abeta_cv}} m/s with an AP excursion of {{abeta_excursion}} mV at z = 4 mm (Fig. 3a); node 0 peaked at {{abeta_node0_2x}} mV. For comparison, the 100-nA stimulus of the earlier version drove node 0 of the uncoupled fiber to {{abeta_node0_100nA}} mV. Directly stimulated, the HH C-fiber rested at {{hh_rest}} mV and conducted at {{hh_cv}} m/s with an AP peak of {{hh_peak}} mV (Fig. 3b). The NavC C-fiber rested at {{navc_rest}} mV and conducted at {{navc_cv}} m/s, with an AP peak of {{navc_peak}} mV and APD~50~ = {{navc_apd50}} ms (Fig. 3c). Every kinetic variant used in Section 3.7 conducted, with conduction velocities of {{variant_cv_min}}–{{variant_cv_max}} m/s (Table 2). The exception is HH with standard conductances at ≥ {{hh_block_temp}} °C, which failed to conduct and was excluded.
 
 ![**Fig. 3** Uncoupled positive controls. (a) Aβ action potential at nodes z = 1–9 mm (2× threshold stimulus at node 0). (b) HH and (c) NavC C-fiber action potentials at z = 1–9 mm after direct stimulation at z = 0.](../results/figures/fig3_controls.png){width=100%}
 
@@ -23,13 +23,37 @@ The isolated Aβ fiber had a stimulation threshold of {{abeta_threshold_nA}} nA 
 
 **Table 2.** Uncoupled positive controls of the C-fiber membranes (1-ms pulse at z = 0; conduction velocity between z = 3 and 7 mm; APD~50~ and AP peak at z = 5 mm). τ~m~ at rest = *C*~m~/*g*~total~ at the resting potential. "Rates & conductances × s" is the time-compressed HH membrane of Section 2.6.
 
-### 3.3 Anatomy of the ephaptic drive
+### 3.3 Verification of the Aβ source waveform and of the C-fiber passive properties
+
+Because the Aβ action potential is the source of everything that follows, its gating was checked
+directly (Table S7; Fig. S3). In the CRRSS membrane used here, steady-state inactivation falls with
+depolarization, from *h*~∞~ = {{ab_hinf_m80}} at −80 mV to {{ab_hinf_m70}} at −70 mV and
+{{ab_hinf_m40}} at −40 mV (half-inactivation at {{ab_hinf_halfV}} mV), while activation rises from
+*m*~∞~ = {{ab_minf_m80}} to {{ab_minf_m40}} over the same range; τ~m~ = {{ab_tau_m_rest_us}} µs and
+τ~h~ = {{ab_tau_h_rest_us}} µs at rest. The action potential at a node is therefore a transient: it
+rises from {{ab_ap_rest_mV}} mV to {{ab_ap_peak_mV}} mV and returns to within 1 mV of rest
+{{ab_ap_return_ms}} ms after the stimulus, ending the {{ab_trace_T_ms}}-ms run at
+{{ab_ap_final_mV}} mV. A paired-pulse protocol gives the expected refractory behaviour: a second
+stimulus {{ab_refractory_max_fail_ms}} ms after the first evokes no propagating action potential,
+recovery begins at {{ab_recovery_min_ms}} ms, and by {{ab_full_recovery_ms}} ms the second action
+potential matches the first in peak and velocity (Table S7).
+
+The C-fiber was characterized passively under the same geometry (Table S8). Measured input
+resistance at the injection site agrees with the small-signal cable prediction
+0.5·√(*r*~m~*r*~i~) to within {{cf_Rin_maxdev_pct}} % ({{hh_Rin_Mohm}} MΩ for HH,
+{{navc_Rin_Mohm}} MΩ for NavC), and the rheobase of a 1-ms point injection is
+{{hh_rheobase_nA}} nA and {{navc_rheobase_nA}} nA respectively. The small-signal length constants
+are {{hh_lambda_um}} and {{navc_lambda_um}} µm; they are shorter than the values obtained from the
+resting chord conductance ({{hh_lambda_chord_um}} and {{navc_lambda_chord_um}} µm) because the
+slope conductance at rest is about twice the chord conductance.
+
+### 3.4 Anatomy of the ephaptic drive
 
 When the Aβ AP passes through the lesion, each active node draws current from the shared compartment, and *u*~e~ develops a negative trough at the node flanked by positive lobes (Fig. 4a). The C-fiber's intracellular potential barely changes, so its transmembrane potential mirrors −*u*~e~. It is depolarized under the active Aβ node and hyperpolarized on either side (Fig. 4b, c). The depolarization is brief and narrow. For n = 10 its full width at half maximum is {{fwhm_n10_us}} µs in time ({{fwhm_n1_us}} µs for n = 1, {{fwhm_n25_us}} µs for n = 25) and about {{halfwidth_n10_um}} µm in space (Fig. 4d, e). This follows from the form of the drive. The ephaptic input to the C-fiber is the activating function *g*~2~ ∂^2^*u*~e~/∂z^2^ (Rattay, 1986). Its integral along the fiber is *g*~2~ [∂*u*~e~/∂z] evaluated at the ends, which vanishes because *u*~e~ is zero outside the lesion: the drive injects no net charge into the C-fiber, it only redistributes charge from the flanks to the site under the active node.
 
 ![**Fig. 4** The ephaptic drive (NavC, *n* = 10, production configuration). (a) Extracellular potential *u*~e~(z, t); dashed lines mark the lesion. (b) C-fiber depolarization Δ*V*(z, t). (c) Profiles of Δ*V* and −*u*~e~ at the time of the peak. (d) Δ*V* at the peak site for *n* = 1, 10, 25. (e) Time course at the peak site with its half-maximum level. (f) Aβ membrane potential at the 6-mm node and the C-fiber depolarization at the same position.](../results/figures/fig4_drive.png){width=100%}
 
-### 3.4 Synchronous volleys and the extracellular cross-section per fiber
+### 3.5 Synchronous volleys and the extracellular cross-section per fiber
 
 A single Aβ AP depolarized the C-fiber by {{NavC_n1_dv2}} mV (NavC; HH {{HH_n1_dv2}} mV; Fig. 5a; Table 3). The response grew with the number of synchronous fibers: {{NavC_n10_dv}} mV at n = 10, {{NavC_n25_dv}} mV at n = 25 and {{NavC_n50_dv}} mV at n = 50. It peaked at {{NavC_max_dv}} mV for n = {{NavC_max_dv_n}}, where the lesion peak of the C-fiber membrane was {{NavC_max_peak}} mV. HH and NavC responses differed by at most {{hh_navc_maxdiff}} mV, as expected for a membrane that responds passively. Hyperpolarization of the flanks grew in parallel ({{NavC_n25_hyp}} mV at n = 25).
 
@@ -37,13 +61,13 @@ The response does not saturate. It is limited by the source. Sharing a fixed com
 
 {{TABLE:table3_n_sweep}}
 
-**Table 3.** Synchronous volleys in the production configuration (5-mm lesion, *A*~e~ = 16.4 µm^2^, κ = 10^9^ m^−2^, 2×-threshold Aβ stimulus). *w*~eq~: equivalent periaxonal gap of the cross-section per Aβ fiber, *A*~e~/*n*. ΔV: peak C-fiber depolarization in the lesion relative to the exact resting state. α\*: ephaptic safety factor, the gain on the recorded *u*~e~ needed to evoke a propagating C-fiber AP (Section 3.5).
+**Table 3.** Synchronous volleys in the production configuration (5-mm lesion, *A*~e~ = 16.4 µm^2^, κ = 10^9^ m^−2^, 2×-threshold Aβ stimulus). *w*~eq~: equivalent periaxonal gap of the cross-section per Aβ fiber, *A*~e~/*n*. ΔV: peak C-fiber depolarization in the lesion relative to the exact resting state. α\*: ephaptic safety factor, the gain on the recorded *u*~e~ needed to evoke a propagating C-fiber AP (Section 3.6).
 
 Adding fibers to a fixed compartment acts like shrinking the compartment around one fiber: one Aβ fiber in a cross-section *A*~e~/*n* gave responses that differed from the *n*-fiber result by {{meanfield_mindev_pct}} % at *n* = 2, rising to {{meanfield_maxdev_pct}} % at *n* = 50 as the C-fiber's own unscaled axial conductance becomes relatively more important (`e04_mean_field.csv`). These results are therefore mainly a statement about the extracellular cross-section per active fiber. We checked this with a closure in which every fiber brings its own sleeve of width *w* (Fig. 5c). The response is then independent of *n* to within {{geom_n_invariance_pct}} % whenever the Aβ AP conducts. It is set by *w* alone: {{geom_w1000_dv}} mV at 1 µm, {{geom_w100_dv}} mV at 100 nm and {{geom_w20_dv}} mV at 20 nm. It coincides with the shared-compartment results plotted at *w*~eq~(*n*), apart from the small extracellular area that the C-fiber's own sleeve adds. With per-fiber sleeves, Aβ conduction failed below *w* = {{geom_w_block}} nm, so the largest depolarization reached with a conducting Aβ source was {{geom_w_block_dv}} mV, at a sleeve {{geom_w_block}} nm wide around every active fiber sustained over millimetres. The same confinement that strengthens the drive blocks the Aβ source.
 
 ![**Fig. 5** Synchronous volleys. (a) Peak C-fiber depolarization (solid) and hyperpolarization (dotted) in the lesion vs the number of synchronous Aβ fibers *n* sharing the 16.4-µm^2^ compartment; numbers above give the equivalent periaxonal gap *w*~eq~; shading: Aβ conduction fails inside the lesion. (b) Aβ conduction velocity between the 3- and 7-mm nodes. (c) Per-fiber-sleeve closure: response vs sleeve width for *n* = 1, 10, 100 (NavC), with the shared-compartment results plotted at *w*~eq~(*n*) (crosses).](../results/figures/fig5_n_sweep.png){width=100%}
 
-### 3.5 How far is the drive from threshold?
+### 3.6 How far is the drive from threshold?
 
 A fixed voltage threshold does not apply to this drive. For point current injections into the isolated C-fiber (Fig. 6a, b; Table S3), the membrane potential reached by a pulse just below threshold depended strongly on the pulse duration. A 20-ms pulse fired the NavC fiber from about {{sd_navc_point_v20}} mV, whereas a 0.1-ms pulse, the duration of the ephaptic transient, could take the injection site to {{sd_navc_point_v01}} mV without firing (HH: {{sd_hh_point_v20}} and {{sd_hh_point_v01}} mV). Brief local depolarizations far above the nominal "threshold" are shunted along the cable before Na^+^ channels can open enough.
 
@@ -51,7 +75,7 @@ The ephaptic safety factor α\* measures the margin directly (Fig. 6c; Table 3).
 
 ![**Fig. 6** Excitability of the C-fiber for brief, local inputs. (a) Strength–duration curves for point injection at z = 5 mm; shading marks the duration of the ephaptic depolarization. (b) Membrane potential at the injection site for a pulse 0.5 % below threshold. (c) Ephaptic safety factor α\*, the gain on the recorded *u*~e~ needed to evoke a propagating C-fiber AP, vs *n*; α\* = 1 (line) would mean that the closed-loop drive itself fires the fiber.](../results/figures/fig6_threshold.png){width=100%}
 
-### 3.6 Sensitivity analysis
+### 3.7 Sensitivity analysis
 
 **Extracellular leak.** Over five decades of κ (λ~e~ = 1 mm to 3 µm) and *n* = 1–200, none of the {{kappa_runs}} runs with the standard membranes produced a C-fiber AP or even an overshoot of 0 mV (Fig. 7a). κ shifts where the source fails: a weakly leaky compartment (small κ) blocks Aβ conduction at smaller *n*, while a strongly leaky one shunts *u*~e~. The largest depolarization was {{kappa_max_dv}} mV (κ = {{kappa_max_dv_kappa}} m^−2^, *n* = {{kappa_max_dv_n}}). The single-pair response ranged from {{kappa_n1_min}} to {{kappa_n1_max}} mV.
 
@@ -68,13 +92,13 @@ The APs were initiated at Aβ nodes inside the lesion (z = {{kin_spike_init_min_
 
 ![**Fig. 7** Sensitivity analysis. (a) Peak C-fiber depolarization (mV, NavC) over κ and *n*; hatching: Aβ conduction fails in the lesion; no C-fiber AP occurred. (b) Kinetic variants (κ = 10^9^ m^−2^): peak depolarization, with red cells marking propagating C-fiber APs. (c) Peak C-fiber membrane potential in the lesion vs a uniform depolarizing bias, up to the loss of resting stability (HH) or to 3.5 A m^−2^ (NavC).](../results/figures/fig7_sensitivity.png){width=100%}
 
-### 3.7 Temporal dispersion and repetitive trains
+### 3.8 Temporal dispersion and repetitive trains
 
 Spreading the onsets of the volley over a window *W* attenuated the drive steeply (Fig. 8a, b), because the depolarization produced by each fiber lasts only ~0.1 ms. At *n* = 25 (NavC), *W* = 0.2, 0.5 and 1.5 ms reduced the peak by {{jit_NavC_n25_att0p2}} %, {{jit_NavC_n25_att0p5}} % and {{jit_NavC_n25_att1p5}} %, respectively; 50 % attenuation was reached at *W* ≈ {{jit_NavC_n25_w50_ms}} ms. The number of onset phases matters: at *W* = 1.5 ms the peak falls from {{jit_K11}} mV with *K* = 11 to {{jit_K61}} mV with *K* = 61 and {{jit_K81}} mV with *K* = 81 ({{jit_K_converged_pct}} % apart), because too few phases leave the groups temporally resolved; the production values use the converged spacing (Table S5). At *n* = 50 the dependence on *W* is not monotone at small *W*: the synchronous volley blocks its own Aβ action potentials inside the lesion, and spreading the onsets lowers the extracellular potential each fiber has to drive its current through, so the peak first rises from {{jit_relief_dv0}} to {{jit_relief_dvmax}} mV at *W* = {{jit_relief_wmax}} ms, and the Aβ action potentials conduct again from *W* = {{jit_relief_wcond}} ms ({{jit_relief_cv}} m/s), before the attenuation takes over. Trains of 5 pulses at 50–400 Hz evoked no C-fiber AP. The per-pulse peak changed by at most {{train_le100_max_rel_pct}} % over the train at ≤ 100 Hz and by at most {{train_max_rel_change_pct}} % at any frequency ({{train_max_rel_where}}; Fig. 8c), so there was no pulse-to-pulse build-up.
 
 ![**Fig. 8** Temporal dispersion and trains. (a) Peak C-fiber depolarization vs the width *W* of the onset-dispersion window (NavC; open squares: HH check at *n* = 25). (b) Attenuation relative to the synchronous volley. (c) Per-pulse peak depolarization in 5-pulse trains at 50–400 Hz (NavC).](../results/figures/fig8_dispersion_trains.png){width=100%}
 
-### 3.8 The earlier full-length geometry
+### 3.9 The earlier full-length geometry
 
 To relate these results to the earlier version of this study, we repeated the synchronous sweep with the shared compartment spanning the whole cable, so that the Aβ electrode lies inside it (Fig. S1; Table S6). Two treatments of the electrode current were compared: returning it through the compartment, as the production model does, and omitting it from the extracellular source, as the earlier version did.
 
