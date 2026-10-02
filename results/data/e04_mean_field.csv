@@ -1,0 +1,11 @@
+model,case,n_abeta,status,t_end_ms,v2_rest_mV,dv_mid_mV,dv_lesion_mV,dv_lesion_z_mm,v2_peak_lesion_mV,hyp_lesion_mV,ue_max_mV,ue_min_mV,stim_nA,r_e,A_e_um2,c_spike,c_overshoot,c_init_z_mm,c_init_t_ms,c_cv,c_span_mm,ab_conducts,ab_cv_lesion,ab_cv_free
+NavC,shared,2,quiescent,4,-66.8228,2.96463,2.97286,6,-63.8499,-0.912511,1.79372,-5.87376,3.022,6.09742e+10,16.4004,False,False,nan,nan,nan,0,True,36.7493,40.0373
+NavC,single_equivalent,2,quiescent,4,-66.8228,2.93795,2.94585,6,-63.877,-0.904354,1.77852,-5.8046,3.022,1.21948e+11,8.20019,False,False,nan,nan,nan,0,True,36.7762,40.0365
+NavC,shared,5,quiescent,4,-66.8228,6.48625,6.52661,6,-60.2962,-2.24004,4.35058,-12.771,3.022,6.09742e+10,16.4004,False,False,nan,nan,nan,0,True,32.5219,40.1655
+NavC,single_equivalent,5,quiescent,4,-66.8228,6.29346,6.33405,6,-60.4887,-2.16426,4.21422,-12.2663,3.022,3.04871e+11,3.28007,False,False,nan,nan,nan,0,True,32.7311,40.1592
+NavC,shared,10,quiescent,4,-66.8227,10.7734,10.9301,6,-55.8926,-4.31131,8.20059,-21.0287,3.022,6.09742e+10,16.4004,False,False,nan,nan,nan,0,True,26.927,40.3539
+NavC,single_equivalent,10,quiescent,4,-66.8227,10.2269,10.3766,6,-56.4461,-4.01883,7.69482,-19.5944,3.022,6.09742e+11,1.64004,False,False,nan,nan,nan,0,True,27.5693,40.3321
+NavC,shared,25,quiescent,4,-66.8226,18.4465,19.3459,6,-47.4767,-9.51984,17.0948,-35.0582,3.022,6.09742e+10,16.4004,False,False,nan,nan,nan,0,False,nan,40.7493
+NavC,single_equivalent,25,quiescent,4,-66.8226,16.8775,17.7372,7,-49.0854,-8.25201,15.1574,-31.6375,3.022,1.52436e+12,0.656015,False,False,nan,nan,nan,0,True,15.3902,40.6818
+NavC,shared,50,quiescent,4,-66.8224,0.0161785,23.5276,4,-43.2949,-15.8468,26.365,-42.6234,3.022,6.09742e+10,16.4004,False,False,nan,nan,nan,0,False,nan,41.1581
+NavC,single_equivalent,50,quiescent,4,-66.8224,0.020052,20.4315,4,-46.391,-12.9354,22.5358,-36.0134,3.022,3.04871e+12,0.328007,False,False,nan,nan,nan,0,False,nan,41.0346

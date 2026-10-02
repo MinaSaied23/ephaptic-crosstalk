@@ -326,8 +326,10 @@ def geometry():
     put("geom_w1000_dv", big.loc[1000].dv_lesion_mV, "{:.2f}")
     put("geom_max_dv", pf.dv_lesion_mV.max(), "{:.1f}")
     put("geom_any_spike", bool(pf.c_spike.map(yes).any()))
-    wcond = pf[(pf.model == "NavC") & (pf.n_abeta == 100) & pf.ab_conducts.map(yes)].w_nm.min()
+    cond100 = pf[(pf.model == "NavC") & (pf.n_abeta == 100) & pf.ab_conducts.map(yes)]
+    wcond = cond100.w_nm.min()
     put("geom_w_block", wcond, "{:.0f}")
+    put("geom_w_block_dv", cond100[cond100.w_nm == wcond].dv_lesion_mV.values[0], "{:.1f}")
 
 
 def kappa():
