@@ -162,6 +162,7 @@ def build_pdf(md):
 
 
 def render_templates():
+    out = []
     for src, dst in TEMPLATES:
         if not os.path.exists(src):
             continue
@@ -170,13 +171,19 @@ def render_templates():
         with open(dst, "w") as f:
             f.write(text)
         print("  wrote", os.path.relpath(dst, ROOT))
+        out.append(dst)
+    return out
 
 
 if __name__ == "__main__":
     md = assemble()
     sup = assemble("supplement", "supplementary_information")
-    render_templates()
+    rendered = render_templates()
     if "--md-only" not in sys.argv:
         for src in (md, sup):
             build_docx(src)
             build_pdf(src)
+        # the letters go to the editor as files too, built from the same markdown
+        for src in rendered:
+            if os.path.basename(src) in ("RESPONSE_TO_REVIEWERS.md", "cover_letter.md"):
+                build_docx(src)

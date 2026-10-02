@@ -7,8 +7,8 @@ Contents:
     Manuscript/            manuscript .docx (upload this) and .pdf preview
     Figures/               Fig1-8 and FigS1-S2 at 300 dpi
     Supplementary/         supplementary information, all result CSVs and their metadata
-    Cover_letter/          cover letter
-    Response/              point-by-point response to the pre-submission review
+    Cover_letter/          cover letter (.docx and .md)
+    Response/              point-by-point response to the reviewers (.docx and .md) and the manifest
     Code_and_data/         snapshot of the repository (git archive of HEAD)
 """
 import os
@@ -54,8 +54,9 @@ def main():
     data_out = os.path.join(OUT, "Supplementary", "data")
     for f in sorted(os.listdir(os.path.join(ROOT, "results", "data"))):
         copy(os.path.join(ROOT, "results", "data", f), data_out)
-    ok &= copy(os.path.join(ROOT, "manuscript", "cover_letter.md"), os.path.join(OUT, "Cover_letter"))
-    ok &= copy(os.path.join(ROOT, "docs", "RESPONSE_TO_REVIEWERS.md"), os.path.join(OUT, "Response"))
+    for ext in (".docx", ".md"):
+        ok &= copy(os.path.join(ROOT, "manuscript", "cover_letter" + ext), os.path.join(OUT, "Cover_letter"))
+        ok &= copy(os.path.join(ROOT, "docs", "RESPONSE_TO_REVIEWERS" + ext), os.path.join(OUT, "Response"))
     ok &= copy(os.path.join(ROOT, "docs", "MANIFEST.md"), os.path.join(OUT, "Response"))
     code = os.path.join(OUT, "Code_and_data")
     os.makedirs(code, exist_ok=True)
