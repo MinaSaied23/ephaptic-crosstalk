@@ -1,0 +1,3 @@
+stim_nA,cv_4_8mm_m_s,peak_z4_mV,excursion_z4_mV,node0_peak_mV,rest_node_mV,rest_internode_mV,threshold_nA
+3.022,40.3508,0.849934,80.8396,14.3933,-79.9897,-79.9897,1.51074
+100,40.904,7.56553,87.5552,786.063,-79.9897,-79.9897,1.51074

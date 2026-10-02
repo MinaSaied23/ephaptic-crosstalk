@@ -1,0 +1,12 @@
+
+@page { size: A4; margin: 20mm 18mm; }
+html { font-size: 10.5pt; }
+body { font-family: Georgia, 'Times New Roman', serif; line-height: 1.45; max-width: none;
+       margin: 0; color: #000; }
+h1 { font-size: 1.5rem; } h2 { font-size: 1.2rem; margin-top: 1.4em; } h3 { font-size: 1.05rem; }
+img { max-width: 100%; height: auto; }
+figure { margin: 1em 0; page-break-inside: avoid; }
+figcaption { font-size: 0.85rem; }
+table { border-collapse: collapse; font-size: 0.78rem; width: 100%; page-break-inside: avoid; }
+th, td { border: 1px solid #999; padding: 2px 4px; text-align: left; }
+pre, code { font-family: 'DejaVu Sans Mono', monospace; font-size: 0.8rem; }

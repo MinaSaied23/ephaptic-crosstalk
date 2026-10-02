@@ -14,18 +14,18 @@ A CRRSS Aβ axon (10 nodes, 1 mm apart) and a 1-µm C-fiber share an extracellul
 
 | Quantity | Phase 2 (Nav1.8/1.9) | Phase 1 (HH) |
 |---|---:|---:|
-| Single-pair C-fiber depolarization | 1.56 mV | 1.56 mV |
-| *n* = 10 / 25 synchronous fibers | 10.9 / 19.3 mV | 10.9 / 19.3 mV |
-| Largest depolarization (any *n*) | 26.9 mV (*n* = 100) | 26.9 mV (*n* = 100) |
-| Aβ conduction through the lesion fails from | *n* = 25 (*w*<sub>eq</sub> ≈ 21 nm) | same |
-| Duration of the ephaptic depolarization (FWHM, *n* = 10) | 70 µs | – |
-| Safety factor α\* (gain needed to fire), *n* = 25 | 4.6 | 4.4 |
-| Attenuation by a 0.5-ms onset dispersion (*n* = 25) | 85 % | 85 % |
+| Single-pair C-fiber depolarization | {{NavC_n1_dv2}} mV | {{HH_n1_dv2}} mV |
+| *n* = 10 / 25 synchronous fibers | {{NavC_n10_dv}} / {{NavC_n25_dv}} mV | {{HH_n10_dv}} / {{HH_n25_dv}} mV |
+| Largest depolarization (any *n*) | {{NavC_max_dv}} mV (*n* = {{NavC_max_dv_n}}) | {{HH_max_dv}} mV (*n* = {{HH_max_dv_n}}) |
+| Aβ conduction through the lesion fails from | *n* = {{ab_fail_n}} (*w*<sub>eq</sub> ≈ {{ab_fail_weq}} nm) | same |
+| Duration of the ephaptic depolarization (FWHM, *n* = 10) | {{fwhm_n10_us}} µs | – |
+| Safety factor α\* (gain needed to fire), *n* = 25 | {{alpha_navc_n25}} | {{alpha_hh_n25}} |
+| Attenuation by a 0.5-ms onset dispersion (*n* = 25) | {{jit_NavC_n25_att0p5}} % | {{jit_HH_n25_att0p5}} % |
 | Propagating C-fiber AP | none | none |
 
 - No C-fiber action potential occurred for *n* = 1–300, κ = 10⁶–10¹¹ m⁻², lesions of 1–7 mm, stimuli of 1.2–20 × threshold, 5-pulse trains at 50–400 Hz, or sensitizing bias currents up to the loss of resting stability.
-- Faster gating alone (NavC τ<sub>m8</sub> down to 0.05 ms; HH up to 25 °C) changed the response by < 0.1 %. APs appeared only when the whole Hodgkin–Huxley membrane was made faster (rates **and** conductances × ≥ 4, time constant at rest ≤ 0.37 ms) in a tight compartment; the Nav1.8/1.9 membrane never fired, at any speed, because its activation lies 42 mV above rest.
-- Version 1 reported a saturating multi-fiber response and a "−35 mV Nav1.8 threshold". Both were artifacts: of a lagged coupling scheme (6.10 mV vs 15.42 mV converged at *n* = 25), of a 100-nA electrode inside the compartment, and of a threshold that was asserted rather than measured.
+- Faster gating alone (NavC τ<sub>m8</sub> down to 0.05 ms; HH up to 25 °C) changed the response by < {{kin_NavC_tau_m8_maxdev_pct}} %. APs appeared only when the whole Hodgkin–Huxley membrane was made faster (rates **and** conductances × ≥ {{kin_hh_speed_min}}, time constant at rest ≤ {{kin_hh_speed_min_tau}} ms) in a tight compartment; the Nav1.8/1.9 membrane never fired, at any speed, because its activation lies {{navc_m8_gap}} mV above rest.
+- Version 1 reported a saturating multi-fiber response and a "−35 mV Nav1.8 threshold". Both were artifacts: of a lagged coupling scheme ({{lag_n25_dt2p5}} mV vs {{mono_n25_dt2p5}} mV converged at *n* = 25), of a 100-nA electrode inside the compartment, and of a threshold that was asserted rather than measured.
 
 ## Repository layout
 
