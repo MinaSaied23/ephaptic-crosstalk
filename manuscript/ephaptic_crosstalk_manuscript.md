@@ -4,8 +4,7 @@ author: "Mina Saied Attia Rizk"
 lang: en-GB
 ---
 
-**Mina Saied Attia Rizk**
-New Cairo STEM School, Cairo, Egypt
+New Cairo STEM School, Cairo, Egypt  
 Corresponding author: Mina.3024031@stemnewcairo.moe.edu.eg
 
 **Abstract.** Ephaptic excitation of unmyelinated C-fiber nociceptors by myelinated Aβ afferents at sites of nerve injury has been proposed as a mechanism of tactile allodynia. We tested whether it can reach threshold in a closed-loop core-conductor model. A CRRSS Aβ axon and a C-fiber with Hodgkin–Huxley or phenomenological Nav1.8/Nav1.9 kinetics share a restricted extracellular compartment along a 5-mm lesion. Intracellular and extracellular potentials are solved together, and every endpoint is shown to converge. A single Aβ action potential depolarized the C-fiber by 1.56 mV. Synchronous volleys, equivalent to smaller extracellular cross-sections per fiber, raised this to at most 26.9 mV; the response was limited not by saturation but by failure of Aβ conduction inside the confined lesion. The depolarization lasted ~70 µs, was spatially narrow and was flanked by hyperpolarization, so no fixed voltage threshold applied: a 0.1-ms pulse could drive the Nav1.8/Nav1.9 membrane to 39 mV without firing it, and the recorded ephaptic drive had to be amplified 4.6-fold to fire it at 25 synchronous fibers. No C-fiber action potential occurred over five decades of extracellular leak, lesions of 1–7 mm, stimuli of 1.2–20× threshold, 50–400-Hz trains or sensitizing bias currents, and a 0.5-ms onset dispersion removed 85 % of the drive. Faster gating alone had no effect; action potentials appeared only when the whole Hodgkin–Huxley membrane was made faster (time constant ≤ 0.37 ms), never with Nav1.8/Nav1.9 kinetics, whose activation lies 42 mV above rest. Direct ephaptic Aβ→C excitation therefore requires conditions that also block the Aβ source.
@@ -144,7 +143,7 @@ The isolated Aβ fiber had a stimulation threshold of 1.51 nA (0.2 ms pulse at n
 
 ![**Fig. 3** Uncoupled positive controls. (a) Aβ action potential at nodes z = 1–9 mm (2× threshold stimulus at node 0). (b) HH and (c) NavC C-fiber action potentials at z = 1–9 mm after direct stimulation at z = 0.](../results/figures/fig3_controls.png){width=100%}
 
-| C-fiber membrane | rest (mV) | τ_m at rest (ms) | AP peak (mV) | CV (m/s) | APD50 (ms) | conducts |
+| C-fiber membrane | rest (mV) | τ~m~ at rest (ms) | AP peak (mV) | CV (m/s) | APD~50~ (ms) | conducts |
 |:---|---:|---:|---:|---:|---:|---:|
 | HH, 6.3 °C (φ = 1) | -65.00 | 1.48 | 38.0 | 0.46 | 1.58 | yes |
 | HH, 10 °C (φ = 1.5) | -65.00 | 1.48 | 35.5 | 0.52 | 1.08 | yes |
@@ -161,12 +160,12 @@ The isolated Aβ fiber had a stimulation threshold of 1.51 nA (0.2 ms pulse at n
 | HH, conductances × 2 | -65.00 | 0.74 | 40.7 | 0.49 | 1.54 | yes |
 | HH, conductances × 5 | -65.00 | 0.30 | 42.3 | 0.53 | 1.52 | yes |
 | HH, conductances × 10 | -65.00 | 0.15 | 42.9 | 0.52 | 1.52 | yes |
-| NavC, τ_m8 = 1.5 ms | -66.82 | 1.37 | 37.7 | 0.25 | 7.31 | yes |
-| NavC, τ_m8 = 1 ms | -66.82 | 1.37 | 43.9 | 0.34 | 7.17 | yes |
-| NavC, τ_m8 = 0.5 ms | -66.82 | 1.37 | 48.1 | 0.50 | 7.07 | yes |
-| NavC, τ_m8 = 0.2 ms | -66.82 | 1.37 | 49.5 | 0.73 | 7.02 | yes |
-| NavC, τ_m8 = 0.1 ms | -66.82 | 1.37 | 49.8 | 0.96 | 6.99 | yes |
-| NavC, τ_m8 = 0.05 ms | -66.82 | 1.37 | 49.9 | 1.25 | 6.97 | yes |
+| NavC, τ~m8~ = 1.5 ms | -66.82 | 1.37 | 37.7 | 0.25 | 7.31 | yes |
+| NavC, τ~m8~ = 1 ms | -66.82 | 1.37 | 43.9 | 0.34 | 7.17 | yes |
+| NavC, τ~m8~ = 0.5 ms | -66.82 | 1.37 | 48.1 | 0.50 | 7.07 | yes |
+| NavC, τ~m8~ = 0.2 ms | -66.82 | 1.37 | 49.5 | 0.73 | 7.02 | yes |
+| NavC, τ~m8~ = 0.1 ms | -66.82 | 1.37 | 49.8 | 0.96 | 6.99 | yes |
+| NavC, τ~m8~ = 0.05 ms | -66.82 | 1.37 | 49.9 | 1.25 | 6.97 | yes |
 | NavC, time constants ÷ 2, conductances × 2 | -66.82 | 0.68 | 37.7 | 0.35 | 3.65 | yes |
 | NavC, time constants ÷ 5, conductances × 5 | -66.82 | 0.27 | 37.7 | 0.55 | 1.46 | yes |
 | NavC, time constants ÷ 10, conductances × 10 | -66.82 | 0.14 | 37.7 | 0.78 | 0.72 | yes |

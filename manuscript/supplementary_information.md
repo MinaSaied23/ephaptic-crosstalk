@@ -39,8 +39,8 @@ lang: en-GB
 | HH, conductances × 5 | 0.11 | -38 | -54 | -56 | 12.7 |
 | HH, rates & conductances × 5 | 0.07 | -48 | -52 | -53 | 4.6 |
 | HH, rates & conductances × 10 | 0.05 | -51 | -53 | -53 | 2.5 |
-| NavC, τ_m8 = 1.5 ms | 0.41 | 39 | -19 | -31 | 7.3 |
-| NavC, τ_m8 = 0.05 ms | 0.16 | -24 | -34 | -39 | 4.0 |
+| NavC, τ~m8~ = 1.5 ms | 0.41 | 39 | -19 | -31 | 7.3 |
+| NavC, τ~m8~ = 0.05 ms | 0.16 | -24 | -34 | -39 | 4.0 |
 | NavC, time constants ÷ 10, conductances × 10 | 0.22 | -19 | -31 | -31 | 1.2 |
 
 

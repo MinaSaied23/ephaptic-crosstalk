@@ -70,8 +70,8 @@ PRETTY = {
     "HH_phi1_gNa600": "HH, conductances × 5",
     "HH_phi5_gNa600": "HH, rates & conductances × 5",
     "HH_phi10_gNa1200": "HH, rates & conductances × 10",
-    "NavC_tm8_1.5ms_g18_2000": "NavC, τ_m8 = 1.5 ms",
-    "NavC_tm8_0.05ms_g18_2000": "NavC, τ_m8 = 0.05 ms",
+    "NavC_tm8_1.5ms_g18_2000": "NavC, τ~m8~ = 1.5 ms",
+    "NavC_tm8_0.05ms_g18_2000": "NavC, τ~m8~ = 0.05 ms",
     "NavC_tm8_0.15ms_g18_20000": "NavC, time constants ÷ 10, conductances × 10",
 }
 
@@ -130,7 +130,7 @@ def controls():
     cc = read("e01_cfiber_controls.csv")
     names = {
         "HH_phi1_gNa120": "HH, 6.3 °C (Phase 1)",
-        "NavC_tm8_1.5ms_g18_2000": "NavC, τ_m8 = 1.5 ms (Phase 2)",
+        "NavC_tm8_1.5ms_g18_2000": "NavC, τ~m8~ = 1.5 ms (Phase 2)",
     }
 
     def lab(r):
@@ -144,19 +144,19 @@ def controls():
             return f"HH, conductances × {g:.0f}"
         g = r.g18_mS_cm2 / 2000.0
         if abs(g - 1) < 1e-6:
-            return f"NavC, τ_m8 = {r.tau_m8_ms:.3g} ms"
+            return f"NavC, τ~m8~ = {r.tau_m8_ms:.3g} ms"
         return f"NavC, time constants ÷ {g:.0f}, conductances × {g:.0f}"
     t = pd.DataFrame({
         "C-fiber membrane": [lab(r) for _, r in cc.iterrows()],
         "rest (mV)": cc.rest_mV.round(2),
-        "τ_m at rest (ms)": cc.tau_rest_ms.round(2),
+        "τ~m~ at rest (ms)": cc.tau_rest_ms.round(2),
         "AP peak (mV)": cc.ap_peak_mV.round(1),
         "CV (m/s)": cc.cv_m_s.round(3),
-        "APD50 (ms)": cc.apd50_ms.round(2),
+        "APD~50~ (ms)": cc.apd50_ms.round(2),
         "conducts": ["yes" if yes(p) else "no" for p in cc.propagates],
     })
     md_table(t, "table2_controls", floatfmt={"CV (m/s)": "{:.2f}", "rest (mV)": "{:.2f}", "AP peak (mV)": "{:.1f}",
-                                             "APD50 (ms)": "{:.2f}", "τ_m at rest (ms)": "{:.2f}"})
+                                             "APD~50~ (ms)": "{:.2f}", "τ~m~ at rest (ms)": "{:.2f}"})
     r = cc.set_index("variant")
     put("hh_rest", r.loc["HH_phi1_gNa120"].rest_mV, "{:.2f}")
     put("hh_cv", r.loc["HH_phi1_gNa120"].cv_m_s, "{:.2f}")

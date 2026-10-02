@@ -137,7 +137,7 @@ def build_pdf(md):
             f.write(PRINT_CSS)
         html = os.path.splitext(md)[0] + ".preview.html"
         subprocess.run([pandoc(), md, "-o", html, "--standalone", "--embed-resources",
-                        "--css", css, "--metadata", "title=" + os.path.basename(md),
+                        "--css", css,
                         "--from", "markdown+tex_math_dollars+pipe_tables+subscript+superscript",
                         "--mathml", "--resource-path", HERE], check=True, cwd=HERE)
         r = subprocess.run([exe, "--headless", "--no-sandbox", "--disable-gpu",
