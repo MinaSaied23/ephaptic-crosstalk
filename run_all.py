@@ -19,10 +19,19 @@ EXP = os.path.join(ROOT, "src", "experiments")
 FIG = os.path.join(ROOT, "src", "figures")
 
 
+#: Experiments that run faster with one process.  Their systems are large enough (one
+#: explicit Abeta cable per onset phase) that every time step streams the whole LU factor
+#: from memory, so parallel workers only contend for memory bandwidth.
+SERIAL = ("e08",)
+
+
 def run(script, cwd):
     t0 = time.time()
     print(f"=== {os.path.relpath(script, ROOT)}", flush=True)
-    r = subprocess.run([sys.executable, script], cwd=cwd)
+    env = dict(os.environ)
+    if os.path.basename(script).startswith(SERIAL):
+        env["EPHAPTIC_WORKERS"] = "1"
+    r = subprocess.run([sys.executable, script], cwd=cwd, env=env)
     if r.returncode != 0:
         sys.exit(f"FAILED: {script}")
     print(f"    ({time.time() - t0:.0f} s)", flush=True)

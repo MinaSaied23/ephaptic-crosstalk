@@ -6,7 +6,11 @@ Because the depolarization produced by one fiber lasts only ~0.1 ms, K must be l
 that the spacing between groups, W/(K-1), is well below that: K is chosen adaptively so the
 spacing is at most 25 us (capped at K = 81), and K-convergence is verified explicitly.
 The sweep runs on dz = 20 um, because the cost of one step grows with K x (grid size);
-the grid is checked separately at dz = 20, 10 and 5 um.
+the grid is checked separately at dz = 20, 10 and 5 um.  This is also the one experiment
+that is slower in parallel: the coupled matrix is factorized once, and each step streams the
+whole LU factor (about 90 MB at K = 61), so several workers only contend for memory
+bandwidth.  run_all.py runs it with EPHAPTIC_WORKERS=1; set that variable when running it
+directly.
 
 Outputs: e08_jitter.csv (sweep), e08_jitter_convergence.csv (K and grid convergence)
 """
