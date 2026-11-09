@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Regenerate every result, figure and table of the study.
 
-    python run_all.py                 # everything (about 2-3 h on 4 cores)
+    python run_all.py                 # everything (about 5 h on 4 cores)
     python run_all.py --figures       # figures and tables only, from results/data
     python run_all.py --only e03 e05  # selected experiments, then figures and tables
 

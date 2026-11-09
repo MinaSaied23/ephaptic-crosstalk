@@ -1,0 +1,11 @@
+model,n_abeta,kind,jitter_ms,dz_um,K,weight_per_cable,dv_lesion_mV,c_spike,ab_conducts,status
+NavC,25,weighted,1.5,5,61,0.409836,0.960517,False,True,quiescent
+NavC,25,synchronous,0,5,1,25,19.3459,False,False,quiescent
+NavC,25,unit_even,0.5,5,25,1,2.92994,False,True,quiescent
+NavC,25,unit_even,1.5,5,25,1,1.24611,False,True,quiescent
+NavC,25,weighted,0.5,5,21,1.19048,2.99695,False,True,quiescent
+NavC,25,weighted,1.5,20,61,0.409836,0.906881,False,True,quiescent
+NavC,25,synchronous,0,20,1,25,18.8951,False,True,quiescent
+NavC,25,unit_even,0.5,20,25,1,2.75133,False,True,quiescent
+NavC,25,unit_even,1.5,20,25,1,1.16905,False,True,quiescent
+NavC,25,weighted,0.5,20,21,1.19048,2.80731,False,True,quiescent

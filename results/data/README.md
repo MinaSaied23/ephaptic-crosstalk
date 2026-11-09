@@ -17,8 +17,9 @@ the corresponding run.
 | `e04_mean_field.csv` | `e04_geometry.py` | n fibers sharing A_e vs one fiber in A_e/n |
 | `e05_kappa.csv` | `e05_kappa.py` | Extracellular leak κ = 10⁶–10¹¹ m⁻² × n |
 | `e06_kinetics.csv` | `e06_kinetics.py` | C-fiber kinetic variants × n × κ |
-| `e07_strength_duration.csv` | `e07_threshold.py` | Strength–duration curves of the isolated C-fiber |
-| `e07_safety_factor.csv` | `e07_threshold.py` | Gain α* on the recorded u_e needed to evoke an AP |
+| `e07_strength_duration.csv` | `e07_threshold.py` | Strength–duration curves of the isolated C-fiber (propagation criterion; scan-then-bisect search with its checks) |
+| `e07_safety_factor.csv` | `e07_threshold.py` | Gain threshold α* of each recorded u_e waveform (propagation criterion), the search checks, and the change in u_e when the C-fiber is left out of the compartment equation |
+| `e07_replay_traces.npz` | `e07_threshold.py` | Space–time traces of representative replays of the recorded waveform (Fig. 6d–f) |
 | `e08_jitter.csv` | `e08_jitter.py` | Onset dispersion window W = 0–2 ms |
 | `e08_jitter_convergence.csv` | `e08_jitter.py` | Convergence in the number of onset phases and in Δz |
 | `e09_trains.csv` | `e09_trains.py` | 5-pulse trains at 50–400 Hz, per-pulse peaks |
@@ -28,8 +29,11 @@ the corresponding run.
 | `e11_full_length_trains.csv` | `e11_full_length.py` | 100-Hz trains through an electrode inside the compartment |
 | `e12_lesion_stimulus.csv` | `e12_lesion_stimulus.py` | Lesion length 1–7 mm and stimulus 1.2–20 × threshold |
 | `e14_abeta_gates.csv`, `e14_abeta_ap_trace.csv`, `e14_abeta_paired_pulse.csv` | `e14_membrane_verification.py` | CRRSS steady states and time constants, one action potential through repolarization, paired-pulse recovery |
-| `e14_cfiber_passive.csv` | `e14_membrane_verification.py` | C-fiber resting potential, input resistance, time and length constants, rheobase |
-| `e13_waveforms.npz` | `e13_waveforms.py` | Space–time fields (u_e, C-fiber ΔV, Aβ V_m) for the figures, stored at reduced resolution |
+| `e14_cfiber_passive.csv` | `e14_membrane_verification.py` | C-fiber resting potential, input resistance, time and length constants, 1-ms point-injection excitation threshold |
+| `e13_waveforms.npz` | `e13_waveforms.py` | Space–time fields (u_e, C-fiber ΔV, Aβ V_m) for the figures, stored at reduced resolution; full-resolution C-fiber profiles at the time each lesion node's depolarization peaks (peak widths), also on 2.5- and 1.25-µm grids |
+| `e15_convergence_extremes.csv` | `e15_convergence_extremes.py` | Δt and Δz refinement at the largest responses (n = 100; κ-sweep maximum) and for the time-compressed HH membrane that fires with Aβ conduction preserved |
+| `e15_dispersion_grid.csv` | `e15_convergence_extremes.py` | Synchronous and dispersed volleys near conduction block on 20-, 10- and 5-µm grids |
+| `e16_finite_volleys.csv` | `e16_finite_volleys.py` | Finite volleys: n unit-weight fibers (evenly spaced or random onsets) vs K weighted onset groups |
 
 ## Columns common to the sweep files
 

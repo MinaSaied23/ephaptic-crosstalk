@@ -131,7 +131,10 @@ class CoupledModel:
         self.geo = build_geometry(proto, cleft, ab, self.c_cable.d)
         N, dz = self.geo.N, self.geo.dz
         self.N, self.dz = N, dz
-        self.K = proto.jitter_phases if proto.jitter > 0 else 1
+        if proto.jitter_offsets:
+            self.K = len(proto.jitter_offsets)
+        else:
+            self.K = proto.jitter_phases if proto.jitter > 0 else 1
         self.nvar = self.K + 2
         self.mem1 = AbetaMembrane(ab, self.geo.z, dz)
         self.mem2 = make_c_membrane(c_params, N)
@@ -140,8 +143,13 @@ class CoupledModel:
         self.g1 = math.pi * ab.d_axon * self.a1
         self.g2 = math.pi * self.c_cable.d * self.a2
         self.nk = proto.n_abeta / self.K
-        self.Sigma = 1.0 / self.geo.r_e + proto.n_abeta * self.g1 + self.g2
-        if proto.jitter > 0:
+        # weight of the C-fiber's membrane current in the compartment equation (0 only when
+        # the C-fiber's contribution to u_e is deliberately left out, see CleftParams)
+        self.wC = 1.0 if cleft.c_fiber_loads_compartment else 0.0
+        self.Sigma = 1.0 / self.geo.r_e + proto.n_abeta * self.g1 + self.wC * self.g2
+        if proto.jitter_offsets:
+            self.offsets = np.asarray(proto.jitter_offsets, dtype=float)
+        elif proto.jitter > 0:
             self.offsets = np.linspace(0.0, proto.jitter, self.K)
         else:
             self.offsets = np.zeros(1)
@@ -190,7 +198,8 @@ class CoupledModel:
         A.add(self.idx(self.iE, allN[cleft]), self.idx(self.iE, allN[cleft]), -self.geo.G_e / S)
         for j in range(K):
             A.add(self.idx(self.iE, r), self.idx(j, c), self.nk * self.g1 * w / S)
-        A.add(self.idx(self.iE, r), self.idx(self.iC, c), self.g2 * w / S)
+        if self.wC:
+            A.add(self.idx(self.iE, r), self.idx(self.iC, c), self.g2 * w / S)
         out = allN[~cleft]
         A.add(self.idx(self.iE, out), self.idx(self.iE, out), 1.0)
         return A
@@ -265,7 +274,7 @@ class CoupledModel:
                 R[:, self.iE] -= np.where(self.geo.cleft, src, 0.0)
         if c_stim is not None:
             R[:, self.iC] += c_stim
-            if self.clp.stim_current_returns_via_cleft:
+            if self.clp.stim_current_returns_via_cleft and self.wC:
                 R[:, self.iE] -= np.where(self.geo.cleft, c_stim * math.pi * self.c_cable.d / self.Sigma, 0.0)
         R[~self.geo.cleft, self.iE] = 0.0
         return R.ravel()

@@ -3,7 +3,7 @@ import os
 import numpy as np
 import pandas as pd
 from matplotlib.colors import Normalize
-from style import plt, save, COL, panel, ROOT
+from style import plt, save, COL, ROOT
 
 D = os.path.join(ROOT, "results", "data")
 k5 = pd.read_csv(os.path.join(D, "e05_kappa.csv"))
@@ -27,12 +27,11 @@ for i in range(P.shape[0]):
             ax.add_patch(plt.Rectangle((j - 0.5, i - 0.5), 1, 1, fill=False, hatch="////", ec="#ffffff55", lw=0))
         if S.values[i, j]:
             ax.plot(j, i, "r*", ms=8)
-ax.set_xticks(range(P.shape[1])); ax.set_xticklabels(P.columns)
+ax.set_xticks(range(P.shape[1])); ax.set_xticklabels(P.columns, fontsize=5.5, rotation=90)
 ax.set_yticks(range(P.shape[0])); ax.set_yticklabels([f"{k:.0e}".replace("e+0", "e") for k in P.index], fontsize=6)
 ax.set_xlabel("n"); ax.set_ylabel("κ (m$^{-2}$)")
-ax.set_title("NavC: peak ΔV (mV)\nhatched: Aβ conduction fails in lesion", fontsize=7.5, pad=8)
+ax.set_title("NavC: peak ΔV (mV)", fontsize=7.5, pad=6)
 fig.colorbar(im, ax=ax, fraction=0.05)
-panel(ax, "a")
 
 # (b) kinetics x n map at kappa = 1e9: max dV or spike
 ax = axs[1]
@@ -60,8 +59,7 @@ for i in range(M.shape[0]):
 ax.set_xticks(range(len(ns))); ax.set_xticklabels(ns, fontsize=5.5, rotation=90)
 ax.set_yticks(range(len(order))); ax.set_yticklabels([labels[f].format(v=v) for f, v in order], fontsize=5.5)
 ax.set_xlabel("n")
-ax.set_title("kinetic variants (κ = 10$^9$ m$^{-2}$)\nsame colour scale as (a); red: propagating C-fiber AP", fontsize=7.5, pad=8)
-panel(ax, "b")
+ax.set_title("kinetic variants, κ = 10$^9$ m$^{-2}$", fontsize=7.5, pad=6)
 
 # (c) bias
 ax = axs[2]
@@ -75,8 +73,16 @@ for kind, mk in (("NavC", "s"), ("HH", "o")):
         ax.plot(sp.bias_A_m2, sp.v2_peak_lesion_mV, "r*", ms=7)
 ax.set_xscale("symlog", linthresh=0.01)
 ax.set_xlabel("C-fiber bias (A m$^{-2}$)"); ax.set_ylabel("peak C-fiber V$_m$ in lesion (mV)")
-ax.set_title("sensitized C-fiber\n(no propagating AP in any run)", fontsize=7.5, pad=8)
-ax.legend(frameon=False, fontsize=5.5, ncol=1)
-panel(ax, "c")
-fig.tight_layout()
+ax.set_title("sensitized C-fiber", fontsize=7.5, pad=6)
+ax.legend(frameon=False, fontsize=5.5, ncol=2, loc="upper center", bbox_to_anchor=(0.5, -0.24),
+          columnspacing=0.8, handlelength=2.2)
+fig.tight_layout(w_pad=1.2)
+# panel letters to the left of each panel's tick labels, level with the titles
+fig.canvas.draw()
+inv = fig.transFigure.inverted()
+for ax, letter in zip(axs, "abc"):
+    bb = ax.get_tightbbox(fig.canvas.get_renderer())
+    x0 = inv.transform((bb.x0, 0))[0]
+    y1 = inv.transform((0, ax.get_window_extent().y1))[1]
+    fig.text(x0 - 0.005, y1 + 0.035, letter, fontsize=10, fontweight="bold", ha="right", va="bottom")
 save(fig, "fig7_sensitivity.png")

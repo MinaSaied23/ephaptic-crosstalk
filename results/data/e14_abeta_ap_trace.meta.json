@@ -1,7 +1,7 @@
 {
  "script": "e14_membrane_verification.py",
  "versions": {
-  "python": "3.11.15",
+  "python": "3.11.18",
   "numpy": "1.26.4",
   "scipy": "1.13.0"
  },
@@ -76,7 +76,8 @@
   "config": "lesion",
   "lesion_start": 0.0025,
   "lesion_end": 0.0075,
-  "stim_current_returns_via_cleft": true
+  "stim_current_returns_via_cleft": true,
+  "c_fiber_loads_compartment": true
  },
  "protocol": {
   "L": 0.01,
@@ -92,6 +93,7 @@
   ],
   "jitter": 0.0,
   "jitter_phases": 21,
+  "jitter_offsets": [],
   "c_bias": 0.0,
   "c_stim_amp": 0.0,
   "c_stim_z": 0.0,
