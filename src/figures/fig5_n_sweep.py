@@ -3,14 +3,14 @@
 import os
 import numpy as np
 import pandas as pd
-from style import plt, save, COL, panel, ROOT
+from style import plt, save, COL, panel_letters, ROOT
 from ephaptic.params import A_REF, equivalent_gap
 
 D = os.path.join(ROOT, "results", "data")
 n3 = pd.read_csv(os.path.join(D, "e03_n_sweep.csv"))
 g4 = pd.read_csv(os.path.join(D, "e04_geometry.csv"))
 
-fig, axs = plt.subplots(1, 3, figsize=(7.2, 2.5))
+fig, axs = plt.subplots(1, 3, figsize=(7.2, 2.9))
 ax = axs[0]
 d = n3[n3.model == "NavC"].sort_values("n_abeta")
 h = n3[n3.model == "HH"].sort_values("n_abeta")
@@ -19,7 +19,7 @@ ax.plot(h.n_abeta, h.dv_lesion_mV, "o", ms=4.5, mfc="none", color=COL["HH"], lab
 ax.plot(d.n_abeta, d.hyp_lesion_mV, ":", color=COL["NavC"], lw=1)
 fail = d[~d.ab_conducts.astype(bool)].n_abeta.min()
 ax.axvspan(fail, 480, color="#eeeeee", zorder=0)
-ax.text(fail * 1.15, -12, "Aβ fails\nin lesion", fontsize=6.5, color="#555555")
+ax.text(370, -21, "Aβ fails\nin lesion", fontsize=6.5, color="#555555", ha="right")
 ax.axhline(0, color="k", lw=0.5)
 ax.set_xscale("log"); ax.set_xlim(0.8, 400); ax.set_ylim(-35, 32)
 ax.set_xlabel("synchronous Aβ fibers n")
@@ -33,7 +33,6 @@ top.set_xticks(ticks); top.set_xticklabels([f"{equivalent_gap(A_REF / n) * 1e9:.
 top.minorticks_off()
 top.set_xlabel("w$_{eq}$ (nm)", fontsize=7)
 top.spines["top"].set_visible(True)
-panel(ax, "a")
 
 ax = axs[1]
 for kind in ("NavC", "HH"):
@@ -41,10 +40,9 @@ for kind in ("NavC", "HH"):
     ax.plot(d.n_abeta, d.ab_cv_lesion, "-o", ms=3, color=COL[kind] if kind == "NavC" else COL["abeta"])
     break
 ax.set_xscale("log"); ax.set_xlim(0.8, 400)
-ax.set_xlabel("n"); ax.set_ylabel("Aβ CV in lesion, nodes 3→7 mm (m/s)")
+ax.set_xlabel("n"); ax.set_ylabel("Aβ CV in lesion (m/s)")
 ax.axvspan(fail, 480, color="#eeeeee", zorder=0)
 ax.set_ylim(0, 42)
-panel(ax, "b")
 
 ax = axs[2]
 for kind, mk in (("NavC", "s"), ("HH", "o")):
@@ -58,7 +56,7 @@ for kind, mk in (("NavC", "s"), ("HH", "o")):
 ax.set_xscale("log")
 ax.set_xlabel("periaxonal gap w (nm)"); ax.set_ylabel("C-fiber peak ΔV (mV)")
 ax.set_ylim(0, 32)
-ax.legend(frameon=False, fontsize=5.8, loc="upper right")
-panel(ax, "c")
+ax.legend(frameon=False, fontsize=5.8, loc="upper center", bbox_to_anchor=(0.5, -0.36), ncol=2, columnspacing=0.8)
 fig.tight_layout()
+panel_letters(fig, axs, "abc", dy=0.10)
 save(fig, "fig5_n_sweep.png")

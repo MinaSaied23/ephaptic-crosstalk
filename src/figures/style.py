@@ -28,5 +28,16 @@ def save(fig, name):
     print("  wrote", os.path.relpath(p, ROOT))
 
 
+def panel_letters(fig, axs, letters, dy=0.035):
+    """Panel letters placed left of each panel's tick and axis labels (no overlap with them)."""
+    fig.canvas.draw()
+    inv = fig.transFigure.inverted()
+    r = fig.canvas.get_renderer()
+    for ax, s in zip(axs, letters):
+        x0 = inv.transform((ax.get_tightbbox(r).x0, 0))[0]
+        y1 = inv.transform((0, ax.get_window_extent().y1))[1]
+        fig.text(x0 - 0.012, y1 + dy, s, fontsize=10, fontweight="bold", ha="right", va="bottom")
+
+
 def panel(ax, letter):
     ax.text(-0.14, 1.04, letter, transform=ax.transAxes, fontsize=10, fontweight="bold", va="bottom")

@@ -18,7 +18,6 @@ for n, c in NS:
         blocked = q[~q.ab_conducts.astype(bool)]
         ax.plot(blocked.lesion_mm, blocked.dv_lesion_mV, "x", ms=6, color="k")
 ax.set_xlabel("lesion length (mm)"); ax.set_ylabel("C-fiber peak ΔV (mV)")
-ax.legend(frameon=False, fontsize=6.5)
 panel(ax, "a")
 
 ax = axs[1]
@@ -34,4 +33,6 @@ ax.set_title("× : Aβ AP blocked in lesion", fontsize=7)
 panel(ax, "b")
 
 fig.tight_layout()
+h, l = axs[0].get_legend_handles_labels()
+fig.legend(h, l, fontsize=6.5, ncol=4, frameon=False, loc="upper center", bbox_to_anchor=(0.5, 0.02))
 save(fig, "figS3_lesion_stimulus.png")

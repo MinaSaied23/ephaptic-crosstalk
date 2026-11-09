@@ -41,17 +41,18 @@ ax.plot(z, -W[f"{key}__ue_profile"], color=COL["ue"], ls="--", label="−u$_e$")
 ax.set_xlim(zp - 1.2, zp + 1.2); ax.axhline(0, color="k", lw=0.4)
 ax.set_xlabel("z (mm)"); ax.set_ylabel("mV")
 ax.set_title(f"profile at t = {tp:.3f} ms", fontsize=8)
-ax.legend(frameon=False, fontsize=6.5)
+ax.legend(frameon=False, fontsize=6.5, loc="upper left")
 panel(ax, "c")
 
 ax = fig.add_subplot(gs[1, 0])
 for n, c in ((1, "#888888"), (10, "#1f77b4"), (25, "#d62728")):
     kk = f"NavC_n{n}"
-    ax.plot(W[f"{kk}__t"] * 1e3, W[f"{kk}__dv_peak"], color=c,
-            label=f"n = {n} (z = {W[f'{kk}__peak_z_mm'][0]:.2f} mm)")
+    ax.plot(W[f"{kk}__t"] * 1e3, W[f"{kk}__dv_peak"], color=c, label=f"n = {n}")
 ax.set_xlim(0, 1.0); ax.axhline(0, color="k", lw=0.4)
 ax.set_xlabel("time (ms)"); ax.set_ylabel("C-fiber ΔV at peak site (mV)")
-ax.legend(frameon=False, fontsize=6)
+ax.legend(frameon=False, fontsize=6, loc="upper right")
+zs = sorted({f"{W[f'NavC_n{n}__peak_z_mm'][0]:.2f}" for n in (1, 10, 25)})
+ax.set_title(f"peak site, z = {' / '.join(zs)} mm", fontsize=8)
 panel(ax, "d")
 
 ax = fig.add_subplot(gs[1, 1])

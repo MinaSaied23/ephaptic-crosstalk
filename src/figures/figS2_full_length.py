@@ -24,7 +24,6 @@ for ax, ret, letter in ((axs[0], "returned", "a"), (axs[1], "omitted", "b")):
     ax.set_xlabel("n"); ax.set_ylabel("max |u$_e$| (mV)")
     ax.set_title(f"electrode current {ret}\n(* = propagating C-fiber AP)", fontsize=7.5)
     panel(ax, letter)
-axs[0].legend(frameon=False, fontsize=6, title="Aβ stimulus", title_fontsize=6)
 ax = axs[2]
 for ret, ls in (("returned", "-"), ("omitted", "--")):
     dd = d[(d.model == "NavC") & (d.electrode_current == ret)]
@@ -36,6 +35,9 @@ ax.set_xlabel("n"); ax.set_ylabel("Aβ node-0 peak V$_m$ (mV)")
 ax.set_title("electrode-site Aβ membrane\n(solid: returned, dashed: omitted)", fontsize=7.5)
 panel(ax, "c")
 fig.tight_layout()
+h, l = axs[0].get_legend_handles_labels()
+fig.legend(h, l, title="Aβ stimulus", title_fontsize=6, fontsize=6, ncol=4, frameon=False,
+           loc="upper center", bbox_to_anchor=(0.5, 0.02))
 save(fig, "figS2_full_length.png")
 
 fig, axs = plt.subplots(1, 2, figsize=(5.4, 2.4))
