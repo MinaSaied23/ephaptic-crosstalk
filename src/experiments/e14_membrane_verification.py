@@ -10,7 +10,8 @@ directly rather than assumed:
        second action potential conducts to the last node and with what peak and velocity.
     4. The C-fiber passive properties under a defined geometry: resting potential, input
        resistance at the injection site, passive time constant, length constant, and the
-       rheobase of a 1-ms point injection.
+       excitation threshold of a 1-ms point injection (classified with the propagation
+       criterion used throughout, ephaptic.metrics.c_spike_info).
 
 Outputs: e14_abeta_gates.csv, e14_abeta_ap_trace.csv, e14_abeta_paired_pulse.csv,
          e14_cfiber_passive.csv
@@ -81,7 +82,7 @@ def paired_pulse():
 
 
 def cfiber_passive():
-    """Resting potential, input resistance, time and length constants, 1-ms rheobase."""
+    """Resting potential, input resistance, time and length constants, 1-ms threshold."""
     from ephaptic.model import c_fiber_equilibria
     from ephaptic.membranes import make_c_membrane
     rows = []
@@ -119,26 +120,22 @@ def cfiber_passive():
                          lambda_chord_um=lam * 1e6, lambda_slope_um=lam_s * 1e6,
                          R_in_chord_Mohm=R_in * 1e-6, R_in_slope_Mohm=R_in_s * 1e-6,
                          R_in_measured_Mohm=(dv / I) * 1e-6,
-                         rheobase_1ms_nA=_rheobase(C) * 1e9))
+                         threshold_1ms_nA=_threshold_1ms(C) * 1e9))
     return rows
 
 
-def _rheobase(C, dur=1e-3, lo=1e-12, hi=5e-9):
-    """Smallest 1-ms point injection at z = 5 mm that makes the isolated C-fiber fire."""
+def _threshold_1ms(C, dur=1e-3):
+    """Smallest 1-ms point injection at z = 5 mm that evokes a propagating action potential in
+    the isolated C-fiber (the 1-ms point-injection excitation threshold; not a rheobase, which
+    is the limit for long pulses).  Same criterion and search as E07."""
+    from ephaptic.metrics import c_spike_info
+    from ephaptic.openloop import scan_threshold
+
     def fires(I):
-        pr = Protocol(stim_amp=0.0, c_stim_amp=I, c_stim_z=NODE_Z, c_stim_dur=dur, T=25e-3,
-                      stop_on_spike=True, quiet_after=1.0, ionic="explicit")
-        r = CoupledModel(C, pr, CleftParams(**NO_CLEFT)).run()
-        return bool(np.isfinite(r["t_cross_c"]).sum() > 0)
-    if not fires(hi):
-        return np.nan
-    for _ in range(18):
-        mid = 0.5 * (lo + hi)
-        if fires(mid):
-            hi = mid
-        else:
-            lo = mid
-    return hi
+        pr = Protocol(stim_amp=0.0, c_stim_amp=I, c_stim_z=NODE_Z, c_stim_dur=dur, T=dur + 25e-3,
+                      stop_on_spike=True, quiet_after=4e-3, ionic="explicit")
+        return c_spike_info(CoupledModel(C, pr, CleftParams(**NO_CLEFT)).run())["c_spike"]
+    return scan_threshold(fires, 0.02e-9, factor=1.2, x_max=1e-6, rtol=1e-3)["threshold"]
 
 
 if __name__ == "__main__":

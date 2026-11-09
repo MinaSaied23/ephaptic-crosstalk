@@ -47,10 +47,11 @@ src/ephaptic/          the model
   membranes.py         membrane objects (gates, conductances)
   model.py             the monolithic implicit solver, exact steady states, the Abeta
                        threshold, and the lagged scheme kept for comparison
-  openloop.py          isolated C-fiber driven by a prescribed u_e (safety factor,
-                       strength-duration curves)
+  openloop.py          isolated C-fiber driven by a prescribed u_e or current pulse (gain
+                       threshold alpha*, strength-duration curves), classified with the
+                       same propagation criterion as the coupled runs
   metrics.py           the endpoints (propagating C-fiber AP, depolarization, Abeta conduction)
-src/experiments/       e01-e14, one script per experiment, each writing results/data/*.csv
+src/experiments/       e01-e16, one script per experiment, each writing results/data/*.csv
 src/figures/           one script per figure, reading results/data
 src/build_tables.py    every table and every number quoted in the manuscript, from results/data
 src/build_manifest.py  writes docs/MANIFEST.md
@@ -76,7 +77,9 @@ typed by hand. Each CSV's `.meta.json` records the parameter set of the run that
 physical current balance of the compartment, the error of the lagged coupling scheme and the
 time-step robustness of the monolithic one, agreement between the explicit and
 conductance-implicit treatments of the ionic currents, the per-fiber cross-section scaling, the
-exact resting state, and regeneration of stored results.
+exact resting state, regeneration of stored results, the open-loop replay (its agreement with the
+coupled run, the propagation criterion in the threshold searches, the search itself), the
+C-fiber's own contribution to u_e, and explicit onset times for finite volleys.
 
 ## License
 

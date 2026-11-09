@@ -159,6 +159,11 @@ class CleftParams:
                    fibers lie in grounded bulk fluid (u_e = 0).  Default.
       "full"       the shared compartment spans the whole cable (sealed ends), as in the earlier
                    version of the study; the Abeta stimulation site then lies inside the cleft.
+    c_fiber_loads_compartment:
+                   True (always, except in one check): the C-fiber's membrane current enters the
+                   compartment equation.  False leaves it out, so that u_e is the potential the
+                   Abeta fibers alone would produce (used only to measure the C-fiber's own
+                   contribution to u_e, experiment E07).
     """
     area_model: str = "fixed"
     A_e: float = A_REF
@@ -169,6 +174,7 @@ class CleftParams:
     lesion_start: float = 2.5e-3
     lesion_end: float = 7.5e-3
     stim_current_returns_via_cleft: bool = True
+    c_fiber_loads_compartment: bool = True
 
 
 # ----------------------------------------------------------------------------
@@ -186,7 +192,10 @@ class Protocol:
     stim_dur: float = 0.2e-3
     pulse_times: tuple = (0.0,)
     jitter: float = 0.0                   # width of the uniform onset-dispersion window (s)
-    jitter_phases: int = 21
+    jitter_phases: int = 21               # K cables, onsets evenly spaced over [0, jitter],
+                                          # each carrying n_abeta/K fibers
+    jitter_offsets: tuple = ()            # explicit onset times (s) of the K cables, overriding
+                                          # the even spacing (finite volleys with sampled onsets)
     c_bias: float = 0.0                   # uniform depolarizing current density on the C-fiber (A/m^2)
     c_stim_amp: float = 0.0               # optional direct C-fiber stimulus (A) at c_stim_z
     c_stim_z: float = 0.0
