@@ -14,7 +14,7 @@
 | `src/experiments/e04_geometry.py` | E04 - Extracellular cross-section. | `e04_geometry.csv`, `e04_mean_field.csv` |
 | `src/experiments/e05_kappa.py` | E05 - Extracellular leak (kappa = r_e G_e; lambda_e = 1/sqrt(kappa)) sensitivity. | `e05_kappa.csv` |
 | `src/experiments/e06_kinetics.py` | E06 - C-fiber kinetics sensitivity (temperature, time compression, tau_m8) x n x kappa. | `e06_kinetics.csv` |
-| `src/experiments/e07_threshold.py` | E07 - How far is the ephaptic drive from the C-fiber's excitation threshold? | `e07_strength_duration.csv`, `e07_safety_factor.csv` |
+| `src/experiments/e07_threshold.py` | E07 - How far is the ephaptic drive from the C-fiber's excitation threshold? | `e07_safety_factor.csv`, `e07_c_fiber_contribution.csv`, `e07_strength_duration.csv`, `e07_replay_traces.npz` |
 | `src/experiments/e08_jitter.py` | E08 - Temporal dispersion of the Abeta volley. | `e08_jitter.csv`, `e08_jitter_convergence.csv` |
 | `src/experiments/e09_trains.py` | E09 - Repetitive Abeta trains (5 pulses at 50-400 Hz) in the production configuration. | `e09_trains.csv` |
 | `src/experiments/e10_bias.py` | E10 - Sensitized C-fiber: uniform depolarizing bias current. | `e10_equilibria.csv`, `e10_bias.csv` |
@@ -22,6 +22,8 @@
 | `src/experiments/e12_lesion_stimulus.py` | E12 - Lesion length and stimulus strength (production configuration otherwise). | `e12_lesion_stimulus.csv` |
 | `src/experiments/e13_waveforms.py` | E13 - Space-time recordings for the figures (production configuration). | `e13_waveforms.npz` |
 | `src/experiments/e14_membrane_verification.py` | E14 - Direct verification of the Abeta source waveform and of the C-fiber passive properties. | `e14_abeta_gates.csv`, `e14_abeta_ap_trace.csv`, `e14_abeta_paired_pulse.csv`, `e14_cfiber_passive.csv` |
+| `src/experiments/e15_convergence_extremes.py` | E15 - Numerical convergence at the largest responses and near conduction block. | `e15_convergence_extremes.csv`, `e15_dispersion_grid.csv` |
+| `src/experiments/e16_finite_volleys.py` | E16 - Finite volleys: n individual Abeta fibers instead of K weighted onset groups. | `e16_finite_volleys.csv` |
 
 ## Data → figures
 
@@ -53,10 +55,14 @@ Every number quoted in the manuscript is written to `results/tables/numbers.json
 | `geometry()` | `e04_geometry.csv`, `e04_mean_field.csv` | – | 10 fixed |
 | `kappa()` | `e05_kappa.csv` | – | 9 fixed |
 | `kinetics()` | `e01_cfiber_controls.csv`, `e06_kinetics.csv` | – | 16 fixed + 2 generated |
-| `threshold()` | `e07_safety_factor.csv`, `e07_strength_duration.csv` | – | 9 fixed + 7 generated |
+| `threshold()` | `e07_c_fiber_contribution.csv`, `e07_safety_factor.csv`, `e07_strength_duration.csv` | – | 27 fixed + 18 generated |
+| `firing_runs()` | `e06_kinetics.csv` | – | 9 fixed |
+| `convergence_extremes()` | `e15_convergence_extremes.csv` | – | 15 fixed + 9 generated |
+| `dispersion_grid()` | `e15_dispersion_grid.csv` | – | 3 fixed + 4 generated |
+| `finite_volleys()` | `e16_finite_volleys.csv` | – | 9 fixed + 8 generated |
 | `jitter()` | `e08_jitter.csv`, `e08_jitter_convergence.csv` | – | 19 fixed + 3 generated |
 | `trains()` | `e09_trains.csv` | – | 5 fixed |
 | `bias()` | `e10_bias.csv`, `e10_equilibria.csv` | – | 12 fixed + 5 generated |
 | `full_length()` | `e11_full_length.csv`, `e11_full_length_trains.csv` | – | 27 fixed + 9 generated |
 | `lesion_stim()` | `e03_n_sweep.csv`, `e12_lesion_stimulus.csv` | – | 5 fixed |
-| `waveforms()` | – | – | 3 fixed + 3 generated |
+| `waveforms()` | – | – | 9 fixed + 8 generated |

@@ -27,7 +27,7 @@ extracellular potentials are advanced **together** by backward Euler in one band
 ```bash
 pip install -r requirements.txt
 
-python run_all.py          # every experiment, figure and table (about 2-3 h on 4 cores)
+python run_all.py          # every experiment, figure and table (about 5 h on 4 cores)
 python run_all.py --figures  # figures and tables only, from the stored results/data
 python run_all.py --only e03 e05   # selected experiments, then figures and tables
 python -m pytest -q        # regression and invariant tests (about 3 min)
