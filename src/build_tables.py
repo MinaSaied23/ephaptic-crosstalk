@@ -550,7 +550,7 @@ def threshold():
                      "monotone": "yes" if yes(r.monotone) else "NO",
                      "u~e~ extremes without C-fiber (% change)": c.ue_extreme_change_rel * 100,
                      "Aβ node timing shift (µs)": c.abeta_max_shift_us})
-    md_table(pd.DataFrame(rows), "tableS13_alpha_star",
+    md_table(pd.DataFrame(rows), "extra_alpha_star",
              floatfmt={"bias (A/m²)": "{:g}", "ΔV coupled (mV)": "{:.2f}", "α*": "{:.1f}", "AP initiation (mm)": "{:.2f}",
                        "u~e~ extremes without C-fiber (% change)": "{:.1f}", "Aβ node timing shift (µs)": "{:.1f}"})
 
@@ -585,7 +585,7 @@ def firing_runs():
                      "C-fiber AP: initiation (mm)": r.c_init_z_mm, "C-fiber CV (m/s)": r.c_cv,
                      "Aβ conducts through lesion": "yes" if yes(r.ab_conducts) else "no",
                      "Aβ CV in lesion (m/s)": r.ab_cv_lesion})
-    md_table(pd.DataFrame(rows), "tableS12_firing_runs",
+    md_table(pd.DataFrame(rows), "extra_firing_runs",
              floatfmt={"w~eq~ (nm)": "{:.0f}", "C-fiber AP: initiation (mm)": "{:.2f}", "C-fiber CV (m/s)": "{:.2f}",
                        "Aβ CV in lesion (m/s)": "{:.1f}"})
 
@@ -662,7 +662,7 @@ def dispersion_grid():
             put(f"dg_n{int(n)}_w{str(w).replace('.', 'p')}_dz{dz:g}_ab", bool(yes(r.ab_conducts)))
             put(f"dg_n{int(n)}_w{str(w).replace('.', 'p')}_dz{dz:g}_dv", r.dv_lesion_mV, "{:.2f}")
     t = pd.DataFrame(rows).sort_values(["n", "W (ms)", "Δz (µm)"], ascending=[True, True, False])
-    md_table(t, "tableS15_dispersion_grid",
+    md_table(t, "tableS12_dispersion_grid",
              floatfmt={"W (ms)": "{:g}", "Δz (µm)": "{:g}", "peak ΔV (mV)": "{:.2f}", "attenuation (%)": "{:.0f}",
                        "Aβ CV in lesion (m/s)": "{:.0f}"})
     a = t.dropna(subset=["attenuation (%)"])
@@ -680,8 +680,7 @@ def finite_volleys():
         for w in (0.5, 1.5):
             q = d[np.isclose(d.jitter_ms, w)]
             for kind, lab in (("weighted", "K weighted cables (n/K fibers each)"),
-                              ("unit_even", "n unit cables, evenly spaced onsets"),
-                              ("unit_random", "n unit cables, random onsets (5 volleys)")):
+                              ("unit_even", "n unit cables, evenly spaced onsets")):
                 r = q[q.kind == kind]
                 if not len(r):
                     continue
@@ -705,7 +704,7 @@ def finite_volleys():
                              "C-fiber AP": "no" if not r.c_spike.map(yes).any() else "YES"})
         put(f"fv_dz{dz:g}_sync", sync, "{:.2f}")
     put("fv_any_spike", bool(f.c_spike.map(yes).any()))
-    md_table(pd.DataFrame(rows), "tableS16_finite_volleys",
+    md_table(pd.DataFrame(rows), "tableS13_finite_volleys",
              floatfmt={"Δz (µm)": "{:g}", "W (ms)": "{:g}", "fibers per cable": "{:.2f}"})
 
 
@@ -984,7 +983,7 @@ def waveforms():
         ref = float(N["fwhm_space_n10_um"])
         put("fwhm_space_grid_maxdev_pct", max(abs(w / ref - 1) for w in widths) * 100, "{:.0f}")
     if rows:
-        md_table(pd.DataFrame(rows), "tableS14_peak_widths",
+        md_table(pd.DataFrame(rows), "extra_peak_widths",
                  floatfmt={"node (mm)": "{:.0f}", "peak ΔV (mV)": "{:.2f}", "FWHM (µm)": "{:.1f}", "Δz (µm)": "{:g}"})
 
 
@@ -1022,7 +1021,7 @@ def convergence_summary():
         "Δ*z* 20 → 5 µm; onset groups *K* 11 → 81",
         f"attenuation at *n* = 25: {g('dg_n25_w0p2_att_spread')}, {g('dg_n25_w0p5_att_spread')} and {g('dg_n25_w1p5_att_spread')} "
         f"percentage points between grids (*W* = 0.2, 0.5, 1.5 ms); *K* 61 → 81: {g('jit_K_converged_pct')} %",
-        "synchronous *n* = 25: Aβ conducts only on 20 µm (Table S15)")
+        "synchronous *n* = 25: Aβ conducts only on 20 µm (Table S12)")
     add("width of the depolarized peak, NavC, *n* = 10 (E13)", "Δ*z* 5 → 1.25 µm",
         f"{g('fwhm_space_grid_maxdev_pct')} %", "–")
     add("lagged vs monolithic coupling, extended-compartment configuration (E02)", "Δ*t* 5 → 0.125 µs",

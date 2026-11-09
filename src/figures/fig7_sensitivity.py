@@ -45,21 +45,17 @@ labels = {"HH_temperature": "HH {v:g} °C", "HH_gscale": "HH g×{v:g}", "HH_spee
           "NavC_tau_m8": "NavC τm8 {v:g} ms", "NavC_speed": "NavC τ/{v:g}, g×{v:g}"}
 ns = sorted(d.n_abeta.unique())
 M = np.full((len(order), len(ns)), np.nan); SP = np.zeros_like(M, dtype=bool)
-AB = np.ones_like(M, dtype=bool)
 for i, (fam, v) in enumerate(order):
     for j, n in enumerate(ns):
         r = d[(d.family == fam) & (np.isclose(d.value, v)) & (d.n_abeta == n)]
         if len(r):
             M[i, j] = r.dv_lesion_mV.values[0]; SP[i, j] = bool(r.c_spike.values[0])
-            AB[i, j] = bool(r.ab_conducts.values[0])
 Mp = np.where(SP, np.nan, M)
 im = ax.imshow(Mp, origin="lower", aspect="auto", cmap="viridis", vmin=0, vmax=35)
 for i in range(M.shape[0]):
     for j in range(M.shape[1]):
         if SP[i, j]:
             ax.add_patch(plt.Rectangle((j - 0.5, i - 0.5), 1, 1, color="#d62728"))
-        if not AB[i, j]:
-            ax.add_patch(plt.Rectangle((j - 0.5, i - 0.5), 1, 1, fill=False, hatch="////", ec="#ffffff55", lw=0))
 ax.set_xticks(range(len(ns))); ax.set_xticklabels(ns, fontsize=5.5, rotation=90)
 ax.set_yticks(range(len(order))); ax.set_yticklabels([labels[f].format(v=v) for f, v in order], fontsize=5.5)
 ax.set_xlabel("n")
