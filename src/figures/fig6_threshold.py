@@ -58,7 +58,7 @@ def letter(fig, ax, s):
 
 
 fig = plt.figure(figsize=(7.2, 5.6))
-gs = GridSpec(3, 3, figure=fig, height_ratios=[1.0, 0.16, 1.0], hspace=0.55, wspace=0.42)
+gs = GridSpec(3, 3, figure=fig, height_ratios=[1.0, 0.16, 1.0], hspace=0.55, wspace=0.62)
 top = [fig.add_subplot(gs[0, j]) for j in range(3)]
 bot = [fig.add_subplot(gs[2, j]) for j in range(3)]
 pt = sd[sd["mode"] == "point"]
@@ -84,8 +84,8 @@ ax.axvspan(0.07, 0.16, color="#f3e6f7", zorder=0)
 ax.annotate("ephaptic\nFWHM", xy=(0.11, 0.62), xycoords=("data", "axes fraction"), xytext=(14, 10),
             textcoords="offset points", fontsize=6, ha="left", va="center", color=COL["ue"],
             arrowprops=dict(arrowstyle="-", color=COL["ue"], lw=0.6))
-ax.set_xlabel("pulse duration (ms)"); ax.set_ylabel("peak V$_m$, 0.5 % below threshold (mV)")
-ax.set_title("voltage reached without firing", fontsize=8, pad=6)
+ax.set_xlabel("pulse duration (ms)"); ax.set_ylabel("peak V$_m$ 0.5 % below threshold (mV)", fontsize=7)
+ax.set_title("voltage reached, no AP", fontsize=8, pad=6)
 
 ax = top[2]
 d0 = sf[sf.c_bias == 0]
@@ -95,8 +95,8 @@ for v in ORDER:
     ax.plot(d.n_abeta, d.alpha_star, ls=ls, color=c, marker="o", ms=2.5, label=lab)
 ax.axhline(1.0, color="k", lw=0.6)
 ax.set_xscale("log"); ax.set_yscale("log")
-ax.set_xlabel("synchronous Aβ fibers n"); ax.set_ylabel("gain threshold α* on recorded u$_e$")
-ax.set_title("gain threshold of the ephaptic drive", fontsize=8, pad=6)
+ax.set_xlabel("synchronous Aβ fibers n"); ax.set_ylabel("α* (gain on recorded u$_e$)")
+ax.set_title("gain threshold α*", fontsize=8, pad=6)
 ax.axvspan(25, 130, color="#eeeeee", zorder=0)
 ax.text(27, 0.8, "Aβ conduction\nfails in lesion", fontsize=5.5, color="#555555", va="top",
         transform=ax.get_xaxis_transform())
@@ -117,7 +117,8 @@ for ax, (key, title) in zip(bot, cases):
     tc = TR[f"{key}__t_cross"] * 1e3
     zf = np.arange(tc.size) * (z[1] - z[0]) / 4.0
     ok = np.isfinite(tc)
-    ax.plot(zf[ok][::4], tc[ok][::4], ".", color="k", ms=1.6)
+    step = 1 if key == "n25_fixed" else 4
+    ax.plot(zf[ok][::step], tc[ok][::step], ".", color="k", ms=1.6 if key != "n25_fixed" else 3)
     for x in (2.5, 7.5):
         ax.axvline(x, color="k", lw=0.5, ls="--")
     sp = bool(TR[f"{key}__spike"][0])
@@ -125,7 +126,7 @@ for ax, (key, title) in zip(bot, cases):
     note = (f"propagates, {front_cv(tc, zf):.2f} m/s" if sp else f"overshoot span {span:.2f} mm,\nno outward front")
     ax.text(0.03, 0.97, note, transform=ax.transAxes, fontsize=5.8, va="top", ha="left",
             bbox=dict(boxstyle="round,pad=0.2", fc="white", ec="none", alpha=0.85))
-    ax.set_ylim(0, 29); ax.set_xlim(0, 10)
+    ax.set_ylim(0, 1.0 if key == "n25_fixed" else 29); ax.set_xlim(0, 10)
     ax.set_xlabel("z (mm)"); ax.set_ylabel("time (ms)")
     ax.set_title(title.format(a=a), fontsize=7.5, pad=6)
 cb = fig.colorbar(im, ax=bot, fraction=0.025, pad=0.02)
